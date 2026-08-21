@@ -1,0 +1,33 @@
+*, *::before, *::after { box-sizing: border-box; }
+img { display: block; max-width: 100%; }
+
+html { scroll-behavior: smooth; scroll-snap-type: y proximity; }
+@media (max-width: 780px) { html { scroll-snap-type: none; } }
+body { margin: 0; background: #ffffff; color: #313131; font-family: Archivo, system-ui, sans-serif; }
+a { color: #454a75; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { color: #ff7c43; }
+:focus-visible { outline: 2px solid #454a75; outline-offset: 2px; }
+::selection { background: #e8eaf2; }
+@keyframes stepIn { from { opacity: 0.22; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+@keyframes detailIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes dotFill { from { background: #ffffff; color: #c9cede; border-color: rgba(49,49,49,0.16); } to { background: #454a75; color: #ffffff; border-color: #454a75; } }
+@keyframes spineGrow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+[data-wc-pulse] { color: #a5d6ff; }
+@media (prefers-reduced-motion: reduce) { [data-scroll-step] { animation: none !important; } }
+[data-def-table] > span:nth-child(-n+5) { white-space: nowrap; }
+@media (max-width: 780px) {
+  [data-cube-pad] { display: none !important; }
+  [data-beat-col] { padding: 0 !important; }
+  [data-beat] { height: auto !important; padding: 14px 0 !important; scroll-snap-align: none !important; opacity: 1 !important; }
+}
+[data-cost-grid] { grid-template-columns: 1fr; }
+@media (max-width: 700px) { [data-step-one] { grid-template-columns: 1fr; } [data-step-one] > img { display: none !important; } }
+@media (min-width: 640px) { [data-cost-grid] { grid-template-columns: repeat(2, minmax(0, 1fr)); } [data-cost-wide] { grid-column: span 2; } }
+@media (min-width: 1000px) { [data-cost-grid] { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+.link-on-dark:hover { color: #c9cede !important; }
+.link-ink:hover { color: #454a75 !important; }
+.act-solid:hover { background: #363a5c !important; color: #ffffff !important; }
+.act-tint:hover { background: #c9cede !important; color: #363a5c !important; }
+.act-quiet:hover { background: rgba(49,49,49,0.06) !important; color: #313131 !important; }
+.act-outline:hover { background: rgba(49,49,49,0.08) !important; color: #313131 !important; }
