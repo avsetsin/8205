@@ -5,9 +5,86 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>EIP-8205 — Withdrawal Credentials Preregistration</title>
 <meta name="description" content="Whoever deposits first controls the ETH. EIP-8205 lets a validator key holder bind withdrawal credentials to a public key before the first deposit.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="theme-color" content="#454a75">
+<meta name="application-name" content="EIP-8205">
+<link rel="canonical" href="https://eip8205.com/">
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://eip8205.com/">
+<meta property="og:title" content="EIP-8205 — Withdrawal Credentials Preregistration">
+<meta property="og:description" content="Whoever deposits first controls the ETH. EIP-8205 lets a validator key holder bind withdrawal credentials to a public key before the first deposit.">
+<meta property="og:site_name" content="EIP-8205">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://eip8205.com/assets/social/og-default.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="EIP-8205 social card: Withdrawal Credentials Preregistration">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="EIP-8205 — Withdrawal Credentials Preregistration">
+<meta name="twitter:description" content="Whoever deposits first controls the ETH. EIP-8205 lets a validator key holder bind withdrawal credentials to a public key before the first deposit.">
+<meta name="twitter:image" content="https://eip8205.com/assets/social/og-default.png">
+<meta name="twitter:image:alt" content="EIP-8205 social card: Withdrawal Credentials Preregistration">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&amp;family=Archivo:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
 <link rel="stylesheet" href="styles.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://eip8205.com/#website",
+      "url": "https://eip8205.com/",
+      "name": "EIP-8205",
+      "alternateName": "Withdrawal Credentials Preregistration",
+      "inLanguage": "en"
+    },
+    {
+      "@type": "TechArticle",
+      "@id": "https://eip8205.com/#article",
+      "url": "https://eip8205.com/",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://eip8205.com/"
+      },
+      "isPartOf": {
+        "@id": "https://eip8205.com/#website"
+      },
+      "headline": "EIP-8205 — Withdrawal Credentials Preregistration",
+      "description": "Whoever deposits first controls the ETH. EIP-8205 lets a validator key holder bind withdrawal credentials to a public key before the first deposit.",
+      "identifier": "EIP-8205",
+      "inLanguage": "en",
+      "dateModified": "2026-08-20",
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://eip8205.com/assets/social/og-default.png",
+        "width": 1200,
+        "height": 630
+      },
+      "about": {
+        "@type": "Thing",
+        "name": "EIP-8205",
+        "sameAs": "https://eips.ethereum.org/EIPS/eip-8205"
+      },
+      "author": [
+        { "@type": "Person", "name": "George Avsetsin" },
+        { "@type": "Person", "name": "Dmitry Gusakov" },
+        { "@type": "Person", "name": "Greg Koumoutsos" },
+        { "@type": "Person", "name": "Eugene Mamin" }
+      ],
+      "citation": [
+        "https://eips.ethereum.org/EIPS/eip-8205",
+        "https://github.com/ethereum/consensus-specs/pull/5548",
+        "https://github.com/ethereum/sys-asm/pull/55"
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 <div style="width: 100%;">
@@ -23,6 +100,7 @@
     </div>
   </nav>
 
+  <main>
   <div style="overflow-x: clip;">
   <header id="top" style="position: relative; max-width: 1180px; margin: 0 auto; padding: clamp(48px, 9vw, 104px) clamp(20px, 5vw, 56px) clamp(40px, 6vw, 72px);">
     <div style="position: absolute; right: -110px; top: -46px; width: clamp(280px, 42vw, 520px); height: clamp(280px, 42vw, 520px); perspective: 1250px; perspective-origin: 50% 46%; z-index: -1;">
@@ -620,10 +698,11 @@
       </div>
     </div>
   </section>
+  </main>
 
   <footer style="max-width: 1180px; margin: 0 auto; padding: 40px clamp(20px, 5vw, 56px) 56px; display: flex; align-items: baseline; justify-content: space-between; gap: 20px; flex-wrap: wrap;">
     <p style="font-family: 'Archivo Black', sans-serif; font-size: 17px; letter-spacing: -0.02em; margin: 0;">EIP-8205</p>
-    <p style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #696979; margin: 0;">WITHDRAWAL CREDENTIALS PREREGISTRATION · LAST UPDATED 20&nbsp;AUG 2026</p>
+    <p style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #696979; margin: 0;">WITHDRAWAL CREDENTIALS PREREGISTRATION · LAST UPDATED <time datetime="2026-08-20">20&nbsp;AUG 2026</time></p>
   </footer>
 
 </div>
