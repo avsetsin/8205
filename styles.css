@@ -2,6 +2,8 @@
 img { display: block; max-width: 100%; }
 
 html { scroll-behavior: smooth; scroll-snap-type: y proximity; }
+#problem, #solution, #faq, #support { scroll-margin-top: 64px; }
+@media (max-width: 500px) { #problem, #solution, #faq, #support { scroll-margin-top: 110px; } }
 @media (max-width: 780px) { html { scroll-snap-type: none; } }
 body { margin: 0; background: #ffffff; color: #313131; font-family: Archivo, system-ui, sans-serif; }
 a { color: #454a75; text-decoration-thickness: 1px; text-underline-offset: 3px; }
@@ -21,9 +23,48 @@ a:hover { color: #ff7c43; }
   [data-beat] { height: auto !important; padding: 14px 0 !important; scroll-snap-align: none !important; opacity: 1 !important; }
 }
 [data-cost-grid] { grid-template-columns: 1fr; }
+@media (max-width: 540px) { [data-meta-grid] { grid-template-columns: minmax(0, 1fr) !important; } }
 @media (max-width: 700px) { [data-step-one] { grid-template-columns: 1fr; } [data-step-one] > img { display: none !important; } }
 @media (min-width: 640px) { [data-cost-grid] { grid-template-columns: repeat(2, minmax(0, 1fr)); } [data-cost-wide] { grid-column: span 2; } }
 @media (min-width: 1000px) { [data-cost-grid] { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+details.faq-item { border-top: 1px solid rgba(69,74,117,0.25); }
+#faq details.faq-item:last-of-type { border-bottom: 1px solid rgba(69,74,117,0.25); }
+/* keep summary at its default display so Safari/VoiceOver keeps the disclosure role */
+.faq-q { position: relative; padding: 19px 44px 19px 0; cursor: pointer; list-style: none; font-weight: 600; font-size: 16.5px; line-height: 1.45; letter-spacing: -0.01em; transition: color 0.15s ease; }
+.faq-q::marker, .faq-q::-webkit-details-marker { display: none; content: ""; }
+.faq-q:hover { color: #454a75; }
+.faq-icon { position: absolute; right: 2px; top: 50%; margin-top: -8px; width: 16px; height: 16px; transition: transform 0.3s ease; }
+.faq-icon::before, .faq-icon::after { content: ""; position: absolute; left: 50%; top: 50%; background: #454a75; }
+.faq-icon::before { width: 16px; height: 2px; margin: -1px 0 0 -8px; }
+.faq-icon::after { width: 2px; height: 16px; margin: -8px 0 0 -1px; }
+details.faq-item[open] .faq-icon { transform: rotate(45deg); }
+.faq-a { padding: 0 0 24px; max-width: 74ch; }
+.faq-a p, .faq-a li { font-size: 15.5px; line-height: 1.6; color: rgba(49,49,49,0.84); text-wrap: pretty; }
+.faq-a p { margin: 0 0 12px; }
+.faq-a ul, .faq-a ol { margin: 0 0 12px; padding-left: 22px; }
+.faq-a li { margin: 0 0 8px; }
+.faq-a li:last-child { margin-bottom: 0; }
+.faq-a > :last-child { margin-bottom: 0; }
+.faq-a strong { font-weight: 600; color: #313131; }
+.faq-a code { font-family: 'IBM Plex Mono', monospace; font-size: 13.5px; }
+details.faq-item[open] .faq-a { animation: faqIn 0.3s ease; }
+@keyframes faqIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  details.faq-item[open] .faq-a { animation: none; }
+  .faq-icon { transition: none; }
+}
+@media (forced-colors: active) {
+  .faq-icon::before, .faq-icon::after { background: CanvasText; forced-color-adjust: none; }
+}
+@media (max-width: 480px) {
+  .faq-q { padding: 16px 34px 16px 0; font-size: 15px; }
+  .faq-icon { right: 0; width: 14px; height: 14px; margin-top: -7px; }
+  .faq-icon::before { width: 14px; margin-left: -7px; }
+  .faq-icon::after { height: 14px; margin-top: -7px; }
+  .faq-a { padding: 0 0 18px; }
+}
+#faq ::selection { background: #c9cede; }
 
 .link-on-dark:hover { color: #c9cede !important; }
 .link-ink:hover { color: #454a75 !important; }

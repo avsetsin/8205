@@ -58,3 +58,45 @@
 
   draw();
 })();
+
+(function () {
+  'use strict';
+
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  var items = Array.prototype.slice.call(document.querySelectorAll('details.faq-item'));
+
+  items.forEach(function (d) {
+    var summary = d.querySelector('summary');
+    if (!summary || !d.animate) return;
+
+    var running = null;
+    var closing = false;
+
+    summary.addEventListener('click', function (e) {
+      if (reduced.matches) return; // native instant toggle
+
+      e.preventDefault();
+      var from = d.getBoundingClientRect().height;
+      if (running) { running.cancel(); running = null; }
+      d.style.overflow = 'clip';
+
+      var opening = !d.open || closing;
+      closing = !opening;
+      if (opening) d.open = true;
+
+      var to = opening ? d.scrollHeight : summary.getBoundingClientRect().height;
+      var anim = d.animate(
+        { height: [from + 'px', to + 'px'] },
+        { duration: opening ? 300 : 240, easing: 'cubic-bezier(0.33, 0, 0.2, 1)' }
+      );
+      running = anim;
+      anim.onfinish = function () {
+        // a later click may have superseded this animation; only the current one cleans up
+        if (running !== anim) return;
+        running = null;
+        d.style.overflow = '';
+        if (!opening) { d.open = false; closing = false; }
+      };
+    });
+  });
+})();

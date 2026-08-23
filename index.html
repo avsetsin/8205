@@ -58,7 +58,7 @@
       "description": "Whoever deposits first controls the ETH. EIP-8205 lets a validator key holder bind withdrawal credentials to a public key before the first deposit.",
       "identifier": "EIP-8205",
       "inLanguage": "en",
-      "dateModified": "2026-08-20",
+      "dateModified": "2026-08-23",
       "image": {
         "@type": "ImageObject",
         "url": "https://eip8205.com/assets/social/og-default.png",
@@ -81,6 +81,80 @@
         "https://github.com/ethereum/consensus-specs/pull/5548",
         "https://github.com/ethereum/sys-asm/pull/55"
       ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://eip8205.com/#faq",
+      "url": "https://eip8205.com/#faq",
+      "isPartOf": { "@id": "https://eip8205.com/#website" },
+      "inLanguage": "en",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Doesn't the attacker need the validator's private key?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes — and the attacker already has it. The attacker in this threat model is a malicious node operator: in delegated staking, the operator holds the validator key, and a staking protocol or a delegator supplies the ETH. EIP-8205 protects the funding party from the key holder." }
+        },
+        {
+          "@type": "Question",
+          "name": "Who needs to use preregistration, and does it affect existing validators?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Preregistration is for setups where one party holds the funds and another party holds the validator key. Existing validators are safe, current flows do not change, and it is not a registry. Protocols with existing defenses adopt at their own pace: bond-based flows keep working unchanged, and guardian-based flows need one update to their deposit flow to adopt." }
+        },
+        {
+          "@type": "Question",
+          "name": "How does preregistration protect the delegator's funds?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The key holder commits to specific withdrawal credentials before any deposit, and the consensus layer enforces that commitment. The flow: the operator signs the binding and hands it over with the deposit data, the delegator submits it to the system contract, then proves the record and its expiry deadline via EIP-4788, checks the current slot, and deposits in the same transaction." }
+        },
+        {
+          "@type": "Question",
+          "name": "If a deposit's withdrawal credentials do not match the preregistration, is the ETH lost?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. The consensus layer silently rejects a deposit that conflicts with an active preregistration, and the ETH stays in the Deposit Contract. This is not a new kind of loss: a deposit must already be valid to create a validator, and EIP-8205 adds one more validity condition. In the intended integration, verification and deposit run in one transaction, so a mismatch reverts before the ETH moves." }
+        },
+        {
+          "@type": "Question",
+          "name": "Why fix this at the protocol level instead of the application layer?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Because only the consensus layer can guarantee that no deposit for a key can set different withdrawal credentials. Applications can only approximate this with bonds or guardian committees — both re-implement the same check, and each protocol pays for its own copy." }
+        },
+        {
+          "@type": "Question",
+          "name": "Who benefits from EIP-8205?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Anyone who stakes ETH with a validator key that someone else holds, and wants that stake protected on-chain: staking protocols, institutions, and individual delegators. Established protocols replace their private defenses with one protocol rule, new protocols start protected from day one, and delegators get the guarantee from Ethereum itself. Nothing in it is protocol-specific." }
+        },
+        {
+          "@type": "Question",
+          "name": "Doesn't this just move the race from deposits to preregistrations?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The race can still happen, but it no longer decides who controls the ETH. The delegator deposits only after the preregistration is active, and the deposit transaction includes a proof that the record is in beacon state. A faster attacker only burns the key: the consensus layer never stores the record, so the delegator sees no active record, does not deposit, and loses nothing." }
+        },
+        {
+          "@type": "Question",
+          "name": "How big is the change for clients?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The EIP looks big at first glance, but most of its length is boilerplate for the EL → CL request bus: one more system contract like EIP-7002, EIP-7251, and EIP-8282. The consensus-layer changes are fairly simple: one extra check when processing deposits, and a capped store of preregistrations that expires on its own. The added preregistration load is capped at four requests per payload." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can anyone submit a preregistration for someone else's key?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Anyone can relay a signed request, but nobody can author one without the key: the consensus layer stores a request only if it carries a valid BLS signature from the validator key. A key that already has a validator cannot be preregistered." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can preregistrations be spammed?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Submission is permissionless, but the parameters are set so that spam does not pay: the fee grows exponentially above the target rate of one request per block, records expire after about 36 days, and active records are capped at 524,288 — about 46 MB at that limit." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does preregistration add a second validator entry queue?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. A preregistration carries no ETH, creates no validator, and consumes no activation churn. It uses a separate, rate-limited request queue; after the binding is provable, the delegator sends one normal deposit through the existing pending-deposit and activation flow." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can a preregistration be cancelled, changed, or replaced by a conflicting one?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. The first valid commitment that becomes active wins for the lifetime of that record; it cannot be cancelled, overwritten, or refreshed. A matching valid deposit consumes it; otherwise it expires after about 36 days. A later conflicting signature does not replace the first active record. Treat the signature as a permanent commitment." }
+        },
+        {
+          "@type": "Question",
+          "name": "What exactly does the operator sign, and why not reuse the deposit signature?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The operator signs one pair, the validator pubkey and the withdrawal credentials, under a dedicated fork-agnostic, chain-separated BLS domain. A deposit signature cannot serve this purpose: it binds an amount and its domain is replayable across chains." }
+        }
+      ]
     }
   ]
 }
@@ -95,6 +169,7 @@
       <div style="display: flex; align-items: center; gap: clamp(14px, 2vw, 24px); flex-wrap: wrap;">
         <a href="#problem" style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #696979; text-decoration: none;">Problem</a>
         <a href="#solution" style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #696979; text-decoration: none;">Solution</a>
+        <a href="#faq" style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #696979; text-decoration: none;">FAQ</a>
         <a href="#support" style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; background: #454a75; color: #ffffff; border-radius: 999px; padding: 10px 20px; text-decoration: none; white-space: nowrap;" class="act-solid">Support it</a>
       </div>
     </div>
@@ -157,7 +232,7 @@
         <h2 style="font-family: 'Archivo Black', sans-serif; font-size: clamp(26px, 3vw, 38px); line-height: 1.08; letter-spacing: -0.03em; margin: 0; max-width: 26ch;">For readers who would rather watch than read</h2>
       </div>
     </div>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 28px;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 28px;">
       <div>
         <a href="https://www.youtube.com/watch?v=c-GwlbHzfLY" target="_blank" rel="noreferrer" style="display: block; border-radius: 22px; overflow: hidden; background: #ffffff;">
           <img src="assets/talk-lido.jpg" alt="EIP-8205: Withdrawal Credentials Preregistration" style="display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover;">
@@ -178,7 +253,7 @@
     </div>
   </section>
 
-  <section id="problem" style="background: #212124; color: #ffffff; padding: clamp(52px, 8vw, 96px) 0;">
+  <section id="problem" style="background: #212124; color: #ffffff; padding: clamp(52px, 8vw, 96px) 0; overflow-x: clip;">
     <div style="max-width: 1180px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 56px);">
       <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #c9cede; margin: 0 0 14px;">The problem</p>
       <h2 style="font-family: 'Archivo Black', sans-serif; font-size: clamp(38px, 5.8vw, 74px); line-height: 0.96; letter-spacing: -0.04em; margin: 0 0 clamp(36px, 5vw, 60px); max-width: 22ch">Whoever deposits first controls the ETH</h2>
@@ -190,7 +265,7 @@
 
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: clamp(24px, 5vw, 72px); align-items: start; margin: clamp(24px, 4vw, 44px) 0 clamp(40px, 6vw, 64px);">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(310px, 100%), 1fr)); gap: clamp(24px, 5vw, 72px); align-items: start; margin: clamp(24px, 4vw, 44px) 0 clamp(40px, 6vw, 64px);">
 
         <div data-cube-pad="" style="margin-top: calc(50vh - 230px); height: 2140px;">
         <div style="position: sticky; top: calc(50vh - 230px); height: 460px;">
@@ -355,7 +430,7 @@
       </div>
 
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin-bottom: 24px;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 24px; margin-bottom: 24px;">
         <div style="background: #2b2b2f; border-radius: 28px; padding: clamp(24px, 3vw, 40px); display: flex; flex-direction: column;">
           <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #c9cede; margin: 0 0 10px;">Known since 2019</p>
           <p style="font-family: 'Archivo Black', sans-serif; font-size: clamp(64px, 8.2vw, 108px); line-height: 0.88; letter-spacing: -0.05em; margin: 0 0 18px;">2019</p>
@@ -509,7 +584,7 @@
       <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #454a75; margin: 0 0 14px;">A small change with big impact</p>
       <h3 style="font-family: 'Archivo Black', sans-serif; font-size: clamp(26px, 3.4vw, 42px); line-height: 1.06; letter-spacing: -0.035em; margin: 0 0 18px; max-width: 24ch">Existing rails on the EL, bounded additions on the CL</h3>
       <p style="font-size: 17.5px; line-height: 1.6; margin: 0 0 clamp(28px, 4vw, 44px); max-width: 66ch; text-wrap: pretty;">No new transaction type, no new cryptography, no change to how deposits work. The proposal reuses the EL→CL request pipeline that Ethereum already ships, and adds validation and short-lived storage on the consensus side.</p>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: clamp(28px, 4vw, 56px);">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: clamp(28px, 4vw, 56px);">
         <div>
           <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #696979; margin: 0 0 12px;">Execution layer</p>
           <p style="font-family: 'Archivo Black', sans-serif; font-size: 21px; line-height: 1.14; letter-spacing: -0.025em; margin: 0 0 14px; color: #454a75;">A well-trodden path</p>
@@ -569,7 +644,7 @@
       </div>
     </div>
 
-    <div style="display: grid; grid-template-columns: minmax(0, 200px) minmax(0, 1fr); gap: 12px 32px; margin-bottom: clamp(36px, 5vw, 56px); padding-top: 22px; border-top: 1px solid rgba(49,49,49,0.12);">
+    <div data-meta-grid="" style="display: grid; grid-template-columns: minmax(0, 200px) minmax(0, 1fr); gap: 12px 32px; margin-bottom: clamp(36px, 5vw, 56px); padding-top: 22px; border-top: 1px solid rgba(49,49,49,0.12);">
       <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #696979; margin: 0;">What does not change</p>
       <p style="font-size: 16px; line-height: 1.6; margin: 0; max-width: 62ch; color: rgba(49,49,49,0.78); text-wrap: pretty;">Opt-in. Keys without a preregistration behave exactly as they do today — same deposit flow, same rules, nothing to migrate, nothing to coordinate. No change for solo stakers, no change for existing validators.</p>
     </div>
@@ -662,13 +737,199 @@
     </div>
   </section>
 
+  <section id="faq" style="background: #e8eaf2; padding: clamp(52px, 8vw, 96px) 0;">
+    <div style="max-width: 1180px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 56px);">
+      <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #363a5c; margin: 0 0 14px;">FAQ</p>
+      <h2 style="font-family: 'Archivo Black', sans-serif; font-size: clamp(38px, 5.8vw, 74px); line-height: 0.96; letter-spacing: -0.04em; margin: 0 0 24px; max-width: 22ch;">Questions, answered</h2>
+      <p style="font-size: clamp(17px, 1.4vw, 20px); line-height: 1.6; margin: 0 0 clamp(32px, 4vw, 48px); max-width: 62ch; text-wrap: pretty;">EIP-8205 is a draft, so details and parameters may still change.</p>
+
+      <div style="max-width: 880px;">
+        <h3 style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: #363a5c; margin: 0 0 16px;">The essentials</h3>
+        <div>
+
+          <details class="faq-item">
+            <summary class="faq-q"><span>Doesn’t the attacker need the validator’s private key?</span><span class="faq-icon" aria-hidden="true"></span></summary>
+            <div class="faq-a">
+              <p>Yes — and the attacker already has it. The attacker in this threat model is not a stranger. It is a malicious node operator. In delegated staking, the operator holds the validator key, and a staking protocol or a delegator supplies the ETH.</p>
+              <p>The attack is simple:</p>
+              <ul>
+                <li><strong>The operator deposits first.</strong> A small deposit with the operator’s own withdrawal credentials registers the key.</li>
+                <li><strong>The protocol’s deposit becomes a top-up.</strong> It adds funds to the attacker’s validator. A top-up cannot change the withdrawal credentials.</li>
+              </ul>
+              <p>EIP-8205 protects the funding party from the key holder. An outsider without the key cannot run this attack at all: a deposit that creates a validator needs a valid signature from that key.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-q"><span>Who needs to use preregistration, and does it affect existing validators?</span><span class="faq-icon" aria-hidden="true"></span></summary>
+            <div class="faq-a">
+              <p>Preregistration is for setups where one party holds the funds and another party holds the validator key. Everyone else can ignore it:</p>
+              <ul>
+                <li><strong>Existing validators are safe.</strong> A preregistration cannot change the withdrawal credentials of an existing validator. A key that already has a validator cannot be preregistered at all.</li>
+                <li><strong>Current flows do not change.</strong> Keys without an active preregistration follow today’s rules. Top-ups, withdrawals, solo stakers, exchanges, and institutions that hold both funds and keys are unaffected.</li>
+                <li><strong>Protocols with existing defenses adopt at their own pace.</strong> Bond-based flows keep working, and adoption removes the verification delay and the locked bond. Guardian flows that approve <code>depositRoot</code> snapshots need one update to their deposit flow — in return, the protocol-level guarantee replaces the committee and its liveness dependency.</li>
+                <li><strong>It is not a registry.</strong> Preregistration is not a whitelist and not an identity layer. Submission is permissionless, and the record grants no rights. It only constrains future deposits for one key, because the key holder signed that constraint.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-q"><span>How does preregistration protect the delegator’s funds?</span><span class="faq-icon" aria-hidden="true"></span></summary>
+            <div class="faq-a">
+              <p>The key holder commits to specific withdrawal credentials before any deposit, and the consensus layer enforces that commitment.</p>
+              <p>The flow has three steps:</p>
+              <ol>
+                <li><strong>Sign.</strong> The operator signs a message that binds the validator pubkey to specific withdrawal credentials, and hands it to the delegator together with the deposit data.</li>
+                <li><strong>Submit.</strong> The delegator sends the signed request to the system contract. The record becomes active once the consensus layer processes the request, usually within a few blocks, and stays active until a matching deposit consumes it or it expires after about 36 days.</li>
+                <li><strong>Verify and deposit.</strong> The delegator proves the record and its expiry from beacon state through <a href="https://eips.ethereum.org/EIPS/eip-4788" target="_blank" rel="noreferrer">EIP-4788</a>, checks the current slot through <a href="https://eips.ethereum.org/EIPS/eip-7843" target="_blank" rel="noreferrer">EIP-7843</a>, and deposits in the same transaction. If the proof is missing, wrong, or expired, the transaction reverts before the ETH moves.</li>
+              </ol>
+              <p>While the record is active, the consensus layer accepts a deposit for that key only if the credentials match and the deposit signature is valid. An active record also proves that nobody front-ran the delegator: the key has no validator and no valid pending deposit yet.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-q"><span>If a deposit’s withdrawal credentials do not match the preregistration, is the ETH lost?</span><span class="faq-icon" aria-hidden="true"></span></summary>
+            <div class="faq-a">
+              <p>Yes. The consensus layer silently rejects a deposit that conflicts with an active preregistration. The ETH stays in the Deposit Contract, which has no withdrawal function.</p>
+              <p>This is not a new kind of loss. A deposit that creates a validator must already be valid today: if its BLS signature is invalid, the consensus layer ignores the deposit, and the ETH is unrecoverable. EIP-8205 adds one more validity condition: while a preregistration is active for the key, the withdrawal credentials must match it.</p>
+              <p>The scope is narrow. The rejection can only hit a deposit for a key that has an active preregistration with different credentials. In practice, that is the attacker’s own deposit, or a flow that skipped verification. In the intended integration, verification and deposit run in one transaction, so a mismatch reverts before the ETH moves. Deposits for keys without a preregistration never see this rule.</p>
+            </div>
+          </details>
+
+        </div>
+
+        <h3 style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: #363a5c; margin: clamp(32px, 4vw, 44px) 0 16px;">The design</h3>
+        <div>
+
+          <details class="faq-item">
+            <summary class="faq-q"><span>Why fix this at the protocol level instead of the application layer?</span><span class="faq-icon" aria-hidden="true"></span></summary>
+            <div class="faq-a">
+              <p>Because only the consensus layer can give the needed guarantee: “no deposit for this key can set different withdrawal credentials.” The consensus layer decides which deposits take effect. Applications can only approximate this rule in two ways:</p>
+              <ul>
+                <li><strong>A bond.</strong> The operator deposits a small amount first. The protocol waits until the validator record appears in beacon state, proves its withdrawal credentials on-chain, and only then sends the rest as a top-up. Capital sits locked while the entry queue clears.</li>
+                <li><strong>A guardian committee.</strong> A trusted committee checks a snapshot of all deposits (the Deposit Contract’s <code>depositRoot</code>) and approves the batch only if no hostile deposit is inside. The approval is bound to that exact snapshot: any new deposit changes the root and invalidates it. This adds a trusted party and a liveness dependency.</li>
+              </ul>
+              <p>Both are workarounds with real downsides: locked capital and waiting in one case, a trusted committee and fragile approvals in the other. And each protocol builds, audits, and maintains its own copy. EIP-8205 replaces these workarounds with one universal rule inside the deposit flow: no bond, no committee, no waiting. The rule knows nothing about protocols or operators, only about one key and its credentials.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-q"><span>Who benefits from EIP-8205?</span><span class="faq-icon" aria-hidden="true"></span></summary>
+            <div class="faq-a">
+              <p>Anyone who stakes ETH with a validator key that someone else holds, and wants that stake protected on-chain: staking protocols, institutions, and individual delegators.</p>
+              <ul>
+                <li><strong>Established protocols</strong> replace their bonds and guardian committees with one protocol rule.</li>
+                <li><strong>New protocols</strong> start protected from day one. Today a new entrant is vulnerable by default until it builds its own defense.</li>
+                <li><strong>Institutions and individual delegators</strong> get the guarantee from Ethereum itself, not from an operator’s promise.</li>
+              </ul>
+              <p>Nothing in it is protocol-specific: no allowlist, no privileged caller, no operator registry. A BLS signature from the validator key is the only authorization.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-q"><span>Doesn’t this just move the race from deposits to preregistrations?</span><span class="faq-icon" aria-hidden="true"></span></summary>
+            <div class="faq-a">
+              <p>The race can still happen, but it no longer decides who controls the ETH:</p>
+              <ul>
+                <li><strong>The delegator deposits only after the record is active.</strong> The deposit transaction includes a proof that the record is in beacon state, and it reverts if the proof fails. Once the record is active, there is nothing left to front-run.</li>
+                <li><strong>A faster attacker only burns the key, never wins the ETH.</strong> The operator can still send its own deposit before the preregistration becomes active. Then the consensus layer never stores the record: a key with a pending deposit cannot be preregistered. The delegator sees no active record for that key, does not deposit, and loses nothing.</li>
+              </ul>
+              <p>So a malicious operator can only block its own keys. Blocking gains the operator nothing: an operator earns from running validators, and a blocked key simply never receives the deposit.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-q"><span>How big is the change for clients?</span><span class="faq-icon" aria-hidden="true"></span></summary>
+            <div class="faq-a">
+              <p>The EIP looks big at first glance, but most of its length is boilerplate for the EL → CL request bus, not new logic:</p>
+              <ul>
+                <li><strong>On the execution layer, it is a familiar pattern.</strong> One more system contract like <a href="https://eips.ethereum.org/EIPS/eip-7002" target="_blank" rel="noreferrer">EIP-7002</a>, <a href="https://eips.ethereum.org/EIPS/eip-7251" target="_blank" rel="noreferrer">EIP-7251</a>, and <a href="https://eips.ethereum.org/EIPS/eip-8282" target="_blank" rel="noreferrer">EIP-8282</a>, copied with small changes: the same queue, the same fee, the same system call.</li>
+                <li><strong>The consensus-layer changes are fairly simple.</strong> One extra check when processing deposits, and a capped store of preregistrations in beacon state that expires on its own.</li>
+                <li><strong>The added load is small and bounded.</strong> A payload (the execution part of each block) carries at most four preregistration requests: up to 704 bytes of data and four signature checks, and a gas limit increase does not raise that cap.</li>
+              </ul>
+              <p>The trade-off: one shared implementation in clients, or every delegated-staking protocol building and auditing its own bonds, proofs, guardians, and monitoring for the same credentials check.</p>
+            </div>
+          </details>
+
+        </div>
+
+        <h3 style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: #363a5c; margin: clamp(32px, 4vw, 44px) 0 16px;">More technical</h3>
+        <div>
+
+          <details class="faq-item">
+            <summary class="faq-q"><span>Can anyone submit a preregistration for someone else’s key?</span><span class="faq-icon" aria-hidden="true"></span></summary>
+            <div class="faq-a">
+              <p>Anyone can relay a signed request. Nobody can author one without the key.</p>
+              <ul>
+                <li><strong>The signature is the authorization.</strong> The consensus layer stores a request only if it carries a valid BLS signature from the validator key.</li>
+                <li><strong>The contract is only a queue.</strong> It checks the fee and the input length, nothing more. The consensus layer discards invalid signatures later, and the fee is not refunded.</li>
+                <li><strong>Existing validators cannot be targeted.</strong> A key that already has a validator, or a valid pending deposit, cannot be preregistered.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-q"><span>Can preregistrations be spammed?</span><span class="faq-icon" aria-hidden="true"></span></summary>
+            <div class="faq-a">
+              <p>Submission is permissionless, but the parameters are set so that spam does not pay:</p>
+              <ul>
+                <li><strong>The fee is a rate limiter.</strong> It starts at 1 wei and grows exponentially while demand stays above the target of one request per block. Transaction gas is separate. The fee changes only in the next block, so one block can create a backlog, but the consensus layer admits at most four requests per payload.</li>
+                <li><strong>State is bounded.</strong> Active records expire after about 36 days and are capped at 524,288 — about 46 MB at that limit. To reach the cap, an attacker needs a sustained above-target rate, and therefore an exponentially growing fee.</li>
+                <li><strong>What the fee does not prevent.</strong> At exactly the target rate, the fee stays minimal, and an attacker can hold roughly <code>2**18</code> records — about 23 MB before client overhead. The fee limits the rate. It does not promise cheap or immediate inclusion.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-q"><span>Does preregistration add a second validator entry queue?</span><span class="faq-icon" aria-hidden="true"></span></summary>
+            <div class="faq-a">
+              <p>No. A preregistration carries no ETH, creates no validator, and consumes no activation churn.</p>
+              <ul>
+                <li>It uses a separate, rate-limited request queue. That queue only checks and stores the signed binding.</li>
+                <li>After the binding is provable, the delegator sends one normal deposit. That deposit follows the existing pending-deposit and activation flow.</li>
+              </ul>
+              <p>This avoids the pre-deposit pattern, where a protocol must lock a small deposit, wait, verify, and only then send the rest of the stake.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-q"><span>Can a preregistration be cancelled, changed, or replaced by a conflicting one?</span><span class="faq-icon" aria-hidden="true"></span></summary>
+            <div class="faq-a">
+              <p>No. The first valid commitment that becomes active wins for the lifetime of that record. It cannot be cancelled, overwritten, or refreshed.</p>
+              <ul>
+                <li><strong>A matching valid deposit consumes it.</strong></li>
+                <li><strong>Otherwise it expires.</strong> After 262,144 slots (about 36 days at today’s 12-second slots), the record becomes inactive, and epoch cleanup removes it.</li>
+                <li><strong>The signed message itself never expires.</strong> After the record expires, anyone can submit the same message again, as long as the key still has no validator and no valid pending deposit.</li>
+                <li><strong>Later signatures do not replace it.</strong> If the operator signs a second commitment with different credentials, the first active record still wins. That is why the deposit proof checks the exact credentials, not just that some record exists.</li>
+              </ul>
+              <p>Treat the signature as a permanent commitment. If the operator signed the wrong credentials, the safest option is to abandon that validator key.</p>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-q"><span>What exactly does the operator sign, and why not reuse the deposit signature?</span><span class="faq-icon" aria-hidden="true"></span></summary>
+            <div class="faq-a">
+              <p>The operator signs one pair: the validator pubkey and the withdrawal credentials. The signature uses a dedicated BLS domain with two properties:</p>
+              <ul>
+                <li><strong>Fork-agnostic.</strong> The domain uses the genesis fork version. The operator can sign on air-gapped hardware without knowing the current fork.</li>
+                <li><strong>Chain-separated.</strong> The domain includes <code>genesis_validators_root</code>, so a mainnet signature is useless on any testnet.</li>
+              </ul>
+              <p>A deposit signature cannot serve this purpose. It also binds an amount, its domain is replayable across chains, and reuse would retroactively give old deposit signatures a new meaning. Any setup that signs deposits today, including DVT threshold signing, can produce this signature the same way.</p>
+            </div>
+          </details>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="support" style="background: #f1f1f4; padding: clamp(52px, 8vw, 96px) 0;">
     <div style="max-width: 1180px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 56px);">
       <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #696979; margin: 0 0 14px;">Support needed</p>
       <h2 style="font-family: 'Archivo Black', sans-serif; font-size: clamp(38px, 5.8vw, 74px); line-height: 0.96; letter-spacing: -0.04em; margin: 0 0 24px; max-width: 24ch;">Get it into Hegotá</h2>
       <p style="font-size: clamp(17px, 1.4vw, 20px); line-height: 1.6; margin: 0 0 clamp(32px, 4vw, 48px); max-width: 65ch; text-wrap: pretty">EIP-8205 is Proposed for Inclusion in Hegotá. Client teams and the community decide what makes the final scope — support now is what moves it forward.</p>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-bottom: clamp(36px, 5vw, 56px);">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 24px; margin-bottom: clamp(36px, 5vw, 56px);">
         <div style="background: #ffffff; border-radius: 28px; padding: clamp(24px, 3vw, 36px);">
           <p style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #696979; margin: 0 0 14px;">Client teams, community</p>
           <h3 style="font-family: 'Archivo Black', sans-serif; font-size: 22px; line-height: 1.14; letter-spacing: -0.025em; margin: 0 0 14px;">Include it in your vote</h3>
@@ -702,7 +963,7 @@
 
   <footer style="max-width: 1180px; margin: 0 auto; padding: 40px clamp(20px, 5vw, 56px) 56px; display: flex; align-items: baseline; justify-content: space-between; gap: 20px; flex-wrap: wrap;">
     <p style="font-family: 'Archivo Black', sans-serif; font-size: 17px; letter-spacing: -0.02em; margin: 0;">EIP-8205</p>
-    <p style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #696979; margin: 0;">WITHDRAWAL CREDENTIALS PREREGISTRATION · LAST UPDATED <time datetime="2026-08-20">20&nbsp;AUG 2026</time></p>
+    <p style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #696979; margin: 0;">WITHDRAWAL CREDENTIALS PREREGISTRATION · LAST UPDATED <time datetime="2026-08-23">23&nbsp;AUG 2026</time></p>
   </footer>
 
 </div>
