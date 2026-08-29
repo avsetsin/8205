@@ -6,9 +6,8 @@ The landing page is an overview only. If it conflicts with the EIP or executable
 
 ## Sources of truth
 
-- [EIP-8205](https://eips.ethereum.org/EIPS/eip-8205): Published proposal and execution-layer requirements; it may lag the active update.
-- [Current EIP update](https://github.com/ethereum/EIPs/pull/12184): Active proposal text under review.
-- [Consensus-layer specification](https://github.com/ethereum/consensus-specs/pull/5548): Consensus behavior and tests.
+- [EIP-8205](https://eips.ethereum.org/EIPS/eip-8205): Published proposal and execution-layer requirements.
+- [Consensus-layer specification](https://github.com/ethereum/consensus-specs/tree/master/specs/_features/eip8205): Merged consensus behavior and tests.
 - [Execution-layer system contract](https://github.com/ethereum/sys-asm/pull/55): Preregistration system-contract implementation.
 
 ## Project links
