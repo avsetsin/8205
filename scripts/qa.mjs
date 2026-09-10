@@ -120,7 +120,7 @@ check(executableScripts.length === 1, 'exactly one executable script is expected
 if (executableScripts.length === 1) {
   const [{ attributes, body }] = executableScripts;
   const scriptSource = attributes.get('src') || '';
-  check(/^\/main\.js\?v=\d{8}-\d+$/.test(scriptSource) && attributes.has('defer') && body === '', 'the executable script must be deferred, versioned /main.js with no inline body');
+  check(/^main\.js\?v=\d{8}-\d+$/.test(scriptSource) && attributes.has('defer') && body === '', 'the executable script must be deferred, versioned main.js with a document-relative path and no inline body');
 }
 check(jsonBlocks.length > 0, 'structured data is missing');
 const structuredDataNodes = [];
@@ -189,6 +189,7 @@ for (const source of [activeHtml, css]) {
 }
 for (const ref of localRefs) {
   if (/^(?:mailto:|tel:|data:|#)/i.test(ref)) continue;
+  check(!ref.startsWith('/'), `reference must be document-relative for direct file previews: ${ref}`);
   try {
     const url = new URL(ref, 'https://eip8205.com/');
     if (['http:', 'https:'].includes(url.protocol) && url.origin !== 'https://eip8205.com') {
@@ -224,12 +225,12 @@ function listFiles(directory, prefix = '') {
   });
 }
 
-const referencedAssets = new Set(Array.from([activeHtml, css, read('llms.txt')].join('\n').matchAll(/\/assets\/[A-Za-z0-9._/-]+/g), (match) => match[0].replace(/[).,;]+$/, '')));
+const referencedAssets = new Set(Array.from([activeHtml, css, read('llms.txt')].join('\n').matchAll(/\bassets\/[A-Za-z0-9._/-]+/g), (match) => match[0].replace(/[).,;]+$/, '')));
 const orphanedAssets = listFiles(resolve(root, 'assets'))
   .map((file) => `assets/${file}`)
   .filter((file) => !file.startsWith('assets/social/'))
   .filter((file) => !file.endsWith('-OFL.txt'))
-  .filter((file) => !referencedAssets.has(`/${file}`));
+  .filter((file) => !referencedAssets.has(file));
 check(orphanedAssets.length === 0, `unreferenced deploy assets: ${orphanedAssets.join(', ')}`);
 
 // Project-specific correctness and deployment policy.

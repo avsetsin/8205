@@ -8,7 +8,7 @@ The landing page explains the proposal; it does not define it. Check technical c
 
 ## Files
 
-- `index.html` contains semantic page content, metadata, the authoritative `WebSite`/`TechArticle`/`FAQPage` structured-data graph, and one deferred reference to `/main.js`. It contains no visual style declarations, inline event handlers, or inline executable scripts.
+- `index.html` contains semantic page content, metadata, the authoritative `WebSite`/`TechArticle`/`FAQPage` structured-data graph, and one deferred reference to `main.js`. It contains no visual style declarations, inline event handlers, or inline executable scripts.
 - `styles.css` is the single visual source of truth. It is organized as tokens, base rules, layout primitives, page components, interaction states, motion, and responsive/accessibility overrides.
 - `main.js` progressively enhances the desktop attack sequence, fine-pointer artwork tilt, and FAQ disclosure motion. All content and native disclosure controls remain usable without JavaScript, and the enhancement observes reduced-motion and pointer-capability preferences.
 - Native HTML provides the interaction model: FAQ disclosure uses `details` and `summary`, repeated processes use lists, and all content works without JavaScript. Markerless native lists deliberately retain `role="list"` so Safari and VoiceOver do not drop their list semantics.
@@ -20,6 +20,8 @@ The landing page explains the proposal; it does not define it. Check technical c
 - `scripts/qa.mjs` is a dependency-free source-integrity check used locally and in GitHub Actions. It checks repository invariants; it is not a browser, layout, accessibility, or production-deployment test.
 
 ## Local QA
+
+Open `index.html` directly in a browser for a local preview; no server or build is required. Keep the file alongside `styles.css`, `main.js`, and `assets/`. Local resources use document-relative paths so the same files work from disk and from the root of the canonical domain.
 
 Run `make serve`, then open <http://127.0.0.1:4173/>. In another terminal run `make check`. The check validates JavaScript syntax, sitemap XML parsing, the publish surface, local references, JSON-LD structure, essential document semantics, CSP boundaries, optimized assets, font licenses, and known historical proposal values. It deliberately does not claim to validate rendering or production behavior. Before release, test keyboard-only navigation, animations and reduced motion, 200% and 400% zoom, and representative phone, tablet, and desktop widths.
 
