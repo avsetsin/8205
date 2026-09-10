@@ -8,10 +8,12 @@
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="theme-color" content="#454a75">
 <meta name="application-name" content="EIP-8205">
+<meta name="color-scheme" content="light">
 <link rel="canonical" href="https://eip8205.com/">
 <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="describedby" href="/llms.txt" type="text/plain" title="LLM-readable project overview">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://eip8205.com/">
 <meta property="og:title" content="EIP-8205 — Withdrawal Credentials Preregistration">
@@ -28,9 +30,10 @@
 <meta name="twitter:description" content="The EIP proposes a protocol-level fix for a long-standing deposit front-running vulnerability that puts delegated staking funds at risk.">
 <meta name="twitter:image" content="https://eip8205.com/assets/social/og-default.png">
 <meta name="twitter:image:alt" content="EIP-8205 social card: Withdrawal Credentials Preregistration">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&amp;family=Archivo:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
-<link rel="stylesheet" href="styles.css">
+<link rel="preload" href="/assets/fonts/archivo-latin-v25.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/archivo-black-latin-v23.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/styles.css?v=20260910-1">
+<script src="/main.js?v=20260829-1" defer></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -161,590 +164,621 @@
 </script>
 </head>
 <body>
-<div style="width: 100%;">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<div class="page">
 
-  <nav style="position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,0.94); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(49,49,49,0.14);">
-    <div style="max-width: 1180px; margin: 0 auto; padding: 14px clamp(20px, 5vw, 56px); display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;">
-      <a href="#top" style="font-family: 'Archivo Black', sans-serif; font-size: 17px; letter-spacing: -0.02em; color: #313131; text-decoration: none;">EIP-8205</a>
-      <div style="display: flex; align-items: center; gap: clamp(14px, 2vw, 24px); flex-wrap: wrap;">
-        <a href="#problem" style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #696979; text-decoration: none;">Problem</a>
-        <a href="#solution" style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #696979; text-decoration: none;">Solution</a>
-        <a href="#faq" style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #696979; text-decoration: none;">FAQ</a>
-        <a href="#support" style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; background: #454a75; color: #ffffff; border-radius: 999px; padding: 10px 20px; text-decoration: none; white-space: nowrap;" class="act-solid">Support it</a>
+  <nav class="site-nav" aria-label="Primary">
+    <div class="site-nav__inner">
+      <a class="site-nav__brand" href="#top">EIP-8205</a>
+      <div class="site-nav__links">
+        <a class="site-nav__link" href="#problem">Problem</a>
+        <a class="site-nav__link" href="#solution">Solution</a>
+        <a class="site-nav__link" href="#faq">FAQ</a>
+        <a href="#support" class="action action--solid site-nav__cta">Support it</a>
       </div>
     </div>
   </nav>
 
-  <main>
-  <div style="overflow-x: clip;">
-  <header id="top" style="position: relative; max-width: 1180px; margin: 0 auto; padding: clamp(48px, 9vw, 104px) clamp(20px, 5vw, 56px) clamp(40px, 6vw, 72px);">
-    <div style="position: absolute; right: -110px; top: -46px; width: clamp(280px, 42vw, 520px); height: clamp(280px, 42vw, 520px); perspective: 1250px; perspective-origin: 50% 46%; z-index: -1;">
-      <div data-hero-tilt="" style="position: absolute; inset: 0; transform-style: preserve-3d;">
-        <div style="position: absolute; left: 2%; top: 12%; right: 14%; bottom: 4%; border-radius: 56px; background: #e8eaf2;"></div>
-        <div style="position: absolute; left: 34%; top: 0; right: 0; bottom: 42%; border-radius: 40px; background: #dfe3f0; transform: translateZ(78px) rotate(-3deg);"></div>
+  <main id="main-content" tabindex="-1">
+  <div class="page__clip">
+  <header id="top" class="hero">
+    <div aria-hidden="true" class="hero__art">
+      <div class="hero__tilt" data-hero-tilt>
+        <div class="hero__blob hero__blob--back"></div>
+        <div class="hero__blob hero__blob--front"></div>
       </div>
     </div>
-    <p style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #454a75; margin: 0 0 clamp(14px, 1.8vw, 22px);">EIP-8205</p>
-    <h1 style="font-family: 'Archivo Black', sans-serif; font-size: clamp(44px, 8.4vw, 112px); line-height: 0.9; letter-spacing: -0.045em; margin: 0 0 clamp(24px, 3vw, 34px); max-width: 16ch;">Withdrawal Credentials Preregistration</h1>
-    <p style="font-size: clamp(17px, 1.5vw, 21px); line-height: 1.6; margin: 0 0 18px; max-width: 56ch; text-wrap: pretty;">In delegated staking, a dishonest node operator can deposit first, set its own withdrawal address, and steal the protocol's much larger deposit. Today every protocol defends against this on its own.</p>
-    <p style="font-size: clamp(17px, 1.5vw, 21px); line-height: 1.6; margin: 0 0 30px; max-width: 56ch; text-wrap: pretty;">EIP-8205 is one shared solution: the operator commits to the withdrawal address before the deposit, and Ethereum enforces it. Opt-in; other deposits are unchanged.</p>
-    <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
-      <a href="#problem" style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; background: #454a75; color: #ffffff; border-radius: 999px; padding: 15px 28px; text-decoration: none;" class="act-solid">The problem</a>
-      <a href="#solution" style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; color: #313131; border: 2px solid #313131; border-radius: 999px; padding: 13px 26px; text-decoration: none;" class="act-quiet">The solution</a>
+    <p class="hero__eyebrow">EIP-8205</p>
+    <h1 class="hero-title">Withdrawal Credentials Preregistration</h1>
+    <p class="hero__lede">In delegated staking, a dishonest node operator can deposit first, set its own withdrawal address, and steal the protocol's much larger deposit. Today every protocol defends against this on its own.</p>
+    <p class="hero__lede hero__lede--last">EIP-8205 is one shared solution: the operator commits to the withdrawal address before the deposit, and Ethereum enforces it. Opt-in; other deposits are unchanged.</p>
+    <div class="hero__actions">
+      <a href="#problem" class="action action--solid hero__action hero__action--primary">The problem</a>
+      <a href="#solution" class="action action--outline hero__action hero__action--secondary">The solution</a>
     </div>
-    <div style="display: flex; align-items: center; gap: 10px; margin-top: 26px;">
-      <span style="display: block; width: 8px; height: 8px; border-radius: 50%; background: #ff7c43;"></span>
-      <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #a34a12; margin: 0;">Draft · Proposed for Inclusion in Hegotá</p>
+    <div class="hero__status">
+      <span class="hero__status-dot"></span>
+      <p class="hero__status-copy">Draft · Proposed for Inclusion in Hegotá</p>
     </div>
   </header>
   </div>
 
-  <section style="max-width: 1180px; margin: 0 auto; padding: clamp(24px, 4vw, 44px) clamp(20px, 5vw, 56px);">
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 24px;">
-      <div>
-        <span style="display: block; width: 10px; height: 10px; border-radius: 50%; background: #454a75; margin-bottom: 14px;"></span>
-        <p style="font-family: 'Archivo Black', sans-serif; font-size: 20px; line-height: 1.16; letter-spacing: -0.02em; margin: 0 0 10px;">EIP-8205</p>
-        <p style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #696979; margin: 0;"><a href="https://eips.ethereum.org/EIPS/eip-8205" target="_blank" rel="noreferrer">Draft, Standards Track</a></p>
-      </div>
-      <div>
-        <span style="display: block; width: 10px; height: 10px; border-radius: 50%; background: #454a75; margin-bottom: 14px;"></span>
-        <p style="font-family: 'Archivo Black', sans-serif; font-size: 20px; line-height: 1.16; letter-spacing: -0.02em; margin: 0 0 10px;">PFI for Hegotá</p>
-        <p style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #696979; margin: 0;"><a href="https://eips.ethereum.org/EIPS/eip-8081" target="_blank" rel="noreferrer">EIP-8081</a></p>
-      </div>
-      <div>
-        <span style="display: block; width: 10px; height: 10px; border-radius: 50%; background: #454a75; margin-bottom: 14px;"></span>
-        <p style="font-family: 'Archivo Black', sans-serif; font-size: 20px; line-height: 1.16; letter-spacing: -0.02em; margin: 0 0 10px;">CL spec</p>
-        <p style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #696979; margin: 0; line-height: 1.6;"><a href="https://github.com/ethereum/consensus-specs/tree/master/specs/_features/eip8205" target="_blank" rel="noreferrer">consensus-specs</a></p>
-      </div>
-      <div>
-        <span style="display: block; width: 10px; height: 10px; border-radius: 50%; background: #454a75; margin-bottom: 14px;"></span>
-        <p style="font-family: 'Archivo Black', sans-serif; font-size: 20px; line-height: 1.16; letter-spacing: -0.02em; margin: 0 0 10px;">System contract</p>
-        <p style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #696979; margin: 0; line-height: 1.6;"><a href="https://github.com/ethereum/sys-asm/pull/55" target="_blank" rel="noreferrer">sys-asm</a></p>
-      </div>
-    </div>
+  <section aria-label="Current proposal status" class="proposal-status">
+    <ul class="proposal-status__list" role="list">
+      <li class="proposal-status__item">
+        <span class="proposal-status__dot"></span>
+        <p class="proposal-status__name">EIP-8205</p>
+        <p class="proposal-status__meta"><a href="https://eips.ethereum.org/EIPS/eip-8205" target="_blank" rel="noreferrer">Draft, Standards Track</a></p>
+      </li>
+      <li class="proposal-status__item">
+        <span class="proposal-status__dot"></span>
+        <p class="proposal-status__name">PFI for Hegotá</p>
+        <p class="proposal-status__meta"><a href="https://eips.ethereum.org/EIPS/eip-8081" target="_blank" rel="noreferrer">EIP-8081</a></p>
+      </li>
+      <li class="proposal-status__item">
+        <span class="proposal-status__dot"></span>
+        <p class="proposal-status__name">CL spec</p>
+        <p class="proposal-status__meta proposal-status__meta--multiline"><a href="https://github.com/ethereum/consensus-specs/tree/master/specs/_features/eip8205" target="_blank" rel="noreferrer">consensus-specs</a></p>
+      </li>
+      <li class="proposal-status__item">
+        <span class="proposal-status__dot"></span>
+        <p class="proposal-status__name">System contract</p>
+        <p class="proposal-status__meta proposal-status__meta--multiline"><a href="https://github.com/ethereum/sys-asm/pull/55" target="_blank" rel="noreferrer">sys-asm</a></p>
+      </li>
+    </ul>
   </section>
 
-  <section style="background: #e8eaf2; padding: clamp(52px, 8vw, 88px) 0;">
-    <div style="max-width: 1180px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 56px);">
-    <div style="margin-bottom: clamp(28px, 4vw, 40px);">
+  <section id="talks" aria-labelledby="talks-heading" class="talks">
+    <div class="shell">
+    <div class="talks__heading">
       <div>
-        <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #363a5c; margin: 0 0 12px;">Watch it instead</p>
-        <h2 style="font-family: 'Archivo Black', sans-serif; font-size: clamp(26px, 3vw, 38px); line-height: 1.08; letter-spacing: -0.03em; margin: 0; max-width: 26ch;">For readers who would rather watch than read</h2>
+        <p class="talks__eyebrow">Watch it instead</p>
+        <h2 id="talks-heading" class="talks__title"><a class="heading-link" href="#talks" title="Link to this section">For readers who would rather watch than read&nbsp;<span class="heading-link__icon" aria-hidden="true">#</span></a></h2>
       </div>
     </div>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 28px;">
-      <div>
-        <a href="https://www.youtube.com/watch?v=c-GwlbHzfLY" target="_blank" rel="noreferrer" style="display: block; border-radius: 22px; overflow: hidden; background: #ffffff;">
-          <img src="assets/talk-lido.jpg" alt="EIP-8205: Withdrawal Credentials Preregistration" style="display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover;">
+    <div class="talks__grid">
+      <article>
+        <a href="https://www.youtube.com/watch?v=c-GwlbHzfLY" target="_blank" rel="noreferrer" class="talk-card__primary">
+          <picture class="talk-card__media">
+            <source srcset="/assets/talk-lido.webp" type="image/webp">
+            <img src="/assets/talk-lido.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async" fetchpriority="low" class="talk-card__image">
+          </picture>
+          <h3 class="talk-card__title">EIP-8205: Withdrawal Credentials Preregistration</h3>
         </a>
-        <p style="font-weight: 600; font-size: 16px; line-height: 1.45; margin: 16px 0 6px;"><a href="https://www.youtube.com/watch?v=c-GwlbHzfLY" target="_blank" rel="noreferrer" style="color: #313131; text-decoration: none;" class="link-ink">EIP-8205: Withdrawal Credentials Preregistration</a></p>
-        <p style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #4a4a52; margin: 0 0 18px;">Lido Poolside · George Avsetsin</p>
-        <a href="https://pitch.com/v/eip-8205-s7ni6i" target="_blank" rel="noreferrer" style="display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; color: #313131; border: 2px solid #313131; border-radius: 999px; padding: 10px 20px; text-decoration: none;" class="act-outline">Slides for this talk</a>
-      </div>
-      <div>
-        <a href="https://www.youtube.com/watch?v=U0BSGnc-pWc" target="_blank" rel="noreferrer" style="display: block; border-radius: 22px; overflow: hidden; background: #ffffff;">
-          <img src="assets/talk-ethprague.jpg" alt="Fixing delegated ETH staking with EIP-8205" style="display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover;">
+        <p class="talk-card__meta">Lido Poolside · George Avsetsin</p>
+        <a href="https://pitch.com/v/eip-8205-s7ni6i" target="_blank" rel="noreferrer" aria-label="Slides for EIP-8205: Withdrawal Credentials Preregistration" class="action action--outline talk-card__slides">Slides for this talk</a>
+      </article>
+      <article>
+        <a href="https://www.youtube.com/watch?v=U0BSGnc-pWc" target="_blank" rel="noreferrer" class="talk-card__primary">
+          <picture class="talk-card__media">
+            <source srcset="/assets/talk-ethprague.webp" type="image/webp">
+            <img src="/assets/talk-ethprague.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async" fetchpriority="low" class="talk-card__image">
+          </picture>
+          <h3 class="talk-card__title">Fixing delegated ETH staking with EIP-8205</h3>
         </a>
-        <p style="font-weight: 600; font-size: 16px; line-height: 1.45; margin: 16px 0 6px;"><a href="https://www.youtube.com/watch?v=U0BSGnc-pWc" target="_blank" rel="noreferrer" style="color: #313131; text-decoration: none;" class="link-ink">Fixing delegated ETH staking with EIP-8205</a></p>
-        <p style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #4a4a52; margin: 0 0 18px;">ETHPrague · Dima Gusakov</p>
-        <a href="https://pitch.com/v/eip-8205-ethprague-28z8vi" target="_blank" rel="noreferrer" style="display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; color: #313131; border: 2px solid #313131; border-radius: 999px; padding: 10px 20px; text-decoration: none;" class="act-outline">Slides for this talk</a>
-      </div>
+        <p class="talk-card__meta">ETHPrague · Dima Gusakov</p>
+        <a href="https://pitch.com/v/eip-8205-ethprague-28z8vi" target="_blank" rel="noreferrer" aria-label="Slides for Fixing delegated ETH staking with EIP-8205" class="action action--outline talk-card__slides">Slides for this talk</a>
+      </article>
     </div>
     </div>
   </section>
 
-  <section id="problem" style="background: #212124; color: #ffffff; padding: clamp(52px, 8vw, 96px) 0; overflow-x: clip;">
-    <div style="max-width: 1180px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 56px);">
-      <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #c9cede; margin: 0 0 14px;">The problem</p>
-      <h2 style="font-family: 'Archivo Black', sans-serif; font-size: clamp(38px, 5.8vw, 74px); line-height: 0.96; letter-spacing: -0.04em; margin: 0 0 clamp(36px, 5vw, 60px); max-width: 22ch">Whoever deposits first controls the ETH</h2>
+  <section id="problem" class="problem">
+    <div class="shell">
+      <p class="problem__eyebrow">The problem</p>
+      <h2 class="section-title problem__title"><a class="heading-link" href="#problem" title="Link to this section">Whoever deposits first controls the ETH&nbsp;<span class="heading-link__icon" aria-hidden="true">#</span></a></h2>
 
-      <div style="margin-bottom: clamp(40px, 6vw, 64px);">
-        <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #c9cede; margin: 0 0 10px;">Attack</p>
-        <h3 style="font-family: 'Archivo Black', sans-serif; font-size: clamp(22px, 2.4vw, 30px); line-height: 1.1; letter-spacing: -0.03em; margin: 0 0 16px; max-width: 40ch">A dishonest Node Operator can use a small deposit to take control of the Delegator’s entire stake</h3>
-        <p style="font-size: 16px; line-height: 1.62; margin: 0 0 8px; max-width: 62ch; color: rgba(255,255,255,0.72); text-wrap: pretty;">Delegated staking splits one validator between two actors. The Delegator provides the ETH. The Node Operator generates the validator key, keeps it, and uses it to run the validator. That same key lets a dishonest Node Operator submit a different deposit first and lock in a withdrawal address they control.</p>
-
-      </div>
-
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(310px, 100%), 1fr)); gap: clamp(24px, 5vw, 72px); align-items: start; margin: clamp(24px, 4vw, 44px) 0 clamp(40px, 6vw, 64px);">
-
-        <div data-cube-pad="" style="margin-top: calc(50vh - 230px); height: 2140px;">
-        <div style="position: sticky; top: calc(50vh - 230px); height: 460px;">
-          <div style="position: absolute; inset: 0; perspective: 1250px; perspective-origin: 50% 46%;">
-          <div data-cube-tilt="" style="position: absolute; inset: 0; transform-style: preserve-3d;">
-            <div data-cube-ring="" style="position: absolute; inset: 0; transform-style: preserve-3d;">
-            <div data-cube-group="0" style="position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateY(0deg) translateZ(190px);">
-                <div style="position: absolute; left: 50%; top: 50%; width: 290px; height: 435px; margin-left: -145px; margin-top: -218px; border-radius: 24px; opacity: 0; background: #2d2d30; overflow: hidden; ">
-                  <img src="assets/delegator-intro.jpg" alt="Delegator" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center;">
-                </div>
-            </div>
-            <div data-cube-group="1" style="position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateY(90deg) translateZ(190px);">
-                <div style="position: absolute; left: 50%; top: 50%; width: 290px; height: 435px; margin-left: -145px; margin-top: -218px; border-radius: 24px; opacity: 0; background: #2d2d30; overflow: hidden; ">
-                  <img src="assets/operator-intro.jpg" alt="Node Operator" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center;">
-                </div>
-            </div>
-            <div data-cube-group="2" style="position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateY(180deg) translateZ(190px);">
-                <div style="position: absolute; left: 50%; top: 50%; width: 324px; height: 176px; margin-left: -162px; margin-top: -88px; border-radius: 24px; opacity: 0; background: rgba(58,58,63,0.55); backdrop-filter: blur(30px) saturate(1.25); -webkit-backdrop-filter: blur(30px) saturate(1.25); overflow: hidden; ">
-                  <div style="position: absolute; inset: 0; padding: 22px 24px; display: flex; flex-direction: column; justify-content: center;">
-
-                  <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; line-height: 2.05; white-space: nowrap; color: #d6dae4;">
-                    <p style="margin: 0;"><span style="color: #ff7b72;">class</span> <span style="color: #d2a8ff;">DepositData</span><span style="color: #8b949e;">:</span></p>
-                    <p style="margin: 0; padding-left: 20px;">pubkey</p>
-                    <p style="margin: 0; padding-left: 20px;"><span data-wc-pulse="" style="font-weight: 600;">withdrawal_credentials</span></p>
-                    <p style="margin: 0; padding-left: 20px;">amount</p>
-                    <p style="margin: 0; padding-left: 20px;">signature</p>
-                  </div>
-                  </div>
-                </div>
-            </div>
-            <div data-cube-group="3" style="position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateY(270deg) translateZ(190px);">
-                <div style="position: absolute; left: 50%; top: 50%; width: 324px; height: 320px; margin-left: -162px; margin-top: -160px; border-radius: 24px; opacity: 0; background: rgba(58,58,63,0.55); backdrop-filter: blur(30px) saturate(1.25); -webkit-backdrop-filter: blur(30px) saturate(1.25); overflow: hidden; ">
-                  <div style="position: absolute; inset: 0; padding: 24px; display: flex; flex-direction: column; justify-content: center;">
-                  <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; line-height: 2.05; white-space: nowrap; color: #d6dae4;">
-                    <p style="margin: 0;"><span style="color: #ff7b72;">class</span> <span style="color: #d2a8ff;">Validator</span><span style="color: #8b949e;">:</span></p>
-                    <p style="margin: 0; padding-left: 20px;">pubkey</p>
-                    <p style="margin: 0; padding-left: 20px;"><span data-wc-pulse="" style="font-weight: 600;">withdrawal_credentials</span></p>
-                    <p style="margin: 0; padding-left: 20px;">effective_balance</p>
-                    <p style="margin: 0; padding-left: 20px;">slashed</p>
-                    <p style="margin: 0; padding-left: 20px;">activation_eligibility_epoch</p>
-                    <p style="margin: 0; padding-left: 20px;">activation_epoch</p>
-                    <p style="margin: 0; padding-left: 20px;">exit_epoch</p>
-                    <p style="margin: 0; padding-left: 20px;">withdrawable_epoch</p>
-                  </div>
-                  </div>
-                </div>
-            </div>
-            <div data-cube-group="4" style="position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateY(0deg) translateZ(190px);">
-                <div style="position: absolute; left: 50%; top: 50%; width: 290px; height: 435px; margin-left: -145px; margin-top: -218px; border-radius: 24px; opacity: 0; background: #2d2d30; overflow: hidden; ">
-                  <img src="assets/delegator-attack.jpg" alt="Delegator" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center;">
-                </div>
-                <div style="position: absolute; left: 50%; top: 50%; width: 324px; height: 176px; margin-left: -162px; margin-top: -88px; border-radius: 24px; opacity: 0; background: rgba(58,58,63,0.55); backdrop-filter: blur(30px) saturate(1.25); -webkit-backdrop-filter: blur(30px) saturate(1.25); overflow: hidden; transform: translate3d(58px, 126px, 78px) rotate(-4deg);">
-                  <div style="position: absolute; inset: 0; padding: 22px 24px; display: flex; flex-direction: column; justify-content: center;">
-                  <span style="position: absolute; right: 22px; top: 22px; width: 10px; height: 10px; border-radius: 50%; background: #146c2e;"></span><div style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; line-height: 2.05; white-space: nowrap; color: #d6dae4;">
-                    <p style="margin: 0;"><span style="color: #ff7b72;">class</span> <span style="color: #d2a8ff;">DepositData</span><span style="color: #8b949e;">:</span></p>
-                    <p style="margin: 0; padding-left: 20px;">pubkey</p>
-                    <p style="margin: 0; padding-left: 20px;"><span style="font-weight: 600;">withdrawal_credentials</span><span style="color: #8b949e;"> = </span><span style="background: #17372a; color: #7ee2a8; border-radius: 5px; padding: 1px 5px;">0xDELEGATOR</span></p>
-                    <p style="margin: 0; padding-left: 20px;"><span style="font-weight: 600;">amount</span><span style="color: #8b949e;"> = </span><span style="color: #a5d6ff;">32 ETH</span></p>
-                    <p style="margin: 0; padding-left: 20px;">signature</p>
-                  </div>
-                  </div>
-                </div>
-            </div>
-            <div data-cube-group="5" style="position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateY(90deg) translateZ(190px);">
-                <div style="position: absolute; left: 50%; top: 50%; width: 290px; height: 435px; margin-left: -145px; margin-top: -218px; border-radius: 24px; opacity: 0; background: #2d2d30; overflow: hidden; ">
-                  <img src="assets/operator-attack.jpg" alt="Node Operator, dishonest" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center;">
-                </div>
-                <div style="position: absolute; left: 50%; top: 50%; width: 324px; height: 176px; margin-left: -162px; margin-top: -88px; border-radius: 24px; opacity: 0; background: rgba(58,58,63,0.55); backdrop-filter: blur(30px) saturate(1.25); -webkit-backdrop-filter: blur(30px) saturate(1.25); overflow: hidden; transform: translate3d(58px, 126px, 78px) rotate(-4deg);">
-                  <div style="position: absolute; inset: 0; padding: 22px 24px; display: flex; flex-direction: column; justify-content: center;">
-                  <span style="position: absolute; right: 22px; top: 22px; width: 10px; height: 10px; border-radius: 50%; background: #ff7c43;"></span><div style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; line-height: 2.05; white-space: nowrap; color: #d6dae4;">
-                    <p style="margin: 0;"><span style="color: #ff7b72;">class</span> <span style="color: #d2a8ff;">DepositData</span><span style="color: #8b949e;">:</span></p>
-                    <p style="margin: 0; padding-left: 20px;">pubkey</p>
-                    <p style="margin: 0; padding-left: 20px;"><span style="font-weight: 600;">withdrawal_credentials</span><span style="color: #8b949e;"> = </span><span style="background: #47210f; color: #ffab6b; border-radius: 5px; padding: 1px 5px;">0xOPERATOR</span></p>
-                    <p style="margin: 0; padding-left: 20px;"><span style="font-weight: 600;">amount</span><span style="color: #8b949e;"> = </span><span style="color: #a5d6ff;">1 ETH</span></p>
-                    <p style="margin: 0; padding-left: 20px;">signature</p>
-                  </div>
-                  </div>
-                </div>
-            </div>
-            <div data-cube-group="6" style="position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateY(180deg) translateZ(190px);">
-                <div style="position: absolute; left: 50%; top: 50%; width: 324px; height: 176px; margin-left: -162px; margin-top: -88px; border-radius: 24px; opacity: 0; background: rgba(58,58,63,0.55); backdrop-filter: blur(30px) saturate(1.25); -webkit-backdrop-filter: blur(30px) saturate(1.25); overflow: hidden; transform: translate3d(-36px, 60px, 0px) rotate(3deg);">
-                  <div style="position: absolute; inset: 0; padding: 22px 24px; display: flex; flex-direction: column; justify-content: center;">
-                  <span style="position: absolute; right: 22px; top: 22px; width: 10px; height: 10px; border-radius: 50%; background: #146c2e;"></span><div style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; line-height: 2.05; white-space: nowrap; color: #d6dae4;">
-                    <p style="margin: 0;"><span style="color: #ff7b72;">class</span> <span style="color: #d2a8ff;">DepositData</span><span style="color: #8b949e;">:</span></p>
-                    <p style="margin: 0; padding-left: 20px;">pubkey</p>
-                    <p style="margin: 0; padding-left: 20px;"><span style="font-weight: 600;">withdrawal_credentials</span><span style="color: #8b949e;"> = </span><span style="background: #17372a; color: #7ee2a8; border-radius: 5px; padding: 1px 5px;">0xDELEGATOR</span></p>
-                    <p style="margin: 0; padding-left: 20px;"><span style="font-weight: 600;">amount</span><span style="color: #8b949e;"> = </span><span style="color: #a5d6ff;">32 ETH</span></p>
-                    <p style="margin: 0; padding-left: 20px;">signature</p>
-                  </div>
-                  </div>
-                </div>
-                <div style="position: absolute; left: 50%; top: 50%; width: 324px; height: 176px; margin-left: -162px; margin-top: -88px; border-radius: 24px; opacity: 0; background: rgba(58,58,63,0.55); backdrop-filter: blur(30px) saturate(1.25); -webkit-backdrop-filter: blur(30px) saturate(1.25); overflow: hidden; transform: translate3d(40px, -62px, 84px) rotate(-3deg);">
-                  <div style="position: absolute; inset: 0; padding: 22px 24px; display: flex; flex-direction: column; justify-content: center;">
-                  <span style="position: absolute; right: 22px; top: 22px; width: 10px; height: 10px; border-radius: 50%; background: #ff7c43;"></span><div style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; line-height: 2.05; white-space: nowrap; color: #d6dae4;">
-                    <p style="margin: 0;"><span style="color: #ff7b72;">class</span> <span style="color: #d2a8ff;">DepositData</span><span style="color: #8b949e;">:</span></p>
-                    <p style="margin: 0; padding-left: 20px;">pubkey</p>
-                    <p style="margin: 0; padding-left: 20px;"><span style="font-weight: 600;">withdrawal_credentials</span><span style="color: #8b949e;"> = </span><span style="background: #47210f; color: #ffab6b; border-radius: 5px; padding: 1px 5px;">0xOPERATOR</span></p>
-                    <p style="margin: 0; padding-left: 20px;"><span style="font-weight: 600;">amount</span><span style="color: #8b949e;"> = </span><span style="color: #a5d6ff;">1 ETH</span></p>
-                    <p style="margin: 0; padding-left: 20px;">signature</p>
-                  </div>
-                  </div>
-                </div>
-            </div>
-            <div data-cube-group="7" style="position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateY(270deg) translateZ(190px);">
-                <div style="position: absolute; left: 50%; top: 50%; width: 324px; height: 320px; margin-left: -162px; margin-top: -160px; border-radius: 24px; opacity: 0; background: rgba(58,58,63,0.55); backdrop-filter: blur(30px) saturate(1.25); -webkit-backdrop-filter: blur(30px) saturate(1.25); overflow: hidden; ">
-                  <div style="position: absolute; inset: 0; padding: 24px; display: flex; flex-direction: column; justify-content: center;">
-                  <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; line-height: 2.05; white-space: nowrap; color: #d6dae4;">
-                    <p style="margin: 0;"><span style="color: #ff7b72;">class</span> <span style="color: #d2a8ff;">Validator</span><span style="color: #8b949e;">:</span></p>
-                    <p style="margin: 0; padding-left: 20px;">pubkey</p>
-                    <p style="margin: 0; padding-left: 20px;"><span style="font-weight: 600;">withdrawal_credentials</span><span style="color: #8b949e;"> = </span><span style="background: #47210f; color: #ffab6b; border-radius: 5px; padding: 1px 5px;">0xOPERATOR</span></p>
-                    <p style="margin: 0; padding-left: 20px;"><span style="font-weight: 600;">effective_balance</span><span style="color: #8b949e;"> = </span><span style="color: #a5d6ff;">1 + 32 ETH</span></p>
-                    <p style="margin: 0; padding-left: 20px;">slashed</p>
-                    <p style="margin: 0; padding-left: 20px;">activation_eligibility_epoch</p>
-                    <p style="margin: 0; padding-left: 20px;">activation_epoch</p>
-                    <p style="margin: 0; padding-left: 20px;">exit_epoch</p>
-                    <p style="margin: 0; padding-left: 20px;">withdrawable_epoch</p>
-                  </div>
-                  </div>
-                </div>
-            </div>
-            </div>
-          </div>
-          </div>
-        </div>
-        </div>
-
-        <div data-beat-col="" style="padding: calc(50vh - 120px) 0;">
-          <div data-beat="0" style="height: 240px; display: flex; flex-direction: column; justify-content: center; scroll-snap-align: center; opacity: 0.16;">
-            <p style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: #c9cede; margin: 0 0 14px;">01 · The Delegator provides the stake</p>
-            <p style="font-size: clamp(17px, 1.5vw, 20px); line-height: 1.58; margin: 0; max-width: 46ch; color: rgba(255,255,255,0.92); text-wrap: pretty;">The Delegator provides the ETH for staking and chooses a Node Operator to run the validator. The Delegator expects to remain in control of the stake and receive the validator’s withdrawals.</p>
-          </div>
-          <div data-beat="1" style="height: 240px; display: flex; flex-direction: column; justify-content: center; scroll-snap-align: center; opacity: 0.16;">
-            <p style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: #c9cede; margin: 0 0 14px;">02 · The Node Operator runs the validator</p>
-            <p style="font-size: clamp(17px, 1.5vw, 20px); line-height: 1.58; margin: 0; max-width: 46ch; color: rgba(255,255,255,0.92); text-wrap: pretty;">The Node Operator generates and holds the validator key, then uses it to run the validator. In return, the Node Operator usually receives a fee or a share of the staking rewards.</p>
-          </div>
-          <div data-beat="2" style="height: 240px; display: flex; flex-direction: column; justify-content: center; scroll-snap-align: center; opacity: 0.16;">
-            <p style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: #c9cede; margin: 0 0 14px;">03 · Deposit data describes the validator</p>
-            <p style="font-size: clamp(17px, 1.5vw, 20px); line-height: 1.58; margin: 0; max-width: 46ch; color: rgba(255,255,255,0.92); text-wrap: pretty;">Before the validator can be created, the Node Operator prepares signed deposit data. It contains the validator public key, the amount, a signature, and the <strong style="font-weight: 600; color: #a5d6ff;">withdrawal credentials</strong> — the destination for future withdrawals.</p>
-          </div>
-          <div data-beat="3" style="height: 240px; display: flex; flex-direction: column; justify-content: center; scroll-snap-align: center; opacity: 0.16;">
-            <p style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: #c9cede; margin: 0 0 14px;">04 · The first valid deposit assigns control</p>
-            <p style="font-size: clamp(17px, 1.5vw, 20px); line-height: 1.58; margin: 0; max-width: 46ch; color: rgba(255,255,255,0.92); text-wrap: pretty;">When Ethereum processes the first valid deposit for a validator key, it creates the validator record and copies the <strong style="font-weight: 600; color: #a5d6ff;">withdrawal credentials</strong> into it. Later deposits can add ETH to the balance, but they cannot replace those credentials.</p>
-          </div>
-          <div data-beat="4" style="height: 240px; display: flex; flex-direction: column; justify-content: center; scroll-snap-align: center; opacity: 0.16;">
-            <p style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: #c9cede; margin: 0 0 14px;">05 · The Delegator receives the expected deposit</p>
-            <p style="font-size: clamp(17px, 1.5vw, 20px); line-height: 1.58; margin: 0; max-width: 46ch; color: rgba(255,255,255,0.92); text-wrap: pretty;">The Node Operator signs deposit data containing the <span style="color: #8fd6a5;">Delegator’s withdrawal credentials</span> and gives it to the Delegator. The validator key, signature, and withdrawal destination are all exactly as agreed.</p>
-          </div>
-          <div data-beat="5" style="height: 240px; display: flex; flex-direction: column; justify-content: center; scroll-snap-align: center; opacity: 0.16;">
-            <p style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: #c9cede; margin: 0 0 14px;">06 · The Node Operator creates another version</p>
-            <p style="font-size: clamp(17px, 1.5vw, 20px); line-height: 1.58; margin: 0; max-width: 46ch; color: rgba(255,255,255,0.92); text-wrap: pretty;">But the Node Operator still holds the validator key. A dishonest operator can sign a second, equally valid deposit for the same key — this time using <span style="color: #ffab6b;">their own withdrawal credentials</span> and only 1 ETH.</p>
-          </div>
-          <div data-beat="6" style="height: 240px; display: flex; flex-direction: column; justify-content: center; scroll-snap-align: center; opacity: 0.16;">
-            <p style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: #c9cede; margin: 0 0 14px;">07 · The 1 ETH deposit is processed first</p>
-            <p style="font-size: clamp(17px, 1.5vw, 20px); line-height: 1.58; margin: 0; max-width: 46ch; color: rgba(255,255,255,0.92); text-wrap: pretty;">The Node Operator submits the 1 ETH deposit before the Delegator’s deposit is processed. Ethereum creates the validator record from it and stores the <span style="color: #ffab6b;">Node Operator’s withdrawal credentials</span>.</p>
-          </div>
-          <div data-beat="7" style="height: 240px; display: flex; flex-direction: column; justify-content: center; scroll-snap-align: center; opacity: 0.16;">
-            <p style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: #c9cede; margin: 0 0 14px;">08 · The address stays; only the balance changes</p>
-            <p style="font-size: clamp(17px, 1.5vw, 20px); line-height: 1.58; margin: 0; max-width: 46ch; color: rgba(255,255,255,0.92); text-wrap: pretty;">When the Delegator’s deposit arrives, the validator already exists. Ethereum adds the Delegator’s ETH to its balance but does not replace the <span style="color: #ffab6b;">withdrawal credentials</span>. The Node Operator now controls both the validator key and its withdrawals.</p>
-          </div>
-        </div>
+      <div class="problem__intro">
+        <p class="eyebrow-dark-compact">Attack</p>
+        <h3 id="attack" class="problem__intro-title"><a class="heading-link" href="#attack" title="Link to this section">A dishonest Node Operator can use a small deposit to take control of the Delegator’s entire stake&nbsp;<span class="heading-link__icon" aria-hidden="true">#</span></a></h3>
+        <p class="problem__intro-copy">Delegated staking splits one validator between two actors. The Delegator provides the ETH. The Node Operator generates the validator key, keeps it, and uses it to run the validator. That same key lets a dishonest Node Operator submit a different deposit first and lock in a withdrawal address they control.</p>
 
       </div>
 
-
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 24px; margin-bottom: 24px;">
-        <div style="background: #2b2b2f; border-radius: 28px; padding: clamp(24px, 3vw, 40px); display: flex; flex-direction: column;">
-          <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #c9cede; margin: 0 0 10px;">Known since 2019</p>
-          <p style="font-family: 'Archivo Black', sans-serif; font-size: clamp(64px, 8.2vw, 108px); line-height: 0.88; letter-spacing: -0.05em; margin: 0 0 18px;">2019</p>
-          <p style="font-size: 16px; line-height: 1.62; margin: 0 0 22px; max-width: 42ch; color: rgba(255,255,255,0.82); text-wrap: pretty;">Researchers documented the deposit front-running vulnerability publicly in 2019, before the Beacon Chain launched.&nbsp;<span style="text-wrap-mode: initial;">No production exploits are known to date&nbsp;</span>— every delegated staking protocol treats it as critical and built its own defense around it.</p>
-          <div style="display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: auto; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.14);">
-            <a href="https://ethresear.ch/t/deposit-contract-exploit/6528" target="_blank" rel="noreferrer" style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #c9cede;" class="link-on-dark">The original disclosure, ethresear.ch</a>
+      <div class="attack-story">
+        <div class="attack-cube-pad" data-cube-pad aria-hidden="true">
+          <div class="attack-cube-sticky">
+            <div class="attack-cube-perspective">
+              <div class="attack-cube-tilt" data-cube-tilt>
+                <div class="attack-cube-ring" data-cube-ring>
+                  <div class="attack-cube-group attack-cube-group--front" data-cube-group="0">
+                    <div class="attack-cube-card attack-cube-card--portrait attack-cube-layer" data-cube-layer>
+                      <img src="/assets/delegator-intro.jpg" alt="" width="640" height="960" loading="lazy" decoding="async" class="attack-cube-photo">
+                    </div>
+                  </div>
+                  <div class="attack-cube-group attack-cube-group--right" data-cube-group="1">
+                    <div class="attack-cube-card attack-cube-card--portrait attack-cube-layer" data-cube-layer>
+                      <img src="/assets/operator-intro.jpg" alt="" width="640" height="960" loading="lazy" decoding="async" class="attack-cube-photo">
+                    </div>
+                  </div>
+                  <div class="attack-cube-group attack-cube-group--back" data-cube-group="2">
+                    <div class="attack-cube-card attack-cube-card--deposit attack-cube-layer" data-cube-layer>
+                      <div class="attack-cube-card__inner">
+                        <div class="attack-code">
+                          <p><span class="attack-code__keyword">class</span> <span class="attack-code__type">DepositData</span><span class="attack-code__punctuation">:</span></p>
+                          <p class="attack-code__indent">pubkey</p>
+                          <p class="attack-code__indent"><span class="attack-code__focus attack-code__focus--highlight">withdrawal_credentials</span></p>
+                          <p class="attack-code__indent">amount</p>
+                          <p class="attack-code__indent">signature</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="attack-cube-group attack-cube-group--left" data-cube-group="3">
+                    <div class="attack-cube-card attack-cube-card--validator attack-cube-layer" data-cube-layer>
+                      <div class="attack-cube-card__inner attack-cube-card__inner--validator">
+                        <div class="attack-code">
+                          <p><span class="attack-code__keyword">class</span> <span class="attack-code__type">Validator</span><span class="attack-code__punctuation">:</span></p>
+                          <p class="attack-code__indent">pubkey</p>
+                          <p class="attack-code__indent"><span class="attack-code__focus attack-code__focus--highlight">withdrawal_credentials</span></p>
+                          <p class="attack-code__indent">effective_balance</p>
+                          <p class="attack-code__indent">slashed</p>
+                          <p class="attack-code__indent">activation_eligibility_epoch</p>
+                          <p class="attack-code__indent">activation_epoch</p>
+                          <p class="attack-code__indent">exit_epoch</p>
+                          <p class="attack-code__indent">withdrawable_epoch</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="attack-cube-group attack-cube-group--front" data-cube-group="4">
+                    <div class="attack-cube-card attack-cube-card--portrait attack-cube-layer" data-cube-layer>
+                      <picture class="attack-cube-picture">
+                        <source srcset="/assets/delegator-attack.webp" type="image/webp">
+                        <img src="/assets/delegator-attack.jpg" alt="" width="640" height="960" loading="lazy" decoding="async" class="attack-cube-photo">
+                      </picture>
+                    </div>
+                    <div class="attack-cube-card attack-cube-card--deposit attack-cube-card--expected attack-cube-layer" data-cube-layer>
+                      <div class="attack-cube-card__inner">
+                        <span class="attack-code__status attack-code__status--expected"></span>
+                        <div class="attack-code">
+                          <p><span class="attack-code__keyword">class</span> <span class="attack-code__type">DepositData</span><span class="attack-code__punctuation">:</span></p>
+                          <p class="attack-code__indent">pubkey</p>
+                          <p class="attack-code__indent"><span class="attack-code__focus">withdrawal_credentials</span><span class="attack-code__punctuation"> = </span><span class="attack-code__value attack-code__value--expected">0xDELEGATOR</span></p>
+                          <p class="attack-code__indent"><span class="attack-code__focus">amount</span><span class="attack-code__punctuation"> = </span><span class="attack-code__amount">32 ETH</span></p>
+                          <p class="attack-code__indent">signature</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="attack-cube-group attack-cube-group--right" data-cube-group="5">
+                    <div class="attack-cube-card attack-cube-card--portrait attack-cube-layer" data-cube-layer>
+                      <picture class="attack-cube-picture">
+                        <source srcset="/assets/operator-attack.webp" type="image/webp">
+                        <img src="/assets/operator-attack.jpg" alt="" width="640" height="960" loading="lazy" decoding="async" class="attack-cube-photo">
+                      </picture>
+                    </div>
+                    <div class="attack-cube-card attack-cube-card--deposit attack-cube-card--hostile attack-cube-layer" data-cube-layer>
+                      <div class="attack-cube-card__inner">
+                        <span class="attack-code__status attack-code__status--hostile"></span>
+                        <div class="attack-code">
+                          <p><span class="attack-code__keyword">class</span> <span class="attack-code__type">DepositData</span><span class="attack-code__punctuation">:</span></p>
+                          <p class="attack-code__indent">pubkey</p>
+                          <p class="attack-code__indent"><span class="attack-code__focus">withdrawal_credentials</span><span class="attack-code__punctuation"> = </span><span class="attack-code__value attack-code__value--hostile">0xOPERATOR</span></p>
+                          <p class="attack-code__indent"><span class="attack-code__focus">amount</span><span class="attack-code__punctuation"> = </span><span class="attack-code__amount">1 ETH</span></p>
+                          <p class="attack-code__indent">signature</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="attack-cube-group attack-cube-group--back" data-cube-group="6">
+                    <div class="attack-cube-card attack-cube-card--deposit attack-cube-card--race-expected attack-cube-layer" data-cube-layer>
+                      <div class="attack-cube-card__inner">
+                        <span class="attack-code__status attack-code__status--expected"></span>
+                        <div class="attack-code">
+                          <p><span class="attack-code__keyword">class</span> <span class="attack-code__type">DepositData</span><span class="attack-code__punctuation">:</span></p>
+                          <p class="attack-code__indent">pubkey</p>
+                          <p class="attack-code__indent"><span class="attack-code__focus">withdrawal_credentials</span><span class="attack-code__punctuation"> = </span><span class="attack-code__value attack-code__value--expected">0xDELEGATOR</span></p>
+                          <p class="attack-code__indent"><span class="attack-code__focus">amount</span><span class="attack-code__punctuation"> = </span><span class="attack-code__amount">32 ETH</span></p>
+                          <p class="attack-code__indent">signature</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="attack-cube-card attack-cube-card--deposit attack-cube-card--race-hostile attack-cube-layer" data-cube-layer>
+                      <div class="attack-cube-card__inner">
+                        <span class="attack-code__status attack-code__status--hostile"></span>
+                        <div class="attack-code">
+                          <p><span class="attack-code__keyword">class</span> <span class="attack-code__type">DepositData</span><span class="attack-code__punctuation">:</span></p>
+                          <p class="attack-code__indent">pubkey</p>
+                          <p class="attack-code__indent"><span class="attack-code__focus">withdrawal_credentials</span><span class="attack-code__punctuation"> = </span><span class="attack-code__value attack-code__value--hostile">0xOPERATOR</span></p>
+                          <p class="attack-code__indent"><span class="attack-code__focus">amount</span><span class="attack-code__punctuation"> = </span><span class="attack-code__amount">1 ETH</span></p>
+                          <p class="attack-code__indent">signature</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="attack-cube-group attack-cube-group--left" data-cube-group="7">
+                    <div class="attack-cube-card attack-cube-card--validator attack-cube-layer" data-cube-layer>
+                      <div class="attack-cube-card__inner attack-cube-card__inner--validator">
+                        <div class="attack-code">
+                          <p><span class="attack-code__keyword">class</span> <span class="attack-code__type">Validator</span><span class="attack-code__punctuation">:</span></p>
+                          <p class="attack-code__indent">pubkey</p>
+                          <p class="attack-code__indent"><span class="attack-code__focus">withdrawal_credentials</span><span class="attack-code__punctuation"> = </span><span class="attack-code__value attack-code__value--hostile">0xOPERATOR</span></p>
+                          <p class="attack-code__indent"><span class="attack-code__focus">effective_balance</span><span class="attack-code__punctuation"> = </span><span class="attack-code__amount">1 + 32 ETH</span></p>
+                          <p class="attack-code__indent">slashed</p>
+                          <p class="attack-code__indent">activation_eligibility_epoch</p>
+                          <p class="attack-code__indent">activation_epoch</p>
+                          <p class="attack-code__indent">exit_epoch</p>
+                          <p class="attack-code__indent">withdrawable_epoch</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div style="background: #2b2b2f; border-radius: 28px; padding: clamp(24px, 3vw, 40px); display: flex; flex-direction: column;">
-          <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #c9cede; margin: 0 0 10px;">The scale</p>
-          <h3 style="font-family: 'Archivo Black', sans-serif; font-size: clamp(22px, 2.4vw, 30px); line-height: 1.1; letter-spacing: -0.03em; margin: 0 0 16px;">About 2/3 of staked ETH is technically exposed</h3>
-          <p style="font-size: 16px; line-height: 1.62; margin: 0 0 28px; max-width: 46ch; color: rgba(255,255,255,0.82); text-wrap: pretty;">The vulnerability applies wherever the funding party and the key holder are distinct parties — centralized exchanges, liquid staking protocols, and staking-as-a-service providers.</p>
-          <div style="display: flex; height: 44px; border-radius: 999px; overflow: hidden; margin-bottom: 18px;">
-            <div style="flex: 0 0 33%; background: #c9cede;"></div>
-            <div style="flex: 0 0 33%; background: #8f96b8;"></div>
-            <div style="flex: 1; background: rgba(255,255,255,0.18);"></div>
+
+        <ol class="attack-story__beats" role="list" data-beat-col>
+          <li class="attack-beat" data-beat="0">
+            <h4 class="attack-beat__label">01 · The Delegator provides the stake</h4>
+            <p class="attack-beat__copy">The Delegator provides the ETH for staking and chooses a Node Operator to run the validator. The Delegator expects to remain in control of the stake and receive the validator’s withdrawals.</p>
+          </li>
+          <li class="attack-beat" data-beat="1">
+            <h4 class="attack-beat__label">02 · The Node Operator runs the validator</h4>
+            <p class="attack-beat__copy">The Node Operator generates and holds the validator key, then uses it to run the validator. In return, the Node Operator usually receives a fee or a share of the staking rewards.</p>
+          </li>
+          <li class="attack-beat" data-beat="2">
+            <h4 class="attack-beat__label">03 · Deposit data describes the validator</h4>
+            <p class="attack-beat__copy">Before the validator can be created, the Node Operator prepares signed deposit data. It contains the validator public key, the amount, a signature, and the <strong class="attack-beat__key">withdrawal credentials</strong> — the destination for future withdrawals.</p>
+          </li>
+          <li class="attack-beat" data-beat="3">
+            <h4 class="attack-beat__label">04 · The first valid deposit assigns control</h4>
+            <p class="attack-beat__copy">When Ethereum processes the first valid deposit for a validator key, it creates the validator record and copies the <strong class="attack-beat__key">withdrawal credentials</strong> into it. Later deposits can add ETH to the balance, but they cannot replace those credentials.</p>
+          </li>
+          <li class="attack-beat" data-beat="4">
+            <h4 class="attack-beat__label">05 · The Delegator receives the expected deposit</h4>
+            <p class="attack-beat__copy">The Node Operator signs deposit data containing the <span class="text-success">Delegator’s withdrawal credentials</span> and gives it to the Delegator. The validator key, signature, and withdrawal destination are all exactly as agreed.</p>
+          </li>
+          <li class="attack-beat" data-beat="5">
+            <h4 class="attack-beat__label">06 · The Node Operator creates another version</h4>
+            <p class="attack-beat__copy">But the Node Operator still holds the validator key. A dishonest operator can sign a second, equally valid deposit for the same key — this time using <span class="text-danger">their own withdrawal credentials</span> and only 1 ETH.</p>
+          </li>
+          <li class="attack-beat" data-beat="6">
+            <h4 class="attack-beat__label">07 · The 1 ETH deposit is processed first</h4>
+            <p class="attack-beat__copy">The Node Operator submits the 1 ETH deposit before the Delegator’s deposit is processed. Ethereum creates the validator record from it and stores the <span class="text-danger">Node Operator’s withdrawal credentials</span>.</p>
+          </li>
+          <li class="attack-beat" data-beat="7">
+            <h4 class="attack-beat__label">08 · The address stays; only the balance changes</h4>
+            <p class="attack-beat__copy">When the Delegator’s deposit arrives, the validator already exists. Ethereum adds the Delegator’s ETH to its balance but does not replace the <span class="text-danger">withdrawal credentials</span>. The Node Operator now controls both the validator key and its withdrawals.</p>
+          </li>
+        </ol>
+      </div>
+
+
+      <div class="evidence-grid">
+        <div class="evidence-card">
+          <p class="eyebrow-dark-compact">Known since 2019</p>
+          <h3 id="history" class="evidence-card__metric"><a class="heading-link" href="#history" title="Link to this section">2019&nbsp;<span class="heading-link__icon" aria-hidden="true">#</span></a></h3>
+          <p class="evidence-card__copy">Researchers documented the deposit front-running vulnerability publicly in 2019, before the Beacon Chain launched.&nbsp;<span class="evidence-card__exploit-note">No production exploits are known to date&nbsp;</span>— every delegated staking protocol treats it as critical and built its own defense around it.</p>
+          <div class="evidence-card__sources">
+            <a href="https://ethresear.ch/t/deposit-contract-exploit/6528" target="_blank" rel="noreferrer" class="link-on-dark evidence-card__source">The original disclosure, ethresear.ch</a>
           </div>
-          <div style="display: grid; gap: 10px; margin-bottom: 20px;">
-            <div style="display: grid; grid-template-columns: 12px minmax(0, 1fr); gap: 12px; align-items: center;">
-              <span style="width: 12px; height: 12px; border-radius: 3px; background: #c9cede;"></span>
-              <p style="font-size: 15px; line-height: 1.5; margin: 0; color: rgba(255,255,255,0.8);">Liquid staking protocols, with documented defenses</p>
+        </div>
+        <div class="evidence-card">
+          <p class="eyebrow-dark-compact">The scale</p>
+          <h3 id="scale" class="evidence-card__title"><a class="heading-link" href="#scale" title="Link to this section">About 2/3 of staked ETH is technically exposed&nbsp;<span class="heading-link__icon" aria-hidden="true">#</span></a></h3>
+          <p class="evidence-card__body">The vulnerability applies wherever the funding party and the key holder are distinct parties — centralized exchanges, liquid staking protocols, and staking-as-a-service providers.</p>
+          <div aria-hidden="true" class="stake-chart">
+            <div aria-hidden="true" class="stake-chart__protected"></div>
+            <div aria-hidden="true" class="stake-chart__services"></div>
+            <div aria-hidden="true" class="stake-chart__unknown"></div>
+          </div>
+          <div class="stake-legend">
+            <div class="stake-legend__item">
+              <span class="stake-legend__swatch stake-legend__swatch--protected"></span>
+              <p class="stake-legend__copy">Liquid staking protocols, with documented defenses</p>
             </div>
-            <div style="display: grid; grid-template-columns: 12px minmax(0, 1fr); gap: 12px; align-items: center; align-self: auto">
-              <span style="width: 12px; height: 12px; border-radius: 3px; background: #8f96b8;"></span>
-              <p style="font-size: 15px; line-height: 1.5; margin: 0; color: rgba(255,255,255,0.8);">Exchanges and staking services, relying on off-chain arrangements or with no published protection</p>
+            <div class="stake-legend__item">
+              <span class="stake-legend__swatch stake-legend__swatch--services"></span>
+              <p class="stake-legend__copy">Exchanges and staking services, relying on off-chain arrangements or with no published protection</p>
             </div>
-            <div style="display: grid; grid-template-columns: 12px minmax(0, 1fr); gap: 12px; align-items: center;">
-              <span style="width: 12px; height: 12px; border-radius: 3px; background: rgba(255,255,255,0.28);"></span>
-              <p style="font-size: 15px; line-height: 1.5; margin: 0; color: rgba(255,255,255,0.8);">Unidentified in this data source, cannot be attributed</p>
+            <div class="stake-legend__item">
+              <span class="stake-legend__swatch stake-legend__swatch--unknown"></span>
+              <p class="stake-legend__copy">Unidentified in this data source, cannot be attributed</p>
             </div>
           </div>
-          <div style="display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: auto; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.14);">
-            <a href="https://dune.com/hildobby/eth2-staking" target="_blank" rel="noreferrer" style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #c9cede;" class="link-on-dark">Staking analytics, Dune</a>
-            <a href="https://hackmd.io/@george-avs/r1oK_afsbe" target="_blank" rel="noreferrer" style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #c9cede;" class="link-on-dark">Companion analysis</a>
+          <div class="evidence-card__sources">
+            <a href="https://dune.com/hildobby/eth2-staking" target="_blank" rel="noreferrer" class="link-on-dark evidence-card__source">Staking analytics, Dune</a>
+            <a href="https://hackmd.io/@george-avs/r1oK_afsbe" target="_blank" rel="noreferrer" class="link-on-dark evidence-card__source">Companion analysis</a>
           </div>
         </div>
       </div>
 
-      <div style="background: #2b2b2f; border-radius: 28px; padding: clamp(24px, 3vw, 40px); margin-bottom: 24px;">
-        <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #c9cede; margin: 0 0 10px;">Everyone built their own fence</p>
-        <h3 style="font-family: 'Archivo Black', sans-serif; font-size: clamp(22px, 2.4vw, 30px); line-height: 1.1; letter-spacing: -0.03em; margin: 0 0 8px;">Seven implementations, two strategies</h3>
-        <p style="font-size: 16px; line-height: 1.62; margin: 0 0 28px; max-width: 62ch; color: rgba(255,255,255,0.82); text-wrap: pretty;">Delegated staking protocols have converged on two main defense strategies. Both work, and both impose costs that each protocol bears independently.</p>
-        <div style="overflow-x: auto; margin: 0 -4px; padding: 0 4px; margin-top: 42px; margin-bottom: 42px">
-        <div data-def-table="" style="display: grid; grid-template-columns: 1.2fr 1.15fr 1.15fr 1.2fr 1.1fr; min-width: 780px;">
-          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.6); padding: 0 14px 12px 0; border-bottom: 1.5px solid rgba(255,255,255,0.3);">Protocol</span>
-          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.6); padding: 0 14px 12px; border-bottom: 1.5px solid rgba(255,255,255,0.3);">Strategy</span>
-          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.6); padding: 0 14px 12px; border-bottom: 1.5px solid rgba(255,255,255,0.3);">Capital locked</span>
-          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.6); padding: 0 14px 12px; border-bottom: 1.5px solid rgba(255,255,255,0.3);">Verification</span>
-          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.6); padding: 0 0 12px 14px; border-bottom: 1.5px solid rgba(255,255,255,0.3);">Trust assumption</span>
-
-          <span style="font-size: 14.5px; padding: 14px 14px 14px 0; border-bottom: 1px solid rgba(255,255,255,0.14);"><a href="https://etherfi.gitbook.io/etherfi/ether.fi-whitepaper/technical-documentation" target="_blank" rel="noreferrer" style="color: #c9cede;" class="link-on-dark">ether.fi</a></span>
-          <span style="font-size: 14.5px; padding: 14px 14px; border-bottom: 1px solid rgba(255,255,255,0.14);"><span style="display: inline-block; white-space: nowrap; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: #212124; background: #c9cede; border: 1px solid #c9cede; border-radius: 999px; padding: 3px 10px;">Pre-deposit</span></span>
-          <span style="font-size: 14.5px; padding: 14px 14px; border-bottom: 1px solid rgba(255,255,255,0.14); color: rgba(255,255,255,0.8);">1 ETH protocol capital</span>
-          <span style="font-size: 14.5px; padding: 14px 14px; border-bottom: 1px solid rgba(255,255,255,0.14); color: rgba(255,255,255,0.8);">Oracle attestation</span>
-          <span style="font-size: 14.5px; padding: 14px 0 14px 14px; border-bottom: 1px solid rgba(255,255,255,0.14); color: #c9cede;">Oracle honesty</span>
-
-          <span style="font-size: 14.5px; padding: 14px 14px 14px 0; border-bottom: 1px solid rgba(255,255,255,0.14);"><a href="https://docs.lido.fi/run-on-lido/stvaults/tech-documentation/pdg/" target="_blank" rel="noreferrer" style="color: #c9cede;" class="link-on-dark">Lido stVaults (PDG)</a></span>
-          <span style="font-size: 14.5px; padding: 14px 14px; border-bottom: 1px solid rgba(255,255,255,0.14);"><span style="display: inline-block; white-space: nowrap; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: #212124; background: #c9cede; border: 1px solid #c9cede; border-radius: 999px; padding: 3px 10px;">Pre-deposit</span></span>
-          <span style="font-size: 14.5px; padding: 14px 14px; border-bottom: 1px solid rgba(255,255,255,0.14); color: rgba(255,255,255,0.8);">1 ETH operator collateral</span>
-          <span style="font-size: 14.5px; padding: 14px 14px; border-bottom: 1px solid rgba(255,255,255,0.14); color: rgba(255,255,255,0.8);">EIP-4788 Merkle proof</span>
-          <span style="font-size: 14.5px; padding: 14px 0 14px 14px; border-bottom: 1px solid rgba(255,255,255,0.14); color: #c9cede;">Trustless</span>
-
-          <span style="font-size: 14.5px; padding: 14px 14px 14px 0; border-bottom: 1px solid rgba(255,255,255,0.14);"><a href="https://github.com/lidofinance/lido-improvement-proposals/blob/develop/LIPS/lip-5.md" target="_blank" rel="noreferrer" style="color: #c9cede;" class="link-on-dark">Lido DSM</a></span>
-          <span style="font-size: 14.5px; padding: 14px 14px; border-bottom: 1px solid rgba(255,255,255,0.14);"><span style="display: inline-block; white-space: nowrap; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: #e6e9f6; background: transparent; border: 1px solid rgba(255,255,255,0.38); border-radius: 999px; padding: 3px 10px;">Guardian</span></span>
-          <span style="font-size: 14.5px; padding: 14px 14px; border-bottom: 1px solid rgba(255,255,255,0.14); color: rgba(255,255,255,0.8);">None</span>
-          <span style="font-size: 14.5px; padding: 14px 14px; border-bottom: 1px solid rgba(255,255,255,0.14); color: rgba(255,255,255,0.8);">depositRoot snapshot</span>
-          <span style="font-size: 14.5px; padding: 14px 0 14px 14px; border-bottom: 1px solid rgba(255,255,255,0.14); color: #c9cede;">4/6 committee quorum</span>
-
-          <span style="font-size: 14.5px; padding: 14px 14px 14px 0; border-bottom: 1px solid rgba(255,255,255,0.14);"><a href="https://docs.puffer.fi/yield/protocol/overview" target="_blank" rel="noreferrer" style="color: #c9cede;" class="link-on-dark">Puffer Finance</a></span>
-          <span style="font-size: 14.5px; padding: 14px 14px; border-bottom: 1px solid rgba(255,255,255,0.14);"><span style="display: inline-block; white-space: nowrap; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: #212124; background: #c9cede; border: 1px solid #c9cede; border-radius: 999px; padding: 3px 10px;">Pre-deposit</span></span>
-          <span style="font-size: 14.5px; padding: 14px 14px; border-bottom: 1px solid rgba(255,255,255,0.14); color: rgba(255,255,255,0.8);">2 ETH operator bond</span>
-          <span style="font-size: 14.5px; padding: 14px 14px; border-bottom: 1px solid rgba(255,255,255,0.14); color: rgba(255,255,255,0.8);">Guardian verification</span>
-          <span style="font-size: 14.5px; padding: 14px 0 14px 14px; border-bottom: 1px solid rgba(255,255,255,0.14); color: #c9cede;">Guardian honesty</span>
-
-          <span style="font-size: 14.5px; padding: 14px 14px 14px 0; border-bottom: 1px solid rgba(255,255,255,0.14);"><a href="https://saturn.rocketpool.net/" target="_blank" rel="noreferrer" style="color: #c9cede;" class="link-on-dark">Rocket Pool Saturn</a></span>
-          <span style="font-size: 14.5px; padding: 14px 14px; border-bottom: 1px solid rgba(255,255,255,0.14);"><span style="display: inline-block; white-space: nowrap; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: #212124; background: #c9cede; border: 1px solid #c9cede; border-radius: 999px; padding: 3px 10px;">Pre-deposit</span></span>
-          <span style="font-size: 14.5px; padding: 14px 14px; border-bottom: 1px solid rgba(255,255,255,0.14); color: rgba(255,255,255,0.8);">4 ETH operator bond</span>
-          <span style="font-size: 14.5px; padding: 14px 14px; border-bottom: 1px solid rgba(255,255,255,0.14); color: rgba(255,255,255,0.8);">EIP-4788 state proof</span>
-          <span style="font-size: 14.5px; padding: 14px 0 14px 14px; border-bottom: 1px solid rgba(255,255,255,0.14); color: #c9cede;">Trustless</span>
-
-          <span style="font-size: 14.5px; padding: 14px 14px 14px 0; border-bottom: 1px solid rgba(255,255,255,0.14);"><a href="https://staderlabs.gitbook.io/ethereum/ethx-security" target="_blank" rel="noreferrer" style="color: #c9cede;" class="link-on-dark">Stader ETHx</a></span>
-          <span style="font-size: 14.5px; padding: 14px 14px; border-bottom: 1px solid rgba(255,255,255,0.14);"><span style="display: inline-block; white-space: nowrap; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: #212124; background: #c9cede; border: 1px solid #c9cede; border-radius: 999px; padding: 3px 10px;">Pre-deposit</span></span>
-          <span style="font-size: 14.5px; padding: 14px 14px; border-bottom: 1px solid rgba(255,255,255,0.14); color: rgba(255,255,255,0.8);">4 ETH operator bond</span>
-          <span style="font-size: 14.5px; padding: 14px 14px; border-bottom: 1px solid rgba(255,255,255,0.14); color: rgba(255,255,255,0.8);">Oracle verification</span>
-          <span style="font-size: 14.5px; padding: 14px 0 14px 14px; border-bottom: 1px solid rgba(255,255,255,0.14); color: #c9cede;">Oracle network honesty</span>
-
-          <span style="font-size: 14.5px; padding: 14px 14px 14px 0;"><a href="https://tranchess.medium.com/recap-deposit-front-run-vulnerability-mitigation-cfc66ef8c50d" target="_blank" rel="noreferrer" style="color: #c9cede;" class="link-on-dark">Tranchess SafeStaking</a></span>
-          <span style="font-size: 14.5px; padding: 14px 14px;"><span style="display: inline-block; white-space: nowrap; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: #e6e9f6; background: transparent; border: 1px solid rgba(255,255,255,0.38); border-radius: 999px; padding: 3px 10px;">Guardian</span></span>
-          <span style="font-size: 14.5px; padding: 14px 14px; color: rgba(255,255,255,0.8);">None specified</span>
-          <span style="font-size: 14.5px; padding: 14px 14px; color: rgba(255,255,255,0.8);">Safeguard node quorum</span>
-          <span style="font-size: 14.5px; padding: 14px 0 14px 14px; color: #c9cede;">Safeguard node honesty</span>
+      <div class="defense-panel">
+        <p class="eyebrow-dark-compact">Everyone built their own fence</p>
+        <h3 id="defenses" class="defense-panel__title"><a class="heading-link" href="#defenses" title="Link to this section">Seven implementations, two strategies&nbsp;<span class="heading-link__icon" aria-hidden="true">#</span></a></h3>
+        <p class="defense-panel__lede">Delegated staking protocols have converged on two main defense strategies. Both work, and both impose costs that each protocol bears independently.</p>
+        <p id="defense-table-hint" class="table-scroll-hint">On narrow screens, scroll horizontally to compare every column</p>
+        <div class="table-scroll" role="region" aria-label="Protocol defense comparison" aria-describedby="defense-table-hint" tabindex="0">
+          <table class="defense-table">
+            <caption class="sr-only">Comparison of existing deposit front-running defenses used by seven delegated staking protocols</caption>
+            <thead>
+              <tr>
+                <th scope="col">Protocol</th>
+                <th scope="col">Strategy</th>
+                <th scope="col">Capital locked</th>
+                <th scope="col">Verification</th>
+                <th scope="col">Trust assumption</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row"><a href="https://etherfi.gitbook.io/etherfi/ether.fi-whitepaper/technical-documentation" target="_blank" rel="noreferrer" class="link-on-dark">ether.fi</a></th>
+                <td><span class="strategy-pill strategy-pill--bond">Pre-deposit</span></td>
+                <td>1 ETH protocol capital</td>
+                <td>Oracle attestation</td>
+                <td>Oracle honesty</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://docs.lido.fi/run-on-lido/stvaults/tech-documentation/pdg/" target="_blank" rel="noreferrer" class="link-on-dark">Lido stVaults (PDG)</a></th>
+                <td><span class="strategy-pill strategy-pill--bond">Pre-deposit</span></td>
+                <td>1 ETH operator collateral</td>
+                <td>EIP-4788 Merkle proof</td>
+                <td>Trustless</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://github.com/lidofinance/lido-improvement-proposals/blob/develop/LIPS/lip-5.md" target="_blank" rel="noreferrer" class="link-on-dark">Lido DSM</a></th>
+                <td><span class="strategy-pill strategy-pill--guardian">Guardian</span></td>
+                <td>None</td>
+                <td><code>depositRoot</code> snapshot</td>
+                <td>4/6 committee quorum</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://docs.puffer.fi/yield/protocol/overview" target="_blank" rel="noreferrer" class="link-on-dark">Puffer Finance</a></th>
+                <td><span class="strategy-pill strategy-pill--bond">Pre-deposit</span></td>
+                <td>2 ETH operator bond</td>
+                <td>Guardian verification</td>
+                <td>Guardian honesty</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://saturn.rocketpool.net/" target="_blank" rel="noreferrer" class="link-on-dark">Rocket Pool Saturn</a></th>
+                <td><span class="strategy-pill strategy-pill--bond">Pre-deposit</span></td>
+                <td>4 ETH operator bond</td>
+                <td>EIP-4788 state proof</td>
+                <td>Trustless</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://staderlabs.gitbook.io/ethereum/ethx-security" target="_blank" rel="noreferrer" class="link-on-dark">Stader ETHx</a></th>
+                <td><span class="strategy-pill strategy-pill--bond">Pre-deposit</span></td>
+                <td>4 ETH operator bond</td>
+                <td>Oracle verification</td>
+                <td>Oracle network honesty</td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="https://tranchess.medium.com/recap-deposit-front-run-vulnerability-mitigation-cfc66ef8c50d" target="_blank" rel="noreferrer" class="link-on-dark">Tranchess SafeStaking</a></th>
+                <td><span class="strategy-pill strategy-pill--guardian">Guardian</span></td>
+                <td>None specified</td>
+                <td>Safeguard node quorum</td>
+                <td>Safeguard node honesty</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        </div>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 28px 40px; margin-top: 38px;">
+        <p class="defense-panel__source-note" hidden></p>
+        <div class="defense-explainer">
           <div>
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#c9cede" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display: block; margin-bottom: 14px;"><circle cx="8" cy="8" r="6"></circle><path d="M18.09 10.37A6 6 0 1 1 10.34 18"></path><path d="M7 6h1v4"></path><path d="m16.71 13.88.7.71-2.82 2.82"></path></svg>
-            <p style="font-weight: 600; font-size: 16.5px; line-height: 1.35; margin: 0 0 10px;">Bond and pre-deposit verification</p>
-            <p style="font-size: 15px; line-height: 1.56; margin: 0; color: rgba(255,255,255,0.76);">The operator deposits a small amount first (1–4 ETH), then proves on-chain that the pending validator has the correct withdrawal credentials. Only after verification does the protocol release the remaining funds.</p>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="defense-explainer__icon"><circle cx="8" cy="8" r="6"></circle><path d="M18.09 10.37A6 6 0 1 1 10.34 18"></path><path d="M7 6h1v4"></path><path d="m16.71 13.88.7.71-2.82 2.82"></path></svg>
+            <h4 class="defense-explainer__title">Bond and pre-deposit verification</h4>
+            <p class="defense-explainer__copy">The operator deposits a small amount first (1–4 ETH), then proves on-chain that the pending validator has the correct withdrawal credentials. Only after verification does the protocol release the remaining funds.</p>
           </div>
           <div>
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#c9cede" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display: block; margin-bottom: 14px;"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-            <p style="font-weight: 600; font-size: 16.5px; line-height: 1.35; margin: 0 0 10px;">Guardian committees</p>
-            <p style="font-size: 15px; line-height: 1.56; margin: 0; color: rgba(255,255,255,0.76);">A trusted group of signers attests that no malicious pre-deposits exist before authorizing each deposit batch. This avoids locking capital, but introduces trust and liveness requirements.</p>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="defense-explainer__icon"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 1-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            <h4 class="defense-explainer__title">Guardian committees</h4>
+            <p class="defense-explainer__copy">A trusted group of signers attests that no malicious pre-deposits exist before authorizing each deposit batch. This avoids locking capital, but introduces trust and liveness requirements.</p>
           </div>
         </div>
       </div>
 
-      <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #c9cede; margin: 0 0 20px;">And none of the fences are free</p>
-      <div data-cost-grid="" style="display: grid; gap: 20px; margin-bottom: clamp(40px, 6vw, 64px);">
-        <div data-cost-wide="" style="position: relative; background: #2b2b2f; border-radius: 22px; padding: 26px;">
-          <div aria-hidden="true" style="position: absolute; right: -40px; bottom: -84px; width: 220px; height: 220px; background: url('assets/idle-coin.png') center / contain no-repeat; pointer-events: none"></div>
-          <p style="font-family: 'Archivo Black', sans-serif; font-size: 34px; line-height: 1; letter-spacing: -0.04em; margin: 0 0 14px; color: #e6e9f6;">31–2,047 ETH</p>
-          <p style="font-weight: 600; font-size: 15.5px; line-height: 1.4; margin: 0 0 8px;">Sits idle while the pre-deposit clears</p>
-          <p style="font-size: 14.5px; line-height: 1.55; margin: 0; max-width: 42ch; color: rgba(255,255,255,0.74); width: 70%">The validator record appears only after the 1 ETH pre-deposit clears the churn-limited entry queue. Until its credentials can be proven on-chain, the rest sits in the protocol's contracts earning nothing — and the <a href="https://www.validatorqueue.com/" target="_blank" rel="noreferrer" style="color: #c9cede;" class="link-on-dark">queue</a> can stretch to months.</p>
+      <h3 id="costs" class="costs__eyebrow"><a class="heading-link" href="#costs" title="Link to this section">And none of the fences are free&nbsp;<span class="heading-link__icon" aria-hidden="true">#</span></a></h3>
+      <div class="cost-grid">
+        <div class="cost-card cost-card--wide">
+          <div class="idle-decoration cost-card__decoration" aria-hidden="true"></div>
+          <p class="cost-card__metric cost-card__metric--wide">31–2,047 ETH</p>
+          <h4 class="cost-card__title">Sits idle while the pre-deposit clears</h4>
+          <p class="cost-card__copy cost-card__copy--wide">The validator record appears only after the 1 ETH pre-deposit clears the churn-limited entry queue. Until its credentials can be proven on-chain, the rest sits in the protocol's contracts earning nothing — and the <a href="https://www.validatorqueue.com/" target="_blank" rel="noreferrer" class="link-on-dark text-brand-pale">queue</a> can stretch to months.</p>
         </div>
-        <div style="background: #2b2b2f; border-radius: 22px; padding: 26px;">
-          <p style="font-family: 'Archivo Black', sans-serif; font-size: 34px; line-height: 1; letter-spacing: -0.04em; margin: 0 0 14px; color: #c9cede;">+31 ETH</p>
-          <p style="font-weight: 600; font-size: 15.5px; line-height: 1.4; margin: 0 0 8px;">To recover a stranded 1 ETH</p>
-          <p style="font-size: 14.5px; line-height: 1.55; margin: 0; color: rgba(255,255,255,0.74);">Deposits are one-way, and activation requires 32 ETH. Recovering an abandoned pre-deposit means depositing 31 more, activating, then exiting — if liquidity is short, it stays stranded.</p>
+        <div class="cost-card">
+          <p class="cost-card__metric">+31 ETH</p>
+          <h4 class="cost-card__title">To recover a stranded 1 ETH</h4>
+          <p class="cost-card__copy">Deposits are one-way, and activation requires 32 ETH. Recovering an abandoned pre-deposit means depositing 31 more, activating, then exiting — if liquidity is short, it stays stranded.</p>
         </div>
-        <div style="background: #2b2b2f; border-radius: 22px; padding: 26px;">
-          <p style="font-family: 'Archivo Black', sans-serif; font-size: 34px; line-height: 1; letter-spacing: -0.04em; margin: 0 0 14px; color: #c9cede;">Any deposit</p>
-          <p style="font-weight: 600; font-size: 15.5px; line-height: 1.4; margin: 0 0 8px;">Can invalidate a guardian snapshot</p>
-          <p style="font-size: 14.5px; line-height: 1.55; margin: 0; color: rgba(255,255,255,0.74);">A guardian attestation is bound to one <code style="font-family: 'IBM Plex Mono', monospace; font-size: 13px;">depositRoot</code>. Any call to the Deposit Contract in between — even an unrelated one — changes that root and reverts the whole batch, so the deposit has to land first in its block.</p>
+        <div class="cost-card">
+          <p class="cost-card__metric">Any deposit</p>
+          <h4 class="cost-card__title">Can invalidate a guardian snapshot</h4>
+          <p class="cost-card__copy">A guardian attestation is bound to one <code class="cost-card__code">depositRoot</code>. Any call to the Deposit Contract in between — even an unrelated one — changes that root and reverts the whole batch, so the deposit has to land first in its block.</p>
         </div>
-        <div style="background: #2b2b2f; border-radius: 22px; padding: 26px;">
-          <p style="font-family: 'Archivo Black', sans-serif; font-size: 34px; line-height: 1; letter-spacing: -0.04em; margin: 0 0 14px; color: #c9cede;">Off-chain</p>
-          <p style="font-weight: 600; font-size: 15.5px; line-height: 1.4; margin: 0 0 8px;">Adds trust and liveness risk</p>
-          <p style="font-size: 14.5px; line-height: 1.55; margin: 0; color: rgba(255,255,255,0.74);">Committee members can collude, signing software adds supply-chain risk, and quorum must stay available. Rate limits, pause controls, monitoring, and alerting become part of the security system.</p>
+        <div class="cost-card">
+          <p class="cost-card__metric">Off-chain</p>
+          <h4 class="cost-card__title">Adds trust and liveness risk</h4>
+          <p class="cost-card__copy">Committee members can collude, signing software adds supply-chain risk, and quorum must stay available. Rate limits, pause controls, monitoring, and alerting become part of the security system.</p>
         </div>
-        <div style="background: #2b2b2f; border-radius: 22px; padding: 26px;">
-          <p style="font-family: 'Archivo Black', sans-serif; font-size: 34px; line-height: 1; letter-spacing: -0.04em; margin: 0 0 14px; color: #c9cede;">Per protocol</p>
-          <p style="font-weight: 600; font-size: 15.5px; line-height: 1.4; margin: 0 0 8px;">The same guarantee is rebuilt</p>
-          <p style="font-size: 14.5px; line-height: 1.55; margin: 0; color: rgba(255,255,255,0.74);">Contracts, proof logic, oracle or guardian infrastructure and monitoring are rebuilt per protocol, and every hardfork may require review. There is no shared library: new entrants are exposed until they build their own — months of engineering plus an audit.</p>
+        <div class="cost-card">
+          <p class="cost-card__metric">Per protocol</p>
+          <h4 class="cost-card__title">The same guarantee is rebuilt</h4>
+          <p class="cost-card__copy">Contracts, proof logic, oracle or guardian infrastructure and monitoring are rebuilt per protocol, and every hardfork may require review. There is no shared library: new entrants are exposed until they build their own — months of engineering plus an audit.</p>
         </div>
       </div>
 
     </div>
   </section>
 
-  <section id="solution" style="max-width: 1180px; margin: 0 auto; padding: clamp(52px, 8vw, 96px) clamp(20px, 5vw, 56px);">
-    <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #696979; margin: 0 0 14px;">The solution</p>
-    <h2 style="font-family: 'Archivo Black', sans-serif; font-size: clamp(38px, 5.8vw, 74px); line-height: 0.96; letter-spacing: -0.04em; margin: 0 0 24px; max-width: 26ch;">Preregister the address before depositing</h2>
-    <p style="font-size: clamp(17px, 1.4vw, 20px); line-height: 1.6; margin: 0 0 clamp(36px, 5vw, 60px); max-width: 58ch; text-wrap: pretty;">The key holder signs the withdrawal address in advance. The chain remembers the commitment and refuses any deposit that does not match it. The race stops deciding anything.</p>
+  <section id="solution" class="solution">
+    <p class="section-eyebrow">The solution</p>
+    <h2 class="section-title solution__title"><a class="heading-link" href="#solution" title="Link to this section">Preregister the address before depositing&nbsp;<span class="heading-link__icon" aria-hidden="true">#</span></a></h2>
+    <p class="solution__lede">The key holder signs the withdrawal address in advance. The chain remembers the commitment and refuses any deposit that does not match it. The race stops deciding anything.</p>
 
-    <div style="position: relative; margin-bottom: clamp(36px, 5vw, 56px);">
-      <div aria-hidden="true" style="position: absolute; left: calc(50% - 50vw); right: calc(50% - 50vw); top: 0; bottom: 0; overflow: hidden; pointer-events: none;">
-        <div style="position: absolute; left: -6vw; right: -6vw; top: clamp(52px, 7vw, 104px); height: clamp(96px, 12vw, 168px); transform: rotate(-2.4deg); background-image: url('assets/rails.png'); background-repeat: repeat-x; background-size: auto 100%; opacity: 0.55;"></div>
+    <div class="implementation">
+      <div aria-hidden="true" class="implementation__backdrop">
+        <div class="rails-decoration implementation__rails"></div>
       </div>
-      <div style="position: relative; background: rgba(232,234,242,0.78); backdrop-filter: blur(12px) saturate(1.15); -webkit-backdrop-filter: blur(12px) saturate(1.15); border-radius: 28px; padding: clamp(26px, 3.5vw, 48px);">
-      <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #454a75; margin: 0 0 14px;">A small change with big impact</p>
-      <h3 style="font-family: 'Archivo Black', sans-serif; font-size: clamp(26px, 3.4vw, 42px); line-height: 1.06; letter-spacing: -0.035em; margin: 0 0 18px; max-width: 24ch">Existing rails on the EL, bounded additions on the CL</h3>
-      <p style="font-size: 17.5px; line-height: 1.6; margin: 0 0 clamp(28px, 4vw, 44px); max-width: 66ch; text-wrap: pretty;">No new transaction type, no new cryptography, no change to how deposits work. The proposal reuses the EL→CL request pipeline that Ethereum already ships, and adds validation and short-lived storage on the consensus side.</p>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: clamp(28px, 4vw, 56px);">
+      <div class="implementation__panel">
+      <p class="implementation__eyebrow">A small change with big impact</p>
+      <h3 id="implementation" class="implementation__title"><a class="heading-link" href="#implementation" title="Link to this section">Existing rails on the EL, bounded additions on the CL&nbsp;<span class="heading-link__icon" aria-hidden="true">#</span></a></h3>
+      <p class="implementation__lede">No new transaction type, no new cryptography, no change to how deposits work. The proposal reuses the EL→CL request pipeline that Ethereum already ships, and adds validation and short-lived storage on the consensus side.</p>
+      <div class="implementation__grid">
         <div>
-          <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #696979; margin: 0 0 12px;">Execution layer</p>
-          <p style="font-family: 'Archivo Black', sans-serif; font-size: 21px; line-height: 1.14; letter-spacing: -0.025em; margin: 0 0 14px; color: #454a75;">A well-trodden path</p>
-          <p style="font-size: 16px; line-height: 1.62; margin: 0 0 20px; max-width: 46ch; text-wrap: pretty;">Ethereum already runs a standard bus for execution-to-consensus requests: a system contract takes the call, charges a fee, and queues the request for the beacon chain via <a href="https://eips.ethereum.org/EIPS/eip-7685" target="_blank" rel="noreferrer">EIP-7685</a>. EIP-8205 adds one more contract of the same shape.</p>
-          <div style="margin: 0 0 18px;">
-            <div style="display: grid; grid-template-columns: 88px minmax(0, 1fr) auto; gap: 14px; align-items: baseline; padding: 11px 0; border-top: 1px solid rgba(69,74,117,0.16);">
-              <a href="https://eips.ethereum.org/EIPS/eip-7002" target="_blank" rel="noreferrer" style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 0.04em;">EIP-7002</a>
-              <p style="font-size: 15px; line-height: 1.5; margin: 0;">Triggerable withdrawals</p>
-              <p style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; margin: 0; color: #363a5c;">Live</p>
-            </div>
-            <div style="display: grid; grid-template-columns: 88px minmax(0, 1fr) auto; gap: 14px; align-items: baseline; padding: 11px 0; border-top: 1px solid rgba(69,74,117,0.16);">
-              <a href="https://eips.ethereum.org/EIPS/eip-7251" target="_blank" rel="noreferrer" style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 0.04em;">EIP-7251</a>
-              <p style="font-size: 15px; line-height: 1.5; margin: 0;">Consolidations and compounding</p>
-              <p style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; margin: 0; color: #363a5c;">Live</p>
-            </div>
-            <div style="display: grid; grid-template-columns: 88px minmax(0, 1fr) auto; gap: 14px; align-items: baseline; padding: 11px 0; border-top: 1px solid rgba(69,74,117,0.16);">
-              <a href="https://eips.ethereum.org/EIPS/eip-8282" target="_blank" rel="noreferrer" style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 0.04em;">EIP-8282</a>
-              <p style="font-size: 15px; line-height: 1.5; margin: 0;">Builder execution requests<br></p>
-              <p style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; margin: 0; color: rgba(49,49,49,0.5);">Glamsterdam</p>
-            </div>
-            <div style="display: grid; grid-template-columns: 88px minmax(0, 1fr) auto; gap: 14px; align-items: baseline; padding: 11px 0; border-top: 1px solid rgba(69,74,117,0.16);">
-              <a href="https://eips.ethereum.org/EIPS/eip-8148" target="_blank" rel="noreferrer" style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 0.04em;">EIP-8148</a>
-              <p style="font-size: 15px; line-height: 1.5; margin: 0;">Custom sweep threshold</p>
-              <p style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; margin: 0; color: rgba(49,49,49,0.5);">Proposed</p>
-            </div>
-            <div style="display: grid; grid-template-columns: 88px minmax(0, 1fr) auto; gap: 14px; align-items: baseline; padding: 11px 0; border-top: 1px solid rgba(69,74,117,0.16);">
-              <a href="https://github.com/ethereum/sys-asm/pull/55" target="_blank" rel="noreferrer" style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; letter-spacing: 0.04em;">EIP-8205</a>
-              <p style="font-size: 15px; line-height: 1.5; margin: 0;">Withdrawal credentials preregistration</p>
-              <p style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; margin: 0; color: rgba(49,49,49,0.5);">Proposed</p>
-            </div>
-          </div>
-          <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: #363a5c; margin: 0;"><a href="https://github.com/ethereum/sys-asm/pull/55" target="_blank" rel="noreferrer">System contract</a></p>
+          <p class="implementation__column-eyebrow">Execution layer</p>
+          <h4 class="implementation__column-title">A well-trodden path</h4>
+          <p class="implementation__column-copy">Ethereum already runs a standard bus for execution-to-consensus requests: a system contract takes the call, charges a fee, and queues the request for the beacon chain via <a href="https://eips.ethereum.org/EIPS/eip-7685" target="_blank" rel="noreferrer">EIP-7685</a>. EIP-8205 adds one more contract of the same shape.</p>
+          <ul class="bus-list" role="list">
+            <li class="bus-row">
+              <a href="https://eips.ethereum.org/EIPS/eip-7002" target="_blank" rel="noreferrer" class="bus-row__id">EIP-7002</a>
+              <p class="bus-row__name">Triggerable withdrawals</p>
+              <p class="bus-row__status bus-row__status--active">Live</p>
+            </li>
+            <li class="bus-row">
+              <a href="https://eips.ethereum.org/EIPS/eip-7251" target="_blank" rel="noreferrer" class="bus-row__id">EIP-7251</a>
+              <p class="bus-row__name">Consolidations and compounding</p>
+              <p class="bus-row__status bus-row__status--active">Live</p>
+            </li>
+            <li class="bus-row">
+              <a href="https://eips.ethereum.org/EIPS/eip-8282" target="_blank" rel="noreferrer" class="bus-row__id">EIP-8282</a>
+              <p class="bus-row__name">Builder execution requests</p>
+              <p class="bus-row__status bus-row__status--future">Scheduled</p>
+            </li>
+            <li class="bus-row">
+              <a href="https://eips.ethereum.org/EIPS/eip-8148" target="_blank" rel="noreferrer" class="bus-row__id">EIP-8148</a>
+              <p class="bus-row__name">Custom sweep threshold</p>
+              <p class="bus-row__status bus-row__status--future">Proposed</p>
+            </li>
+            <li class="bus-row">
+              <a href="https://github.com/ethereum/sys-asm/pull/55" target="_blank" rel="noreferrer" class="bus-row__id">EIP-8205</a>
+              <p class="bus-row__name">Withdrawal credentials preregistration</p>
+              <p class="bus-row__status bus-row__status--future">Proposed</p>
+            </li>
+          </ul>
+          <p class="bus-list__note"><a href="https://github.com/ethereum/sys-asm/pull/55" target="_blank" rel="noreferrer">System contract</a></p>
         </div>
         <div>
-          <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #696979; margin: 0 0 12px;">Consensus layer</p>
-          <p style="font-family: 'Archivo Black', sans-serif; font-size: 21px; line-height: 1.14; letter-spacing: -0.025em; margin: 0 0 14px; color: #454a75;">Validation and a short-lived store</p>
-          <p style="font-size: 16px; line-height: 1.62; margin: 0 0 4px; max-width: 46ch; text-wrap: pretty;">One extra check inside deposit processing, and a small store of pending commitments that expires on its own.</p>
-          <div style="display: flex; gap: 16px; padding: 15px 0; border-top: 1px solid rgba(69,74,117,0.16);">
-            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8f96b8; padding-top: 4px;">01</span>
-            <p style="font-size: 15.5px; line-height: 1.55; margin: 0;">One BLS signature check per request<span style="color: rgba(49,49,49,0.62);"> — the same verification a deposit already performs</span></p>
-          </div>
-          <div style="display: flex; gap: 16px; padding: 15px 0; border-top: 1px solid rgba(69,74,117,0.16);">
-            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8f96b8; padding-top: 4px;">02</span>
-            <p style="font-size: 15.5px; line-height: 1.55; margin: 0;">An extra validation step during deposit processing<span style="color: rgba(49,49,49,0.62);"> — if a commitment exists for that key, it must match</span></p>
-          </div>
-          <div style="display: flex; gap: 16px; padding: 15px 0; border-top: 1px solid rgba(69,74,117,0.16);">
-            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8f96b8; padding-top: 4px;">03</span>
-            <p style="font-size: 15.5px; line-height: 1.55; margin: 0;">A bounded store of commitments<span style="color: rgba(49,49,49,0.62);"> — entries expire after about 36 days, so nothing accumulates</span></p>
-          </div>
-          <div style="display: flex; gap: 16px; padding: 15px 0; border-top: 1px solid rgba(69,74,117,0.16);">
-            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8f96b8; padding-top: 4px;">04</span>
-            <p style="font-size: 15.5px; line-height: 1.55; margin: 0;">At most four requests per block<span style="color: rgba(49,49,49,0.62);"> — a hard cap on the work added</span></p>
-          </div>
-          <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; margin: 18px 0 0;"><a href="https://github.com/ethereum/consensus-specs/tree/master/specs/_features/eip8205" target="_blank" rel="noreferrer">Consensus spec</a></p>
+          <p class="implementation__column-eyebrow">Consensus layer</p>
+          <h4 class="implementation__column-title">Validation and a short-lived store</h4>
+          <p class="consensus__lede">One extra check inside deposit processing, and a small store of pending commitments that expires on its own.</p>
+          <ol class="consensus-list" role="list">
+          <li class="consensus__item">
+            <span class="consensus__index">01</span>
+            <p class="consensus__copy">One BLS signature check per request<span class="text-muted"> — the same verification a deposit already performs</span></p>
+          </li>
+          <li class="consensus__item">
+            <span class="consensus__index">02</span>
+            <p class="consensus__copy">An extra validation step during deposit processing<span class="text-muted"> — if a commitment exists for that key, it must match</span></p>
+          </li>
+          <li class="consensus__item">
+            <span class="consensus__index">03</span>
+            <p class="consensus__copy">A bounded store of commitments<span class="text-muted"> — entries expire after about 36 days, so nothing accumulates</span></p>
+          </li>
+          <li class="consensus__item">
+            <span class="consensus__index">04</span>
+            <p class="consensus__copy">At most four requests per block<span class="text-muted"> — a hard cap on the work added</span></p>
+          </li>
+          </ol>
+          <p class="implementation__footnote"><a href="https://github.com/ethereum/consensus-specs/tree/master/specs/_features/eip8205" target="_blank" rel="noreferrer">Consensus spec</a></p>
         </div>
       </div>
       </div>
     </div>
 
-    <div data-meta-grid="" style="display: grid; grid-template-columns: minmax(0, 200px) minmax(0, 1fr); gap: 12px 32px; margin-bottom: clamp(36px, 5vw, 56px); padding-top: 22px; border-top: 1px solid rgba(49,49,49,0.12);">
-      <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #696979; margin: 0;">What does not change</p>
-      <p style="font-size: 16px; line-height: 1.6; margin: 0; max-width: 62ch; color: rgba(49,49,49,0.78); text-wrap: pretty;">Opt-in. Keys without a preregistration behave exactly as they do today — same deposit flow, same rules, nothing to migrate, nothing to coordinate. No change for solo stakers, no change for existing validators.</p>
+    <div class="solution-meta">
+      <p class="label-inline">What does not change</p>
+      <p class="solution-meta__copy">Opt-in. Keys without a preregistration behave exactly as they do today — same deposit flow, same rules, nothing to migrate, nothing to coordinate. No change for solo stakers, no change for existing validators.</p>
     </div>
 
-    <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #696979; margin: 0 0 clamp(24px, 3vw, 40px);">How a protocol would use it</p>
-    <div style="position: relative;">
-      <div data-scroll-step="1" style="position: relative; display: grid; grid-template-columns: 60px minmax(0, 1fr); gap: clamp(20px, 3vw, 36px); align-items: stretch; animation: stepIn 1s linear both; animation-timeline: view(); animation-range: cover 10% cover 34%;">
-        <div style="display: flex; flex-direction: column; align-items: center; width: 60px;">
-          <span data-scroll-step="dot" style="display: grid; place-items: center; flex: 0 0 60px; width: 60px; height: 60px; border-radius: 50%; border: 2px solid #454a75; background: #454a75; color: #ffffff; font-family: 'Archivo Black', sans-serif; font-size: 19px; letter-spacing: -0.02em; animation: dotFill 1s linear both; animation-timeline: view(); animation-range: cover 18% cover 38%;">01</span>
-          <span style="display: block; flex: 1; width: 2px; margin-top: 12px; background: rgba(49,49,49,0.12);"><span data-scroll-step="spine" style="display: block; width: 2px; height: 100%; background: #454a75; transform-origin: top; animation: spineGrow 1s linear both; animation-timeline: view(); animation-range: cover 30% cover 62%;"></span></span>
+    <h3 id="protocol-flow-heading" class="steps__eyebrow"><a class="heading-link" href="#protocol-flow-heading" title="Link to this section">How a protocol would use it&nbsp;<span class="heading-link__icon" aria-hidden="true">#</span></a></h3>
+    <ol class="steps" role="list" aria-labelledby="protocol-flow-heading">
+      <li class="step step--connected">
+        <div class="step__rail">
+          <span class="step__dot step__dot--connected">01</span>
+          <span class="step__track" aria-hidden="true"><span class="step__spine"></span></span>
         </div>
-        <div data-step-one="" style="position: relative; padding: 8px 0 clamp(36px, 5vw, 56px); display: grid; grid-template-columns: minmax(0, 1fr) 80px; gap: clamp(20px, 3vw, 40px); align-items: start;">
-          <div>
-          <p style="font-family: 'Archivo Black', sans-serif; font-size: clamp(22px, 2.4vw, 30px); line-height: 1.1; letter-spacing: -0.03em; margin: 0 0 12px;">Sign the commitment</p>
-          <p style="font-size: 16.5px; line-height: 1.6; margin: 0 0 16px; max-width: 65ch; text-wrap: pretty">The node operator signs a commitment binding one specific public key to one specific withdrawal credentials. They can then hand it to the protocol to submit with the deposit, or submit it themselves.</p>
-          <p data-scroll-step="detail" style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; line-height: 1.7; letter-spacing: 0.06em; text-transform: uppercase; color: #363a5c; margin: 0; animation: detailIn 1s linear both; animation-timeline: view(); animation-range: cover 26% cover 46%;">ONE SIGNATURE TO BIND PUBKEY → WITHDRAWAL CREDENTIALS</p>
-          </div>
-          
+        <div class="step__body">
+          <h4 class="step__title">Sign the commitment</h4>
+          <p class="step__copy">The node operator signs a commitment binding one specific public key to one specific withdrawal credentials. They can then hand it to the protocol to submit with the deposit, or submit it themselves.</p>
+          <p class="step__detail">ONE SIGNATURE TO BIND PUBKEY → WITHDRAWAL CREDENTIALS</p>
         </div>
-      </div>
+      </li>
 
-      <div data-scroll-step="2" style="position: relative; display: grid; grid-template-columns: 60px minmax(0, 1fr); gap: clamp(20px, 3vw, 36px); align-items: stretch; animation: stepIn 1s linear both; animation-timeline: view(); animation-range: cover 10% cover 34%;">
-        <div style="display: flex; flex-direction: column; align-items: center; width: 60px;">
-          <span data-scroll-step="dot" style="display: grid; place-items: center; flex: 0 0 60px; width: 60px; height: 60px; border-radius: 50%; border: 2px solid #454a75; background: #454a75; color: #ffffff; font-family: 'Archivo Black', sans-serif; font-size: 19px; letter-spacing: -0.02em; animation: dotFill 1s linear both; animation-timeline: view(); animation-range: cover 18% cover 38%;">02</span>
-          <span style="display: block; flex: 1; width: 2px; margin-top: 12px; background: rgba(49,49,49,0.12);"><span data-scroll-step="spine" style="display: block; width: 2px; height: 100%; background: #454a75; transform-origin: top; animation: spineGrow 1s linear both; animation-timeline: view(); animation-range: cover 30% cover 62%;"></span></span>
+      <li class="step step--connected">
+        <div class="step__rail">
+          <span class="step__dot step__dot--connected">02</span>
+          <span class="step__track" aria-hidden="true"><span class="step__spine"></span></span>
         </div>
-        <div style="padding: 8px 0 clamp(36px, 5vw, 56px);">
-          <p style="font-family: 'Archivo Black', sans-serif; font-size: clamp(22px, 2.4vw, 30px); line-height: 1.1; letter-spacing: -0.03em; margin: 0 0 12px;">Submit it</p>
-          <p style="font-size: 16.5px; line-height: 1.6; margin: 0 0 16px; max-width: 65ch; text-wrap: pretty">The commitment is sent as a transaction to the execution-layer system contract, the same way as any other EL → CL request: EIP-7002, EIP-7251, EIP-8282.</p>
-          <p data-scroll-step="detail" style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; line-height: 1.7; letter-spacing: 0.06em; text-transform: uppercase; color: #363a5c; margin: 0; animation: detailIn 1s linear both; animation-timeline: view(); animation-range: cover 26% cover 46%;">EL contract → EIP-7685 request → CL processing<br></p>
+        <div class="step__body">
+          <h4 class="step__title">Submit it</h4>
+          <p class="step__copy">The commitment is sent as a transaction to the execution-layer system contract, the same way as any other EL → CL request: EIP-7002, EIP-7251, EIP-8282.</p>
+          <p class="step__detail">EL contract → EIP-7685 request → CL processing</p>
         </div>
-      </div>
+      </li>
 
-      <div data-scroll-step="3" style="position: relative; display: grid; grid-template-columns: 60px minmax(0, 1fr); gap: clamp(20px, 3vw, 36px); align-items: start; animation: stepIn 1s linear both; animation-timeline: view(); animation-range: cover 10% cover 34%;">
-        <span data-scroll-step="dot" style="display: grid; place-items: center; width: 60px; height: 60px; border-radius: 50%; border: 2px solid #454a75; background: #454a75; color: #ffffff; font-family: 'Archivo Black', sans-serif; font-size: 19px; letter-spacing: -0.02em; animation: dotFill 1s linear both; animation-timeline: view(); animation-range: cover 18% cover 38%;">03</span>
-        <div style="padding-top: 8px;">
-          <p style="font-family: 'Archivo Black', sans-serif; font-size: clamp(22px, 2.4vw, 30px); line-height: 1.1; letter-spacing: -0.03em; margin: 0 0 12px;">Deposit with proof</p>
-          <p style="font-size: 16.5px; line-height: 1.6; margin: 0 0 16px; max-width: 65ch; text-wrap: pretty">Once the preregistration is on the consensus layer, depositing is safe — there is nothing left to front-run. The protocol can send the deposit in a transaction carrying a proof that the commitment is present in the consensus-layer state, checked against the beacon block root exposed on the execution layer by <a href="https://eips.ethereum.org/EIPS/eip-4788" target="_blank" rel="noreferrer">EIP-4788</a>.</p>
-          <p data-scroll-step="detail" style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; line-height: 1.7; letter-spacing: 0.06em; text-transform: uppercase; color: #363a5c; margin: 0; animation: detailIn 1s linear both; animation-timeline: view(); animation-range: cover 26% cover 46%;">Merkle proof of the preregistration · beacon root via EIP-4788</p>
+      <li class="step step--final">
+        <span class="step__dot">03</span>
+        <div class="step__body step__body--final">
+          <h4 class="step__title">Deposit with proof</h4>
+          <p class="step__copy">Once the preregistration is on the consensus layer, depositing is safe — there is nothing left to front-run. The protocol can send the deposit in a transaction carrying a proof that the commitment is present in the consensus-layer state, checked against the beacon block root exposed on the execution layer by <a href="https://eips.ethereum.org/EIPS/eip-4788" target="_blank" rel="noreferrer">EIP-4788</a>.</p>
+          <p class="step__detail">Merkle proof of the preregistration · beacon root via EIP-4788</p>
         </div>
-      </div>
+      </li>
 
-    </div>
+    </ol>
 
-    <div style="margin-top: clamp(72px, 11vw, 130px);">
-      <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #696979; margin: 0 0 14px;">Progress</p>
-      <h3 style="font-family: 'Archivo Black', sans-serif; font-size: clamp(24px, 3vw, 34px); line-height: 1.08; letter-spacing: -0.035em; margin: 0 0 24px; max-width: 26ch;">The specs are ready for client implementation</h3>
-        <div style="display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px 24px; align-items: baseline; padding: 18px 0; border-top: 1px solid rgba(49,49,49,0.12);">
+    <div class="progress">
+      <p class="progress__eyebrow">Progress</p>
+      <h3 id="progress" class="progress__title"><a class="heading-link" href="#progress" title="Link to this section">The specs are ready for client implementation&nbsp;<span class="heading-link__icon" aria-hidden="true">#</span></a></h3>
+      <ul class="progress-list" role="list">
+        <li class="progress-row">
           <div>
-            <p style="font-weight: 600; font-size: 17px; line-height: 1.35; margin: 0 0 4px;"><a href="https://eips.ethereum.org/EIPS/eip-8205" target="_blank" rel="noreferrer">The EIP</a></p>
-            <p style="font-size: 15px; line-height: 1.5; margin: 0; color: rgba(49,49,49,0.66);">Standards Track, adapted to the latest Gloas spec</p>
+            <h4 class="progress-row__title"><a href="https://eips.ethereum.org/EIPS/eip-8205" target="_blank" rel="noreferrer">The EIP</a></h4>
+            <p class="progress-row__description">Standards Track, adapted to the latest Gloas spec</p>
           </div>
-          <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end;"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 999px; padding: 7px 13px; white-space: nowrap; background: #e8eaf2; color: #363a5c;">✓ Draft</span></div>
-        </div>
-        <div style="display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px 24px; align-items: baseline; padding: 18px 0; border-top: 1px solid rgba(49,49,49,0.12);">
+          <div class="progress-badges"><span class="status-pill status-pill--done">✓ Draft</span></div>
+        </li>
+        <li class="progress-row">
           <div>
-            <p style="font-weight: 600; font-size: 17px; line-height: 1.35; margin: 0 0 4px;"><a href="https://github.com/ethereum/consensus-specs/tree/master/specs/_features/eip8205" target="_blank" rel="noreferrer">Consensus spec</a></p>
-            <p style="font-size: 15px; line-height: 1.5; margin: 0; color: rgba(49,49,49,0.66);">Full spec change with test coverage</p>
+            <h4 class="progress-row__title"><a href="https://github.com/ethereum/consensus-specs/tree/master/specs/_features/eip8205" target="_blank" rel="noreferrer">Consensus spec</a></h4>
+            <p class="progress-row__description">Full spec change with test coverage</p>
           </div>
-          <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end;"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 999px; padding: 7px 13px; white-space: nowrap; background: #e8eaf2; color: #363a5c;">✓ Spec</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 999px; padding: 7px 13px; white-space: nowrap; background: #e8eaf2; color: #363a5c;">✓ Tests</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 999px; padding: 7px 13px; white-space: nowrap; background: #e8eaf2; color: #363a5c;">✓ Merged</span></div>
-        </div>
-        <div style="display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px 24px; align-items: baseline; padding: 18px 0; border-top: 1px solid rgba(49,49,49,0.12);">
+          <div class="progress-badges"><span class="status-pill status-pill--done">✓ Spec</span><span class="status-pill status-pill--done">✓ Tests</span><span class="status-pill status-pill--done">✓ Merged</span></div>
+        </li>
+        <li class="progress-row">
           <div>
-            <p style="font-weight: 600; font-size: 17px; line-height: 1.35; margin: 0 0 4px;"><a href="https://github.com/ethereum/sys-asm/pull/55" target="_blank" rel="noreferrer">System contract</a></p>
-            <p style="font-size: 15px; line-height: 1.5; margin: 0; color: rgba(49,49,49,0.66);">Execution-layer predeploy on the EIP-7685 request bus</p>
+            <h4 class="progress-row__title"><a href="https://github.com/ethereum/sys-asm/pull/55" target="_blank" rel="noreferrer">System contract</a></h4>
+            <p class="progress-row__description">Execution-layer predeploy on the EIP-7685 request bus</p>
           </div>
-          <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end;"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 999px; padding: 7px 13px; white-space: nowrap; background: #e8eaf2; color: #363a5c;">✓ Implementation</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 999px; padding: 7px 13px; white-space: nowrap; background: #e8eaf2; color: #363a5c;">✓ Tests</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 999px; padding: 7px 13px; white-space: nowrap; background: #ffe9d9; color: #a34a12;">In review</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 999px; padding: 7px 13px; white-space: nowrap; background: transparent; box-shadow: inset 0 0 0 1px rgba(49,49,49,0.2); color: rgba(49,49,49,0.55);">Audit</span></div>
-        </div>
-        <div style="display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px 24px; align-items: baseline; padding: 18px 0; border-top: 1px solid rgba(49,49,49,0.12);">
+          <div class="progress-badges"><span class="status-pill status-pill--done">✓ Implementation</span><span class="status-pill status-pill--done">✓ Tests</span><span class="status-pill status-pill--warning">In review</span><span class="status-pill status-pill--outline">Audit</span></div>
+        </li>
+        <li class="progress-row">
           <div>
-            <p style="font-weight: 600; font-size: 17px; line-height: 1.35; margin: 0 0 4px;">Reference verifier contract</p>
-            <p style="font-size: 15px; line-height: 1.5; margin: 0; color: rgba(49,49,49,0.66);">Checks the beacon-root proof that a commitment exists, then makes the deposit</p>
+            <h4 class="progress-row__title">Reference verifier contract</h4>
+            <p class="progress-row__description">Checks the beacon-root proof that a commitment exists, then makes the deposit</p>
           </div>
-          <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end;"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 999px; padding: 7px 13px; white-space: nowrap; background: #ffe9d9; color: #a34a12;">In progress</span></div>
-        </div>
-        <div style="display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px 24px; align-items: baseline; padding: 18px 0; border-top: 1px solid rgba(49,49,49,0.12);">
+          <div class="progress-badges"><span class="status-pill status-pill--warning">In progress</span></div>
+        </li>
+        <li class="progress-row">
           <div>
-            <p style="font-weight: 600; font-size: 17px; line-height: 1.35; margin: 0 0 4px;">Client implementations</p>
-            <p style="font-size: 15px; line-height: 1.5; margin: 0; color: rgba(49,49,49,0.66);">CL and EL client support</p>
+            <h4 class="progress-row__title">Client implementations</h4>
+            <p class="progress-row__description">CL and EL client support</p>
           </div>
-          <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end;"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 999px; padding: 7px 13px; white-space: nowrap; background: transparent; box-shadow: inset 0 0 0 1px rgba(49,49,49,0.2); color: rgba(49,49,49,0.55);">Not started</span></div>
-        </div>
-        <div style="display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px 24px; align-items: baseline; padding: 18px 0; border-top: 1px solid rgba(49,49,49,0.12);">
+          <div class="progress-badges"><span class="status-pill status-pill--outline">Not started</span></div>
+        </li>
+        <li class="progress-row">
           <div>
-            <p style="font-weight: 600; font-size: 17px; line-height: 1.35; margin: 0 0 4px;">Devnets</p>
-            <p style="font-size: 15px; line-height: 1.5; margin: 0; color: rgba(49,49,49,0.66);">Interop testing across clients</p>
+            <h4 class="progress-row__title">Devnets</h4>
+            <p class="progress-row__description">Interop testing across clients</p>
           </div>
-          <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end;"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 999px; padding: 7px 13px; white-space: nowrap; background: transparent; box-shadow: inset 0 0 0 1px rgba(49,49,49,0.2); color: rgba(49,49,49,0.55);">Not started</span></div>
-        </div>
+          <div class="progress-badges"><span class="status-pill status-pill--outline">Not started</span></div>
+        </li>
+      </ul>
     </div>
   </section>
 
-  <section id="faq" style="background: #e8eaf2; padding: clamp(52px, 8vw, 96px) 0;">
-    <div style="max-width: 1180px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 56px);">
-      <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #363a5c; margin: 0 0 14px;">FAQ</p>
-      <h2 style="font-family: 'Archivo Black', sans-serif; font-size: clamp(38px, 5.8vw, 74px); line-height: 0.96; letter-spacing: -0.04em; margin: 0 0 24px; max-width: 22ch;">Questions, answered</h2>
-      <p style="font-size: clamp(17px, 1.4vw, 20px); line-height: 1.6; margin: 0 0 clamp(32px, 4vw, 48px); max-width: 62ch; text-wrap: pretty;">EIP-8205 is a draft, so details and parameters may still change.</p>
+  <section id="faq" class="faq">
+    <div class="shell">
+      <p class="faq__eyebrow">FAQ</p>
+      <h2 class="section-title faq__title"><a class="heading-link" href="#faq" title="Link to this section">Questions, answered&nbsp;<span class="heading-link__icon" aria-hidden="true">#</span></a></h2>
+      <p class="faq__lede">EIP-8205 is a draft, so details and parameters may still change.</p>
 
-      <div style="max-width: 880px;">
-        <h3 style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: #363a5c; margin: 0 0 16px;">The essentials</h3>
+      <div class="faq__content">
+        <h3 id="faq-essentials" class="faq__group-title"><a class="heading-link" href="#faq-essentials" title="Link to this section">The essentials&nbsp;<span class="heading-link__icon" aria-hidden="true">#</span></a></h3>
         <div>
 
           <details class="faq-item">
@@ -798,7 +832,7 @@
 
         </div>
 
-        <h3 style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: #363a5c; margin: clamp(32px, 4vw, 44px) 0 16px;">The design</h3>
+        <h3 id="faq-design" class="faq__group-title faq__group-title--spaced"><a class="heading-link" href="#faq-design" title="Link to this section">The design&nbsp;<span class="heading-link__icon" aria-hidden="true">#</span></a></h3>
         <div>
 
           <details class="faq-item">
@@ -853,7 +887,7 @@
 
         </div>
 
-        <h3 style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: #363a5c; margin: clamp(32px, 4vw, 44px) 0 16px;">More technical</h3>
+        <h3 id="faq-technical" class="faq__group-title faq__group-title--spaced"><a class="heading-link" href="#faq-technical" title="Link to this section">More technical&nbsp;<span class="heading-link__icon" aria-hidden="true">#</span></a></h3>
         <div>
 
           <details class="faq-item">
@@ -923,50 +957,49 @@
     </div>
   </section>
 
-  <section id="support" style="background: #f1f1f4; padding: clamp(52px, 8vw, 96px) 0;">
-    <div style="max-width: 1180px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 56px);">
-      <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #696979; margin: 0 0 14px;">Support needed</p>
-      <h2 style="font-family: 'Archivo Black', sans-serif; font-size: clamp(38px, 5.8vw, 74px); line-height: 0.96; letter-spacing: -0.04em; margin: 0 0 24px; max-width: 24ch;">Get it into Hegotá</h2>
-      <p style="font-size: clamp(17px, 1.4vw, 20px); line-height: 1.6; margin: 0 0 clamp(32px, 4vw, 48px); max-width: 65ch; text-wrap: pretty">EIP-8205 is Proposed for Inclusion in Hegotá. Client teams and the community decide what makes the final scope — support now is what moves it forward.</p>
+  <section id="support" class="support">
+    <div class="shell">
+      <p class="section-eyebrow">Support needed</p>
+      <h2 class="section-title support__title"><a class="heading-link" href="#support" title="Link to this section">Get it into Hegotá&nbsp;<span class="heading-link__icon" aria-hidden="true">#</span></a></h2>
+      <p class="support__lede">EIP-8205 is Proposed for Inclusion in Hegotá. Client teams and the community decide what makes the final scope — support now is what moves it forward.</p>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 24px; margin-bottom: clamp(36px, 5vw, 56px);">
-        <div style="background: #ffffff; border-radius: 28px; padding: clamp(24px, 3vw, 36px);">
-          <p style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #696979; margin: 0 0 14px;">Client teams, community</p>
-          <h3 style="font-family: 'Archivo Black', sans-serif; font-size: 22px; line-height: 1.14; letter-spacing: -0.025em; margin: 0 0 14px;">Include it in your vote</h3>
-          <p style="font-size: 15.5px; line-height: 1.6; margin: 0 0 22px;">Put EIP-8205 on your Forkcast ranking, where the fork's priorities are actually assembled.</p>
-          <a href="https://forkcast.org/rank/" style="display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; background: #454a75; color: #ffffff; border-radius: 999px; padding: 15px 28px; text-decoration: none;" class="act-solid">Rank it on Forkcast</a>
+      <div class="support__grid">
+        <div class="support-card">
+          <p class="support-card__eyebrow">Client teams, community</p>
+          <h3 id="forkcast-vote" class="support-card__title"><a class="heading-link" href="#forkcast-vote" title="Link to this section">Include it in your vote&nbsp;<span class="heading-link__icon" aria-hidden="true">#</span></a></h3>
+          <p class="support-card__copy">Put EIP-8205 on your Forkcast ranking, where the fork's priorities are actually assembled.</p>
+          <a href="https://forkcast.org/rank/" class="action action--solid support-card__action">Rank it on Forkcast</a>
         </div>
-        <div style="background: #ffffff; border-radius: 28px; padding: clamp(24px, 3vw, 36px);">
-          <p style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #696979; margin: 0 0 14px;">VALIDATORS</p>
-          <h3 style="font-family: 'Archivo Black', sans-serif; font-size: 22px; line-height: 1.14; letter-spacing: -0.025em; margin: 0 0 14px;">Vote for the EIP</h3>
-          <p style="font-size: 15.5px; line-height: 1.6; margin: 0 0 22px;">One click on the EthVA hub. Community signal is read alongside client-team ranking.</p>
-          <a href="https://hub.ethva.net/eip/8205" style="display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; background: #e8eaf2; color: #363a5c; border-radius: 999px; padding: 13px 24px; text-decoration: none;" class="act-tint">Vote on EthVA hub</a>
+        <div class="support-card">
+          <p class="support-card__eyebrow">VALIDATORS</p>
+          <h3 id="validator-vote" class="support-card__title"><a class="heading-link" href="#validator-vote" title="Link to this section">Vote for the EIP&nbsp;<span class="heading-link__icon" aria-hidden="true">#</span></a></h3>
+          <p class="support-card__copy">One click on the EthVA hub. Community signal is read alongside client-team ranking.</p>
+          <a href="https://hub.ethva.net/eip/8205" class="action action--tint support-card__action">Vote on EthVA hub</a>
         </div>
-        <div style="background: #ffffff; border-radius: 28px; padding: clamp(24px, 3vw, 36px);">
-          <p style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #696979; margin: 0 0 14px;">Researchers, protocols</p>
-          <h3 style="font-family: 'Archivo Black', sans-serif; font-size: 22px; line-height: 1.14; letter-spacing: -0.025em; margin: 0 0 14px;">Comment in the thread</h3>
-          <p style="font-size: 15.5px; line-height: 1.6; margin: 0 0 22px;">The thread that matters for Hegotá. Say whether the problem is worth protocol surface.</p>
-          <a href="https://ethereum-magicians.org/t/eip-8205-withdrawal-credentials-preregistration/28084" target="_blank" rel="noreferrer" style="display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; color: #313131; border: 2px solid #313131; border-radius: 999px; padding: 11px 22px; text-decoration: none;" class="act-quiet">Open the thread</a>
+        <div class="support-card">
+          <p class="support-card__eyebrow">Researchers, protocols</p>
+          <h3 id="discussion" class="support-card__title"><a class="heading-link" href="#discussion" title="Link to this section">Comment in the thread&nbsp;<span class="heading-link__icon" aria-hidden="true">#</span></a></h3>
+          <p class="support-card__copy">The thread that matters for Hegotá. Say whether the problem is worth protocol surface.</p>
+          <a href="https://ethereum-magicians.org/t/eip-8205-withdrawal-credentials-preregistration/28084" target="_blank" rel="noreferrer" class="action action--outline support-card__action">Open the thread</a>
         </div>
       </div>
 
-      <div style="display: flex; align-items: baseline; gap: clamp(20px, 4vw, 44px); flex-wrap: wrap; padding-top: clamp(28px, 4vw, 40px); border-top: 1px solid rgba(49,49,49,0.18);">
-        <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #696979; margin: 0;">Read further</p>
-        <a href="https://eips.ethereum.org/EIPS/eip-8205" target="_blank" rel="noreferrer" style="font-size: 16px; line-height: 1.5;">The EIP</a>
-        <a href="https://github.com/ethereum/consensus-specs/tree/master/specs/_features/eip8205" target="_blank" rel="noreferrer" style="font-size: 16px; line-height: 1.5;">CL spec</a>
-        <a href="https://ethereum-magicians.org/t/eip-8205-withdrawal-credentials-preregistration/28084" target="_blank" rel="noreferrer" style="font-size: 16px; line-height: 1.5;">Forum discussion</a>
-        <a href="https://hackmd.io/@george-avs/r1oK_afsbe" target="_blank" rel="noreferrer" style="font-size: 16px; line-height: 1.5;">Companion analysis</a>
+      <div class="support__links">
+        <p class="label-inline">Read further</p>
+        <a href="https://eips.ethereum.org/EIPS/eip-8205" target="_blank" rel="noreferrer" class="support__link">The EIP</a>
+        <a href="https://github.com/ethereum/consensus-specs/tree/master/specs/_features/eip8205" target="_blank" rel="noreferrer" class="support__link">CL spec</a>
+        <a href="https://ethereum-magicians.org/t/eip-8205-withdrawal-credentials-preregistration/28084" target="_blank" rel="noreferrer" class="support__link">Forum discussion</a>
+        <a href="https://hackmd.io/@george-avs/r1oK_afsbe" target="_blank" rel="noreferrer" class="support__link">Companion analysis</a>
       </div>
     </div>
   </section>
   </main>
 
-  <footer style="max-width: 1180px; margin: 0 auto; padding: 40px clamp(20px, 5vw, 56px) 56px; display: flex; align-items: baseline; justify-content: space-between; gap: 20px; flex-wrap: wrap;">
-    <p style="font-family: 'Archivo Black', sans-serif; font-size: 17px; letter-spacing: -0.02em; margin: 0;">EIP-8205</p>
-    <p style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #696979; margin: 0;">WITHDRAWAL CREDENTIALS PREREGISTRATION · LAST UPDATED <time datetime="2026-08-25">25&nbsp;AUG 2026</time></p>
+  <footer class="site-footer">
+    <p class="site-footer__brand">EIP-8205</p>
+    <p class="site-footer__meta">WITHDRAWAL CREDENTIALS PREREGISTRATION · LAST UPDATED <time datetime="2026-08-25">25&nbsp;AUG 2026</time></p>
   </footer>
 
 </div>
-<script src="main.js"></script>
 </body>
 </html>

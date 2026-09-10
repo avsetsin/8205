@@ -1,102 +1,211 @@
 (function () {
   'use strict';
 
-  var ring = document.querySelector('[data-cube-ring]');
-  var tilt = document.querySelector('[data-cube-tilt]');
-  var hero = document.querySelector('[data-hero-tilt]');
-  var groups = Array.prototype.slice.call(document.querySelectorAll('[data-cube-group]'));
-  var beats = Array.prototype.slice.call(document.querySelectorAll('[data-beat]'));
+  var reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  var mobileLayout = matchMedia('(max-width: 780px)');
+  var finePointer = matchMedia('(hover: hover) and (pointer: fine)');
+  var cleanupEnhancements = function () {};
 
-  if (!ring || !tilt || !beats.length) return;
+  function clamp(value, minimum, maximum) {
+    return Math.max(minimum, Math.min(maximum, value));
+  }
 
-  function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+  function supportsDynamicKeyframes() {
+    return Element.prototype.animate && typeof KeyframeEffect !== 'undefined' && typeof KeyframeEffect.prototype.setKeyframes === 'function';
+  }
 
-  function follow(el, reach) {
-    return function (e) {
-      var r = el.getBoundingClientRect();
-      var cx = clamp((e.clientX - (r.left + r.width / 2)) / reach, -1, 1);
-      var cy = clamp((e.clientY - (r.top + r.height / 2)) / reach, -1, 1);
-      el.style.transform =
-        'rotateX(' + (-cy * 14).toFixed(2) + 'deg) rotateY(' + (cx * 22).toFixed(2) + 'deg)';
+  function makeSetter(element, property, initialValue) {
+    var firstFrame = {};
+    var lastFrame = {};
+    firstFrame[property] = initialValue;
+    lastFrame[property] = initialValue;
+    var animation = element.animate([firstFrame, lastFrame], { duration: 1, fill: 'both' });
+    animation.pause();
+    animation.currentTime = 0.5;
+
+    return {
+      set: function (value) {
+        var from = {};
+        var to = {};
+        from[property] = value;
+        to[property] = value;
+        animation.effect.setKeyframes([from, to]);
+      },
+      cancel: function () {
+        animation.cancel();
+      }
     };
   }
 
-  function draw() {
-    var first = beats[0].getBoundingClientRect();
-    var step = beats[0].offsetHeight || 240;
-    var raw = (innerHeight / 2 - (first.top + first.height / 2)) / step;
-    var t = clamp(raw, 0, beats.length - 1);
-    var plain = innerWidth <= 780;
+  function setupAttackStory() {
+    var ring = document.querySelector('[data-cube-ring]');
+    var groups = Array.prototype.slice.call(document.querySelectorAll('[data-cube-group]'));
+    var beats = Array.prototype.slice.call(document.querySelectorAll('[data-beat]'));
+    if (!ring || groups.length !== beats.length || !beats.length || !supportsDynamicKeyframes()) return function () {};
 
-    beats.forEach(function (el, i) {
-      el.style.opacity = plain ? '' : clamp(1 - Math.abs(raw - i) * 0.95, 0.16, 1).toFixed(3);
+    var ringSetter = makeSetter(ring, 'transform', 'rotateY(0deg)');
+    var beatSetters = beats.map(function (beat) { return makeSetter(beat, 'opacity', '1'); });
+    var layerSetters = groups.map(function (group) {
+      return Array.prototype.slice.call(group.querySelectorAll('[data-cube-layer]')).map(function (layer) {
+        return makeSetter(layer, 'opacity', '0');
+      });
     });
-    if (plain) return;
+    var pending = false;
 
-    ring.style.transform = 'rotateY(' + (-t * 90).toFixed(2) + 'deg)';
-    groups.forEach(function (g, i) {
-      var c = Math.cos(((i - t) * Math.PI) / 2);
-      var near = clamp(1.4 - Math.abs(t - i) / 1.6, 0, 1);
-      var o = c > 0 ? Math.pow(c, 1.6) * near * 0.88 : 0;
-      var v = o.toFixed(3);
-      for (var k = 0; k < g.children.length; k++) g.children[k].style.opacity = v;
-      g.style.pointerEvents = o > 0.7 ? 'auto' : 'none';
-    });
+    function draw() {
+      var first = beats[0].getBoundingClientRect();
+      var step = beats[0].offsetHeight || 240;
+      var raw = (innerHeight / 2 - (first.top + first.height / 2)) / step;
+      var progress = clamp(raw, 0, beats.length - 1);
+
+      beatSetters.forEach(function (setter, index) {
+        setter.set(clamp(1 - Math.abs(raw - index) * 0.95, 0.16, 1).toFixed(3));
+      });
+      ringSetter.set('rotateY(' + (-progress * 90).toFixed(2) + 'deg)');
+
+      groups.forEach(function (group, index) {
+        var cosine = Math.cos(((index - progress) * Math.PI) / 2);
+        var near = clamp(1.4 - Math.abs(progress - index) / 1.6, 0, 1);
+        var opacity = cosine > 0 ? Math.pow(cosine, 1.6) * near * 0.88 : 0;
+        var value = opacity.toFixed(3);
+        layerSetters[index].forEach(function (setter) { setter.set(value); });
+        group.toggleAttribute('data-cube-active', opacity > 0.7);
+      });
+    }
+
+    function requestDraw() {
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(function () {
+        pending = false;
+        draw();
+      });
+    }
+
+    addEventListener('scroll', requestDraw, { passive: true });
+    addEventListener('resize', requestDraw);
+    draw();
+
+    return function () {
+      removeEventListener('scroll', requestDraw);
+      removeEventListener('resize', requestDraw);
+      ringSetter.cancel();
+      beatSetters.forEach(function (setter) { setter.cancel(); });
+      layerSetters.forEach(function (setters) { setters.forEach(function (setter) { setter.cancel(); }); });
+      groups.forEach(function (group) { group.removeAttribute('data-cube-active'); });
+    };
   }
 
-  var pending = false;
-  function onScroll() {
-    if (pending) return;
-    pending = true;
-    requestAnimationFrame(function () { pending = false; draw(); });
+  function setupPointerTilt() {
+    if (!supportsDynamicKeyframes()) return function () {};
+    var targets = [];
+    var hero = document.querySelector('[data-hero-tilt]');
+    var cube = !mobileLayout.matches ? document.querySelector('[data-cube-tilt]') : null;
+    if (hero) targets.push({ element: hero, reach: 640 });
+    if (cube) targets.push({ element: cube, reach: 420 });
+    var setters = targets.map(function (target) {
+      return { target: target, setter: makeSetter(target.element, 'transform', 'rotateX(0deg) rotateY(0deg)') };
+    });
+    var pendingEvent = null;
+    var pendingFrame = 0;
+
+    function drawPointer() {
+      pendingFrame = 0;
+      if (!pendingEvent) return;
+      setters.forEach(function (entry) {
+        var rect = entry.target.element.getBoundingClientRect();
+        var x = clamp((pendingEvent.clientX - (rect.left + rect.width / 2)) / entry.target.reach, -1, 1);
+        var y = clamp((pendingEvent.clientY - (rect.top + rect.height / 2)) / entry.target.reach, -1, 1);
+        entry.setter.set('rotateX(' + (-y * 14).toFixed(2) + 'deg) rotateY(' + (x * 22).toFixed(2) + 'deg)');
+      });
+    }
+
+    function onPointerMove(event) {
+      pendingEvent = event;
+      if (!pendingFrame) pendingFrame = requestAnimationFrame(drawPointer);
+    }
+
+    addEventListener('mousemove', onPointerMove, { passive: true });
+    return function () {
+      removeEventListener('mousemove', onPointerMove);
+      if (pendingFrame) cancelAnimationFrame(pendingFrame);
+      setters.forEach(function (entry) { entry.setter.cancel(); });
+    };
   }
 
-  addEventListener('scroll', onScroll, { passive: true });
-  addEventListener('resize', onScroll);
-  addEventListener('mousemove', follow(tilt, 420), { passive: true });
-  if (hero) addEventListener('mousemove', follow(hero, 640), { passive: true });
+  function syncEnhancements() {
+    cleanupEnhancements();
+    var cleanups = [];
+    if (!reducedMotion.matches && !mobileLayout.matches) cleanups.push(setupAttackStory());
+    if (!reducedMotion.matches && finePointer.matches) cleanups.push(setupPointerTilt());
+    cleanupEnhancements = function () { cleanups.forEach(function (cleanup) { cleanup(); }); };
+  }
 
-  draw();
+  [reducedMotion, mobileLayout, finePointer].forEach(function (query) {
+    if (query.addEventListener) query.addEventListener('change', syncEnhancements);
+    else query.addListener(syncEnhancements);
+  });
+  syncEnhancements();
 })();
 
 (function () {
   'use strict';
 
-  var reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  var reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   var items = Array.prototype.slice.call(document.querySelectorAll('details.faq-item'));
 
-  items.forEach(function (d) {
-    var summary = d.querySelector('summary');
-    if (!summary || !d.animate) return;
-
+  items.forEach(function (details) {
+    var summary = details.querySelector('summary');
+    if (!summary || !details.animate) return;
     var running = null;
     var closing = false;
 
-    summary.addEventListener('click', function (e) {
-      if (reduced.matches) return; // native instant toggle
+    function stopRunningAnimation() {
+      if (!running) return;
+      var wasClosing = closing;
+      running.cancel();
+      running = null;
+      details.removeAttribute('data-faq-animating');
+      if (wasClosing) details.open = false;
+      closing = false;
+    }
 
-      e.preventDefault();
-      var from = d.getBoundingClientRect().height;
-      if (running) { running.cancel(); running = null; }
-      d.style.overflow = 'clip';
+    summary.addEventListener('click', function (event) {
+      if (reducedMotion.matches) return;
+      event.preventDefault();
 
-      var opening = !d.open || closing;
+      var from = details.getBoundingClientRect().height;
+      if (running) {
+        running.cancel();
+        running = null;
+      }
+      details.setAttribute('data-faq-animating', '');
+
+      var opening = !details.open || closing;
       closing = !opening;
-      if (opening) d.open = true;
+      if (opening) details.open = true;
 
-      var to = opening ? d.scrollHeight : summary.getBoundingClientRect().height;
-      var anim = d.animate(
+      var to = opening ? details.scrollHeight : summary.getBoundingClientRect().height;
+      var animation = details.animate(
         { height: [from + 'px', to + 'px'] },
         { duration: opening ? 300 : 240, easing: 'cubic-bezier(0.33, 0, 0.2, 1)' }
       );
-      running = anim;
-      anim.onfinish = function () {
-        // a later click may have superseded this animation; only the current one cleans up
-        if (running !== anim) return;
+      running = animation;
+      animation.onfinish = function () {
+        if (running !== animation) return;
         running = null;
-        d.style.overflow = '';
-        if (!opening) { d.open = false; closing = false; }
+        details.removeAttribute('data-faq-animating');
+        if (!opening) {
+          details.open = false;
+          closing = false;
+        }
       };
     });
+
+    function respectReducedMotion() {
+      if (reducedMotion.matches) stopRunningAnimation();
+    }
+    if (reducedMotion.addEventListener) reducedMotion.addEventListener('change', respectReducedMotion);
+    else reducedMotion.addListener(respectReducedMotion);
   });
 })();

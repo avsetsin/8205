@@ -1,0 +1,9 @@
+.assetsignore
+.DS_Store
+.git/
+.github/
+.gitignore
+Makefile
+README.md
+scripts/
+wrangler.jsonc
