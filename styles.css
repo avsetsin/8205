@@ -61,6 +61,15 @@ a:hover { color: var(--color-accent-ink); }
 .site-nav__links { display: flex; align-items: center; gap: clamp(14px, 2vw, 24px); flex-wrap: wrap; }
 .site-nav__link { justify-content: center; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-ink-meta); text-decoration: none; }
 .site-nav__cta { font-size: 11.5px; padding: 10px 20px; white-space: nowrap; }
+.site-nav__toggle { display: none; align-items: center; justify-content: center; flex: 0 0 44px; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 0; background: transparent; color: var(--color-brand-strong); cursor: pointer; }
+.site-nav__toggle-icon, .site-nav__toggle-icon::before, .site-nav__toggle-icon::after { width: 20px; height: 2px; border-radius: 1px; background: currentColor; }
+.site-nav__toggle-icon { position: relative; }
+.site-nav__toggle-icon::before, .site-nav__toggle-icon::after { content: ""; position: absolute; left: 0; transition: transform 160ms ease; }
+.site-nav__toggle-icon::before { transform: translateY(-6px); }
+.site-nav__toggle-icon::after { transform: translateY(6px); }
+.site-nav__toggle[aria-expanded="true"] .site-nav__toggle-icon { background: transparent; }
+.site-nav__toggle[aria-expanded="true"] .site-nav__toggle-icon::before { transform: rotate(45deg); }
+.site-nav__toggle[aria-expanded="true"] .site-nav__toggle-icon::after { transform: rotate(-45deg); }
 .page__clip { overflow-x: clip; }
 /* Hero */
 .hero { position: relative; max-width: var(--page-max); margin: 0 auto; padding: clamp(48px, 9vw, 104px) var(--page-gutter) clamp(40px, 6vw, 72px); }
@@ -271,6 +280,50 @@ a:hover { color: var(--color-accent-ink); }
 .faq__content { max-width: 880px; }
 .faq__group-title { font-family: var(--font-mono); font-size: 11px; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-brand-strong); margin: 0 0 16px; }
 .faq__group-title--spaced { margin-top: clamp(32px, 4vw, 44px); }
+/* Public comments are an open list of quotations, with authors beside the text. */
+.voices { padding: var(--section-space) 0; }
+.voices__title { max-width: 22ch; }
+.voices__lede { font-size: clamp(17px, 1.4vw, 20px); line-height: 1.6; margin: 0 0 clamp(32px, 4vw, 48px); max-width: 65ch; text-wrap: pretty; }
+.voices__list { margin: 0; padding: 0; list-style: none; }
+.voices__list > li { border-top: var(--line-light); }
+.voice { display: grid; grid-template-columns: minmax(0, 240px) minmax(0, 1fr); gap: clamp(28px, 5vw, 72px); margin: 0; padding: clamp(32px, 5vw, 52px) 0; }
+.voice__author { display: flex; align-items: flex-start; gap: 16px; }
+.voice__avatar { flex: 0 0 56px; width: 56px; height: 56px; object-fit: cover; border-radius: 50%; }
+.voice__avatar--logo { object-fit: contain; border-radius: 0; }
+.voice__name { font-size: 18px; font-weight: 600; line-height: 1.35; letter-spacing: -0.02em; margin: 0 0 7px; }
+.voice__profile, .ranking__profile { color: inherit; text-decoration: none; }
+.voice__profile:hover, .ranking__profile:hover { color: var(--color-brand); text-decoration: none; }
+.voice__permalink, .ranking__permalink { display: inline-flex; align-items: center; justify-content: center; min-width: 24px; min-height: 24px; vertical-align: middle; }
+.voice__role { font-size: 13px; line-height: 1.55; color: var(--color-ink-muted); margin: 0; }
+.voice__body { min-width: 0; }
+.voice__quote { position: relative; font-size: clamp(22px, 2.3vw, 29px); font-weight: 500; line-height: 1.45; letter-spacing: -0.02em; margin: 0 0 20px; text-wrap: pretty; }
+.voice__quote p { margin: 0; }
+.voice__mark { position: absolute; right: calc(100% + 10px); top: -12px; font-family: var(--font-display); font-size: 58px; line-height: 1; color: var(--color-brand-pale); }
+.voice__source { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 18px; font-family: var(--font-mono); font-size: 11px; line-height: 1.6; color: var(--color-ink-meta); }
+@media (max-width: 760px) {
+  .voice { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .voice__body { padding-left: 28px; }
+  .voice__mark { right: calc(100% + 4px); top: -5px; font-size: 38px; }
+}
+/* Rankings have their own visual group below the quotations. */
+.rankings { margin-top: 12px; padding-top: 32px; border-top: var(--line-light); }
+.rankings__title { font-family: var(--font-mono); font-size: 12px; font-weight: 500; line-height: 1.5; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-brand-strong); margin: 0 0 20px; }
+.rankings__list { display: grid; gap: 20px; margin: 0; padding: 0; list-style: none; }
+.ranking { background: var(--color-surface-soft); border-radius: var(--radius-lg); padding: clamp(24px, 4vw, 36px); }
+.ranking__main { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 20px; }
+.ranking__identity { display: flex; align-items: center; gap: 16px; min-width: 0; }
+.ranking__logo { flex: 0 0 44px; width: 44px; height: 46px; object-fit: contain; }
+.ranking__name { font-size: 22px; font-weight: 600; line-height: 1.25; letter-spacing: -0.02em; margin: 0 0 6px; }
+.ranking__role { font-size: 13px; line-height: 1.5; color: var(--color-ink-muted); margin: 0; }
+.ranking__score { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--color-brand); margin: 0; }
+.ranking__grade { font-family: var(--font-display); font-size: 52px; line-height: 1; }
+.ranking__tier { font-family: var(--font-mono); font-size: 10px; line-height: 1.4; letter-spacing: 0.12em; text-transform: uppercase; }
+.ranking__source, .ranking__individual-source { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 18px; font-family: var(--font-mono); font-size: 11px; line-height: 1.6; color: var(--color-ink-meta); }
+.ranking__source { margin-top: 20px; }
+.ranking__individual { display: flex; align-items: flex-start; gap: 12px; margin-top: 22px; padding-top: 20px; border-top: var(--line-light); }
+.ranking__avatar { flex: 0 0 32px; width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
+.ranking__individual-copy { font-size: 14px; line-height: 1.55; color: var(--color-ink-muted); margin: 0 0 8px; }
+.ranking__person { font-weight: 600; color: var(--color-ink); }
 /* Support */
 .support { background: var(--color-surface-soft); padding: var(--section-space) 0; }
 .support__title { max-width: 24ch; }
@@ -397,9 +450,22 @@ details.faq-item[open] .faq-a { animation: faqIn 0.3s ease; }
   .site-nav__cta { grid-column: 4; grid-row: 2; width: 100%; padding: 7px 1px; font-size: 10px; letter-spacing: 0.02em; }
 }
 
+/* Keep links visible without JavaScript; enhance the same navigation on mobile. */
+@media (max-width: 780px) {
+  html[data-nav-ready] [id] { scroll-margin-top: 80px; }
+  html[data-nav-ready] .site-nav__inner { display: flex; flex-wrap: nowrap; min-height: 60px; padding-block: 8px; gap: 16px; }
+  html[data-nav-ready] .site-nav__brand { min-height: 44px; }
+  html[data-nav-ready] .site-nav__toggle { display: inline-flex; }
+  html[data-nav-ready] .site-nav__links { display: none; position: absolute; top: 100%; left: 0; right: 0; width: 100%; flex-direction: column; align-items: stretch; gap: 4px; padding: 10px var(--page-gutter) 20px; max-height: calc(100vh - 61px); max-height: calc(100dvh - 61px); overflow-y: auto; background: var(--color-white); border-top: var(--line-light); border-bottom: var(--line-light); box-shadow: 0 12px 24px rgba(49, 49, 49, 0.08); }
+  html[data-nav-ready] .site-nav__toggle[aria-expanded="true"] + .site-nav__links { display: flex; }
+  html[data-nav-ready] .site-nav__link { justify-content: flex-start; min-height: 44px; padding: 12px 0; font-size: 12px; }
+  html[data-nav-ready] .site-nav__cta { width: 100%; min-height: 44px; margin-top: 8px; padding: 12px 20px; font-size: 12px; letter-spacing: 0.05em; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; scroll-snap-type: none; }
   .skip-link, .faq-q, .faq-icon { transition: none; }
+  .site-nav__toggle-icon::before, .site-nav__toggle-icon::after { transition: none; }
   .attack-story { grid-template-columns: minmax(0, 1fr); }
   .attack-cube-pad { display: none; }
   .attack-story__beats { padding: 0; }
@@ -409,5 +475,7 @@ details.faq-item[open] .faq-a { animation: faqIn 0.3s ease; }
 
 @media (forced-colors: active) {
   .action, .status-pill, .strategy-pill { border: 1px solid ButtonText; }
+  .site-nav__toggle { border: 1px solid ButtonText; color: ButtonText; }
+  .site-nav__toggle-icon, .site-nav__toggle-icon::before, .site-nav__toggle-icon::after { forced-color-adjust: none; }
   .faq-icon::before, .faq-icon::after { background: CanvasText; forced-color-adjust: none; }
 }

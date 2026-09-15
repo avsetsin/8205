@@ -1,6 +1,64 @@
 (function () {
   'use strict';
 
+  var nav = document.querySelector('.site-nav');
+  if (!nav) return;
+  var toggle = nav.querySelector('.site-nav__toggle');
+  var links = nav.querySelector('.site-nav__links');
+  var brand = nav.querySelector('.site-nav__brand');
+  if (!toggle || !links || !brand) return;
+  var mobileNav = matchMedia('(max-width: 780px)');
+
+  function isOpen() {
+    return toggle.getAttribute('aria-expanded') === 'true';
+  }
+
+  function setOpen(open, restoreFocus) {
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    if (restoreFocus) toggle.focus();
+  }
+
+  toggle.addEventListener('click', function () {
+    setOpen(!isOpen());
+  });
+
+  nav.addEventListener('click', function (event) {
+    if (mobileNav.matches && event.target.closest('a[href]')) setOpen(false);
+  });
+
+  document.addEventListener('click', function (event) {
+    if (isOpen() && !nav.contains(event.target)) setOpen(false, links.contains(document.activeElement));
+  });
+
+  document.addEventListener('focusin', function (event) {
+    if (isOpen() && !nav.contains(event.target)) setOpen(false);
+  });
+
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape' && isOpen()) {
+      event.preventDefault();
+      setOpen(false, true);
+    }
+  });
+
+  function syncLayout() {
+    var focusInLinks = links.contains(document.activeElement);
+    var focusOnToggle = document.activeElement === toggle;
+    setOpen(false);
+    if (mobileNav.matches && focusInLinks) toggle.focus();
+    else if (!mobileNav.matches && focusOnToggle) brand.focus();
+  }
+
+  if (mobileNav.addEventListener) mobileNav.addEventListener('change', syncLayout);
+  else mobileNav.addListener(syncLayout);
+  toggle.hidden = false;
+  document.documentElement.setAttribute('data-nav-ready', '');
+})();
+
+(function () {
+  'use strict';
+
   var reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   var mobileLayout = matchMedia('(max-width: 780px)');
   var finePointer = matchMedia('(hover: hover) and (pointer: fine)');
