@@ -21,7 +21,7 @@ The landing page explains the proposal; it does not define it. Check technical c
 
 ## Local QA
 
-Open `index.html` directly in a browser for a local preview; no server or build is required. Keep the file alongside `styles.css`, `main.js`, and `assets/`. Local resources use document-relative paths so the same files work from disk and from the root of the canonical domain.
+Open `index.html` directly in a browser for a local preview; no server or build is required. Keep the file alongside `styles.css`, `main.js`, and `assets/`. Local resources use document-relative paths so the same files work from disk and from the root of the canonical domain. The shared desktop and mobile navigation includes a Supporters link to `#rankings`; without JavaScript, narrow screens show the brand and support action above the four section links.
 
 Run `make serve`, then open <http://127.0.0.1:4173/>. In another terminal run `make check`. The check validates JavaScript syntax, sitemap XML parsing, the publish surface, local references, JSON-LD structure, essential document semantics, CSP boundaries, optimized assets, font licenses, and known historical proposal values. It deliberately does not claim to validate rendering or production behavior. Before release, test keyboard-only navigation, animations and reduced motion, 200% and 400% zoom, and representative phone, tablet, and desktop widths.
 

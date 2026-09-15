@@ -424,11 +424,16 @@ details.faq-item[open] .faq-a { animation: faqIn 0.3s ease; }
 @media (max-width: 400px) { .cost-card__decoration { right: -45px; bottom: -70px; width: 170px; height: 170px; } }
 @media (max-width: 480px) {
   [id] { scroll-margin-top: 122px; }
-  .site-nav__inner { padding: 8px 16px; gap: 4px; }
-  .site-nav__links { width: 100%; justify-content: space-between; gap: 4px; flex-wrap: nowrap; }
+  .site-nav__inner { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(80px, 1.2fr); padding: 8px 16px; gap: 4px; }
+  .site-nav__brand { grid-column: 1 / 3; grid-row: 1; justify-self: start; }
+  .site-nav__links { display: contents; }
   .site-nav__brand, .site-nav__link, .site-nav__cta { min-height: 44px; }
   .site-nav__link { min-width: 44px; padding: 0 2px; }
-  .site-nav__cta { padding: 7px 10px; }
+  .site-nav__link:nth-child(1) { grid-column: 1; grid-row: 2; }
+  .site-nav__link:nth-child(2) { grid-column: 2; grid-row: 2; }
+  .site-nav__link:nth-child(3) { grid-column: 3; grid-row: 2; }
+  .site-nav__link:nth-child(4) { grid-column: 4; grid-row: 2; }
+  .site-nav__cta { grid-column: 3 / -1; grid-row: 1; justify-self: end; padding: 7px 10px; }
   .hero-title { max-width: none; font-size: clamp(27px, 10.4vw, 44px); line-height: 0.96; letter-spacing: -0.035em; }
   .bus-row, .progress-row { grid-template-columns: minmax(0, 1fr); gap: 7px; align-items: start; }
   .bus-row > :last-child, .progress-badges { justify-self: start; justify-content: flex-start; }
@@ -437,17 +442,6 @@ details.faq-item[open] .faq-a { animation: faqIn 0.3s ease; }
   .faq-icon::before { width: 14px; margin-left: -7px; }
   .faq-icon::after { height: 14px; margin-top: -7px; }
   .faq-a { padding-bottom: 18px; }
-}
-
-@media (max-width: 320px) {
-  .site-nav__inner { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; }
-  .site-nav__brand { grid-column: 1 / -1; grid-row: 1; }
-  .site-nav__links { display: contents; }
-  .site-nav__link { width: 100%; padding: 0; }
-  .site-nav__link:nth-child(1) { grid-column: 1; grid-row: 2; }
-  .site-nav__link:nth-child(2) { grid-column: 2; grid-row: 2; }
-  .site-nav__link:nth-child(3) { grid-column: 3; grid-row: 2; }
-  .site-nav__cta { grid-column: 4; grid-row: 2; width: 100%; padding: 7px 1px; font-size: 10px; letter-spacing: 0.02em; }
 }
 
 /* Keep links visible without JavaScript; enhance the same navigation on mobile. */
