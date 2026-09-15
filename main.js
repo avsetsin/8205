@@ -1,3 +1,65 @@
+(async function () {
+  'use strict';
+
+  var panel = document.querySelector('[data-eva-support]');
+  if (!panel || typeof fetch !== 'function' || typeof AbortController !== 'function' || typeof BigInt !== 'function') return;
+  var fields = {};
+  var names = ['percent', 'eth', 'signals', 'breakdown', 'total', 'checked'];
+  names.forEach(function (name) { fields[name] = panel.querySelector('[data-eva-' + name + ']'); });
+  if (names.some(function (name) { return !fields[name]; })) return;
+
+  var controller = new AbortController();
+  var timeout = setTimeout(function () { controller.abort(); }, 6000);
+  try {
+    var response = await fetch('https://api.ethva.net/eips/8205', {
+      credentials: 'omit',
+      referrerPolicy: 'no-referrer',
+      cache: 'no-store',
+      signal: controller.signal
+    });
+    if (!response.ok) throw new Error('EVA response unavailable');
+    var data = await response.json();
+    if (data.id !== 8205 || typeof data.approved !== 'boolean') throw new Error('Unexpected EIP');
+    if (!data.approved) { panel.hidden = true; return; }
+    var choices = ['yes', 'no', 'abstain'];
+    var counts = choices.map(function (choice) {
+      var count = data[choice + 'Votes'];
+      if (!Number.isSafeInteger(count) || count < 0) throw new Error('Invalid signal count');
+      return count;
+    });
+    var balances = choices.map(function (choice) {
+      var balance = data[choice + 'VoteBalance'];
+      if (typeof balance !== 'string' || !/^(0|[1-9][0-9]{0,77})$/.test(balance)) throw new Error('Invalid stake balance');
+      return BigInt(balance);
+    });
+    var signals = counts.reduce(function (sum, count) { return sum + count; }, 0);
+    if (!Number.isSafeInteger(signals)) throw new Error('Invalid total signal count');
+    var total = balances.reduce(function (sum, balance) { return sum + balance; }, BigInt(0));
+    var tenths = total > 0 ? Number((balances[0] * BigInt(1000) + total / BigInt(2)) / total) : 0;
+    var percent = total === BigInt(0) ? '—' : tenths / 10 + '%';
+    if (balances[0] > 0 && tenths === 0) percent = '<0.1%';
+    if (balances[0] < total && tenths === 1000) percent = '>99.9%';
+    var eth = new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 });
+    var integers = new Intl.NumberFormat('en-US');
+    var checked = new Date();
+    var checkedMonth = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][checked.getUTCMonth()];
+    var checkedLabel = checked.getUTCDate() + ' ' + checkedMonth + ' ' + checked.getUTCFullYear() + ', ' + checked.toISOString().slice(11, 16) + ' UTC';
+
+    // Replace the dated HTML snapshot only after the entire response validates.
+    fields.percent.textContent = percent;
+    fields.eth.textContent = eth.format(Number(balances[0]) / 1e18);
+    fields.signals.textContent = integers.format(signals);
+    fields.breakdown.textContent = integers.format(counts[0]) + ' yes · ' + integers.format(counts[1]) + ' no · ' + integers.format(counts[2]) + ' abstain';
+    fields.total.textContent = eth.format(Number(total) / 1e18);
+    fields.checked.dateTime = checked.toISOString();
+    fields.checked.textContent = checkedLabel;
+  } catch (_) {
+    // Offline, timeouts, and API changes keep the original values and their check date.
+  } finally {
+    clearTimeout(timeout);
+  }
+})();
+
 (function () {
   'use strict';
 

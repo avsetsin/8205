@@ -286,6 +286,22 @@ a:hover { color: var(--color-accent-ink); }
 .supporters__lede { font-size: clamp(17px, 1.4vw, 20px); line-height: 1.6; margin: 0 0 clamp(32px, 4vw, 48px); max-width: 65ch; text-wrap: pretty; }
 .supporters__list { margin: 0; padding: 0; list-style: none; }
 .supporters__list > li { border-top: var(--line-light); }
+.eva-support { margin-bottom: clamp(32px, 4vw, 48px); padding: clamp(22px, 3vw, 32px); border-radius: var(--radius-lg); background: var(--color-surface-soft); }
+.eva-support__heading { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 10px 24px; margin-bottom: 28px; }
+.eva-support__title { font-family: var(--font-mono); font-size: 11px; font-weight: 500; line-height: 1.6; letter-spacing: 0.1em; text-transform: uppercase; margin: 0; color: var(--color-brand-strong); }
+.eva-support__source, .eva-support__meta { font-family: var(--font-mono); font-size: 11px; line-height: 1.7; color: var(--color-ink-meta); }
+.eva-support__source, .eva-support__meta a { white-space: nowrap; }
+.eva-support__metrics { display: flex; flex-wrap: wrap; gap: 24px 32px; margin: 0 0 24px; }
+.eva-support__metrics > div { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.eva-support__metrics dt { max-width: 22ch; font-size: 13px; line-height: 1.45; color: var(--color-ink-muted); }
+.eva-support__metrics dd { order: -1; font-family: var(--font-display); font-size: clamp(32px, 4vw, 48px); line-height: 1.05; letter-spacing: -0.04em; color: var(--color-brand); margin: 0; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+.eva-support__breakdown { font-size: 13px; line-height: 1.6; margin: 0 0 8px; color: var(--color-ink-muted); }
+.eva-support__meta { margin: 0; }
+@media (max-width: 600px) {
+  .eva-support__metrics { column-gap: 24px; }
+  .eva-support__metrics > div:first-child { flex-basis: 100%; }
+  .eva-support__metrics > div:first-child dd { font-size: 48px; }
+}
 .supporter { display: grid; grid-template-columns: minmax(0, 240px) minmax(0, 1fr); gap: clamp(28px, 5vw, 72px); margin: 0; padding: clamp(32px, 5vw, 52px) 0; }
 .supporter__author { display: flex; align-items: flex-start; gap: 16px; }
 .supporter__avatar { flex: 0 0 56px; width: 56px; height: 56px; object-fit: cover; border-radius: 50%; }

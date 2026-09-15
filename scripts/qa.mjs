@@ -284,7 +284,7 @@ for (const [name, requiredSources] of [
   ['base-uri', ["'self'"]],
   ['object-src', ["'none'"]],
   ['frame-ancestors', ["'none'"]],
-  ['connect-src', ["'none'"]],
+  ['connect-src', ['https://api.ethva.net/eips/8205']],
   ['script-src', ["'self'"]],
   ['style-src', ["'self'"]],
   ['font-src', ["'self'"]]
