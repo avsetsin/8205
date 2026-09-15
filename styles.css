@@ -281,29 +281,29 @@ a:hover { color: var(--color-accent-ink); }
 .faq__group-title { font-family: var(--font-mono); font-size: 11px; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-brand-strong); margin: 0 0 16px; }
 .faq__group-title--spaced { margin-top: clamp(32px, 4vw, 44px); }
 /* Public comments are an open list of quotations, with authors beside the text. */
-.voices { padding: var(--section-space) 0; }
-.voices__title { max-width: 22ch; }
-.voices__lede { font-size: clamp(17px, 1.4vw, 20px); line-height: 1.6; margin: 0 0 clamp(32px, 4vw, 48px); max-width: 65ch; text-wrap: pretty; }
-.voices__list { margin: 0; padding: 0; list-style: none; }
-.voices__list > li { border-top: var(--line-light); }
-.voice { display: grid; grid-template-columns: minmax(0, 240px) minmax(0, 1fr); gap: clamp(28px, 5vw, 72px); margin: 0; padding: clamp(32px, 5vw, 52px) 0; }
-.voice__author { display: flex; align-items: flex-start; gap: 16px; }
-.voice__avatar { flex: 0 0 56px; width: 56px; height: 56px; object-fit: cover; border-radius: 50%; }
-.voice__avatar--logo { object-fit: contain; border-radius: 0; }
-.voice__name { font-size: 18px; font-weight: 600; line-height: 1.35; letter-spacing: -0.02em; margin: 0 0 7px; }
-.voice__profile, .ranking__profile { color: inherit; text-decoration: none; }
-.voice__profile:hover, .ranking__profile:hover { color: var(--color-brand); text-decoration: none; }
-.voice__permalink, .ranking__permalink { display: inline-flex; align-items: center; justify-content: center; min-width: 24px; min-height: 24px; vertical-align: middle; }
-.voice__role { font-size: 13px; line-height: 1.55; color: var(--color-ink-muted); margin: 0; }
-.voice__body { min-width: 0; }
-.voice__quote { position: relative; font-size: clamp(22px, 2.3vw, 29px); font-weight: 500; line-height: 1.45; letter-spacing: -0.02em; margin: 0 0 20px; text-wrap: pretty; }
-.voice__quote p { margin: 0; }
-.voice__mark { position: absolute; right: calc(100% + 10px); top: -12px; font-family: var(--font-display); font-size: 58px; line-height: 1; color: var(--color-brand-pale); }
-.voice__source { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 18px; font-family: var(--font-mono); font-size: 11px; line-height: 1.6; color: var(--color-ink-meta); }
+.supporters { padding: var(--section-space) 0; }
+.supporters__title { max-width: 22ch; }
+.supporters__lede { font-size: clamp(17px, 1.4vw, 20px); line-height: 1.6; margin: 0 0 clamp(32px, 4vw, 48px); max-width: 65ch; text-wrap: pretty; }
+.supporters__list { margin: 0; padding: 0; list-style: none; }
+.supporters__list > li { border-top: var(--line-light); }
+.supporter { display: grid; grid-template-columns: minmax(0, 240px) minmax(0, 1fr); gap: clamp(28px, 5vw, 72px); margin: 0; padding: clamp(32px, 5vw, 52px) 0; }
+.supporter__author { display: flex; align-items: flex-start; gap: 16px; }
+.supporter__avatar { flex: 0 0 56px; width: 56px; height: 56px; object-fit: cover; border-radius: 50%; }
+.supporter__avatar--logo { object-fit: contain; border-radius: 0; }
+.supporter__name { font-size: 18px; font-weight: 600; line-height: 1.35; letter-spacing: -0.02em; margin: 0 0 7px; }
+.supporter__profile, .ranking__profile { color: inherit; text-decoration: none; }
+.supporter__profile:hover, .ranking__profile:hover { color: var(--color-brand); text-decoration: none; }
+.supporter__permalink, .ranking__permalink { display: inline-flex; align-items: center; justify-content: center; min-width: 24px; min-height: 24px; vertical-align: middle; }
+.supporter__role { font-size: 13px; line-height: 1.55; color: var(--color-ink-muted); margin: 0; }
+.supporter__body { min-width: 0; }
+.supporter__quote { position: relative; font-size: clamp(22px, 2.3vw, 29px); font-weight: 500; line-height: 1.45; letter-spacing: -0.02em; margin: 0 0 20px; text-wrap: pretty; }
+.supporter__quote p { margin: 0; }
+.supporter__mark { position: absolute; right: calc(100% + 10px); top: -12px; font-family: var(--font-display); font-size: 58px; line-height: 1; color: var(--color-brand-pale); }
+.supporter__source { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 18px; font-family: var(--font-mono); font-size: 11px; line-height: 1.6; color: var(--color-ink-meta); }
 @media (max-width: 760px) {
-  .voice { grid-template-columns: minmax(0, 1fr); gap: 24px; }
-  .voice__body { padding-left: 28px; }
-  .voice__mark { right: calc(100% + 4px); top: -5px; font-size: 38px; }
+  .supporter { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .supporter__body { padding-left: 28px; }
+  .supporter__mark { right: calc(100% + 4px); top: -5px; font-size: 38px; }
 }
 /* Rankings have their own visual group below the quotations. */
 .rankings { margin-top: 12px; padding-top: 32px; border-top: var(--line-light); }
