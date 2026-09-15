@@ -298,9 +298,9 @@ a:hover { color: var(--color-accent-ink); }
 .eva-support__breakdown { font-size: 13px; line-height: 1.6; margin: 0 0 8px; color: var(--color-ink-muted); }
 .eva-support__meta { margin: 0; }
 @media (max-width: 600px) {
-  .eva-support__metrics { column-gap: 24px; }
-  .eva-support__metrics > div:first-child { flex-basis: 100%; }
-  .eva-support__metrics > div:first-child dd { font-size: 48px; }
+  .eva-support__metrics { column-gap: 20px; }
+  .eva-support__metrics dt { max-width: 14ch; }
+  .eva-support__metrics dd { font-size: clamp(32px, 9vw, 48px); }
 }
 .supporter { display: grid; grid-template-columns: minmax(0, 240px) minmax(0, 1fr); gap: clamp(28px, 5vw, 72px); margin: 0; padding: clamp(32px, 5vw, 52px) 0; }
 .supporter__author { display: flex; align-items: flex-start; gap: 16px; }
