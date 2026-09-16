@@ -32,7 +32,7 @@
 <meta name="twitter:image:alt" content="EIP-8205 social card: Withdrawal Credentials Preregistration">
 <link rel="preload" href="assets/fonts/archivo-latin-v25.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/archivo-black-latin-v23.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="styles.css?v=20260915-6">
+<link rel="stylesheet" href="styles.css?v=20260916-3">
 <script src="main.js?v=20260915-2" defer></script>
 <script type="application/ld+json">
 {
@@ -61,7 +61,7 @@
       "description": "Whoever deposits first controls the ETH. EIP-8205 lets a validator key holder bind withdrawal credentials to a public key before the first deposit.",
       "identifier": "EIP-8205",
       "inLanguage": "en",
-      "dateModified": "2026-09-15",
+      "dateModified": "2026-09-16",
       "image": {
         "@type": "ImageObject",
         "url": "https://eip8205.com/assets/social/og-default.png",
@@ -984,103 +984,171 @@
         <p class="eva-support__meta">Checked <time data-eva-checked datetime="2026-09-15T19:00:35Z">15 Sep 2026, 19:00 UTC</time> · <a href="https://hub.ethva.net/methodology" target="_blank" rel="noreferrer">Methodology <span aria-hidden="true">↗</span></a></p>
       </section>
 
-      <!-- Keep excerpts verbatim. Add another list item for each verified public comment; see README.md. -->
-      <ul class="supporters__list" role="list">
-        <li id="supporter-tomer-ganor">
-          <figure class="supporter">
-            <figcaption class="supporter__author">
-              <img class="supporter__avatar" src="assets/supporters/tomer-ganor.webp" alt="" width="192" height="192" loading="lazy" decoding="async">
-              <div>
-                <p class="supporter__name"><a class="supporter__profile" href="https://www.certora.com/author/tomer-ganor" target="_blank" rel="noreferrer" title="Tomer Ganor’s author profile">Tomer Ganor</a>&nbsp;<a class="heading-link supporter__permalink" href="#supporter-tomer-ganor" title="Link to this opinion" aria-label="Link to Tomer Ganor’s opinion"><span class="heading-link__icon" aria-hidden="true">#</span></a></p>
-                <p class="supporter__role">Smart contract auditor<br>Security researcher</p>
+      <!-- Keep excerpts verbatim. Add each new comment to the relevant group; see README.md. -->
+      <section id="supporters-protocols" class="supporters__group" aria-labelledby="supporters-protocols-heading">
+        <h3 id="supporters-protocols-heading" class="supporters__group-title"><a class="heading-link" href="#supporters-protocols" title="Link to this section">Staking protocols&nbsp;<span class="heading-link__icon" aria-hidden="true">#</span></a></h3>
+        <ul class="supporters__list" role="list">
+          <li id="supporter-etherfi">
+            <figure class="supporter">
+              <figcaption class="supporter__author">
+                <img class="supporter__avatar supporter__avatar--logo" src="assets/supporters/etherfi.png" alt="" width="96" height="96" loading="lazy" decoding="async">
+                <div>
+                  <p class="supporter__name"><a class="supporter__profile" href="https://www.ether.fi/" target="_blank" rel="noreferrer" title="ether.fi website">ether.fi</a></p>
+                  <p class="supporter__role">Liquid staking protocol</p>
+                </div>
+              </figcaption>
+              <div class="supporter__body">
+                <blockquote class="supporter__quote" cite="https://ethereum-magicians.org/t/eip-8205-withdrawal-credentials-preregistration/28084/7">
+                  <span class="supporter__mark" aria-hidden="true">“</span>
+                  <p>EIP-8205 gives Ethereum a clean native primitive for the property we need: binding a validator pubkey to its intended withdrawal credentials before funding.</p>
+                </blockquote>
+                <div class="supporter__source">
+                  <a href="https://ethereum-magicians.org/t/eip-8205-withdrawal-credentials-preregistration/28084/7" target="_blank" rel="noreferrer" aria-label="Read ether.fi’s comment on Ethereum Magicians">Ethereum Magicians <span aria-hidden="true">↗</span></a>
+                  <time datetime="2026-09-15">15 Sep 2026</time>
+                </div>
               </div>
-            </figcaption>
-            <div class="supporter__body">
-              <blockquote class="supporter__quote" cite="https://ethereum-magicians.org/t/eip-8205-withdrawal-credentials-preregistration/28084/5">
-                <span class="supporter__mark" aria-hidden="true">“</span>
-                <p>Liquid staking protocols shouldn’t need additional trust assumptions or workarounds for something the consensus layer can give them a clean primitive for.</p>
-              </blockquote>
-              <div class="supporter__source">
-                <a href="https://ethereum-magicians.org/t/eip-8205-withdrawal-credentials-preregistration/28084/5" target="_blank" rel="noreferrer" aria-label="Read Tomer Ganor’s post on Ethereum Magicians">Ethereum Magicians <span aria-hidden="true">↗</span></a>
-                <time datetime="2026-09-04">4 Sep 2026</time>
+            </figure>
+          </li>
+          <li id="supporter-kelp">
+            <figure class="supporter">
+              <figcaption class="supporter__author">
+                <img class="supporter__avatar supporter__avatar--logo" src="assets/supporters/kelp.svg" alt="" width="79" height="32" loading="lazy" decoding="async">
+                <div>
+                  <p class="supporter__name"><a class="supporter__profile" href="https://kerneldao.com/kelp/" target="_blank" rel="noreferrer" title="Kelp website">Kelp</a></p>
+                  <p class="supporter__role">Liquid restaking protocol</p>
+                </div>
+              </figcaption>
+              <div class="supporter__body">
+                <blockquote class="supporter__quote" cite="https://ethereum-magicians.org/t/eip-8205-withdrawal-credentials-preregistration/28084/8">
+                  <span class="supporter__mark" aria-hidden="true">“</span>
+                  <p>Having a standard way to verify the credential binding before depositing stake would let us simplify that design.</p>
+                </blockquote>
+                <div class="supporter__source">
+                  <a href="https://ethereum-magicians.org/t/eip-8205-withdrawal-credentials-preregistration/28084/8" target="_blank" rel="noreferrer" aria-label="Read Kelp’s comment on Ethereum Magicians">Ethereum Magicians <span aria-hidden="true">↗</span></a>
+                  <time datetime="2026-09-16">16 Sep 2026</time>
+                </div>
               </div>
-            </div>
-          </figure>
-        </li>
-        <li id="supporter-l2beat">
-          <figure class="supporter">
-            <figcaption class="supporter__author">
-              <img class="supporter__avatar supporter__avatar--logo" src="assets/supporters/l2beat.png" alt="" width="180" height="180" loading="lazy" decoding="async">
-              <div>
-                <p class="supporter__name"><a class="supporter__profile" href="https://l2beat.com/" target="_blank" rel="noreferrer" title="L2BEAT website">L2BEAT</a>&nbsp;<a class="heading-link supporter__permalink" href="#supporter-l2beat" title="Link to this opinion" aria-label="Link to L2BEAT’s opinion"><span class="heading-link__icon" aria-hidden="true">#</span></a></p>
-                <p class="supporter__role">Research team<br>Ethereum scaling research</p>
+            </figure>
+          </li>
+        </ul>
+      </section>
+
+      <section id="supporters-operators" class="supporters__group" aria-labelledby="supporters-operators-heading">
+        <h3 id="supporters-operators-heading" class="supporters__group-title"><a class="heading-link" href="#supporters-operators" title="Link to this section">Node operators&nbsp;<span class="heading-link__icon" aria-hidden="true">#</span></a></h3>
+        <ul class="supporters__list" role="list">
+          <li id="supporter-fp-validated">
+            <figure class="supporter">
+              <figcaption class="supporter__author">
+                <img class="supporter__avatar supporter__avatar--logo" src="assets/supporters/fp-validated.png" alt="" width="96" height="96" loading="lazy" decoding="async">
+                <div>
+                  <p class="supporter__name"><a class="supporter__profile" href="https://validated.4pillars.io/" target="_blank" rel="noreferrer" title="FP Validated website">FP Validated</a></p>
+                  <p class="supporter__role">Four Pillars validator team</p>
+                </div>
+              </figcaption>
+              <div class="supporter__body">
+                <blockquote class="supporter__quote" cite="https://ethereum-magicians.org/t/eip-8205-withdrawal-credentials-preregistration/28084/9">
+                  <span class="supporter__mark" aria-hidden="true">“</span>
+                  <p>EIP-8205 can establish a common security foundation for delegated staking while preserving the existing flow for validators that do not require preregistration.</p>
+                </blockquote>
+                <div class="supporter__source">
+                  <a href="https://ethereum-magicians.org/t/eip-8205-withdrawal-credentials-preregistration/28084/9" target="_blank" rel="noreferrer" aria-label="Read FP Validated’s comment on Ethereum Magicians">Ethereum Magicians <span aria-hidden="true">↗</span></a>
+                  <time datetime="2026-09-16">16 Sep 2026</time>
+                </div>
+                <div class="supporter__related" aria-label="More from FP Validated">
+                  <span>Also:</span>
+                  <a href="https://research.lido.fi/t/eip-8205-towards-safe-delegated-staking-deposits/11357/2" target="_blank" rel="noreferrer" aria-label="Read FP Validated’s earlier comment on the Lido governance forum">Lido governance forum <span aria-hidden="true">↗</span></a>
+                  <a href="https://research.4pillars.io/en/research/monthly-eip---apr-2026-ft-staked-assets-at-work-the-prepared-win" target="_blank" rel="noreferrer" aria-label="Read Four Pillars’ April 2026 research covering EIP-8205">Four Pillars research <span aria-hidden="true">↗</span></a>
+                </div>
               </div>
-            </figcaption>
-            <div class="supporter__body">
-              <blockquote class="supporter__quote" cite="https://forum.l2beat.com/t/l2beats-research-team-hegota-ranking/439">
-                <span class="supporter__mark" aria-hidden="true">“</span>
-                <p>Existing solutions to the problem are not good enough as they either introduce significant delays (as in Rocket Pool) or permissioned actors (as in Lido). Projects should not be forced to make this tradeoff.</p>
-              </blockquote>
-              <div class="supporter__source">
-                <a href="https://forum.l2beat.com/t/l2beats-research-team-hegota-ranking/439" target="_blank" rel="noreferrer" aria-label="Read the L2BEAT research team’s Hegotá ranking">L2BEAT forum <span aria-hidden="true">↗</span></a>
-                <time datetime="2026-09-09">9 Sep 2026</time>
+            </figure>
+          </li>
+        </ul>
+      </section>
+
+      <section id="supporters-auditors" class="supporters__group" aria-labelledby="supporters-auditors-heading">
+        <h3 id="supporters-auditors-heading" class="supporters__group-title"><a class="heading-link" href="#supporters-auditors" title="Link to this section">Auditors&nbsp;<span class="heading-link__icon" aria-hidden="true">#</span></a></h3>
+        <ul class="supporters__list" role="list">
+          <li id="supporter-tomer-ganor">
+            <figure class="supporter">
+              <figcaption class="supporter__author">
+                <img class="supporter__avatar" src="assets/supporters/tomer-ganor.webp" alt="" width="192" height="192" loading="lazy" decoding="async">
+                <div>
+                  <p class="supporter__name"><a class="supporter__profile" href="https://www.certora.com/author/tomer-ganor" target="_blank" rel="noreferrer" title="Tomer Ganor’s author profile">Tomer Ganor</a></p>
+                  <p class="supporter__role">Security researcher</p>
+                </div>
+              </figcaption>
+              <div class="supporter__body">
+                <blockquote class="supporter__quote" cite="https://ethereum-magicians.org/t/eip-8205-withdrawal-credentials-preregistration/28084/5">
+                  <span class="supporter__mark" aria-hidden="true">“</span>
+                  <p>Liquid staking protocols shouldn’t need additional trust assumptions or workarounds for something the consensus layer can give them a clean primitive for.</p>
+                </blockquote>
+                <div class="supporter__source">
+                  <a href="https://ethereum-magicians.org/t/eip-8205-withdrawal-credentials-preregistration/28084/5" target="_blank" rel="noreferrer" aria-label="Read Tomer Ganor’s post on Ethereum Magicians">Ethereum Magicians <span aria-hidden="true">↗</span></a>
+                  <time datetime="2026-09-04">4 Sep 2026</time>
+                </div>
               </div>
-            </div>
-          </figure>
-        </li>
-        <li id="supporter-mixbytes">
-          <figure class="supporter">
-            <figcaption class="supporter__author">
-              <img class="supporter__avatar supporter__avatar--logo" src="assets/supporters/mixbytes.png" alt="" width="200" height="200" loading="lazy" decoding="async">
-              <div>
-                <p class="supporter__name"><a class="supporter__profile" href="https://mixbytes.io/" target="_blank" rel="noreferrer" title="MixBytes website">MixBytes</a>&nbsp;<a class="heading-link supporter__permalink" href="#supporter-mixbytes" title="Link to this opinion" aria-label="Link to MixBytes’ opinion"><span class="heading-link__icon" aria-hidden="true">#</span></a></p>
-                <p class="supporter__role">Smart contract auditors<br>Security researchers</p>
+            </figure>
+          </li>
+          <li id="supporter-mixbytes">
+            <figure class="supporter">
+              <figcaption class="supporter__author">
+                <img class="supporter__avatar supporter__avatar--logo" src="assets/supporters/mixbytes.png" alt="" width="200" height="200" loading="lazy" decoding="async">
+                <div>
+                  <p class="supporter__name"><a class="supporter__profile" href="https://mixbytes.io/" target="_blank" rel="noreferrer" title="MixBytes website">MixBytes</a></p>
+                  <p class="supporter__role">Security researchers</p>
+                </div>
+              </figcaption>
+              <div class="supporter__body">
+                <blockquote class="supporter__quote" cite="https://ethereum-magicians.org/t/eip-8205-withdrawal-credentials-preregistration/28084/6">
+                  <span class="supporter__mark" aria-hidden="true">“</span>
+                  <p>Preregistration replaces all of that with one check at deposit processing time, and reuses the EIP-7002/7251 request pattern rather than inventing a new one. Nothing changes for solo stakers, top-ups, or existing validators. We think this is the right shape for a fix at this layer.</p>
+                </blockquote>
+                <div class="supporter__source">
+                  <a href="https://ethereum-magicians.org/t/eip-8205-withdrawal-credentials-preregistration/28084/6" target="_blank" rel="noreferrer" aria-label="Read MixBytes’ comment on Ethereum Magicians">Ethereum Magicians <span aria-hidden="true">↗</span></a>
+                  <time datetime="2026-09-15">15 Sep 2026</time>
+                </div>
               </div>
-            </figcaption>
-            <div class="supporter__body">
-              <blockquote class="supporter__quote" cite="https://ethereum-magicians.org/t/eip-8205-withdrawal-credentials-preregistration/28084/6">
-                <span class="supporter__mark" aria-hidden="true">“</span>
-                <p>Preregistration replaces all of that with one check at deposit processing time, and reuses the EIP-7002/7251 request pattern rather than inventing a new one. Nothing changes for solo stakers, top-ups, or existing validators. We think this is the right shape for a fix at this layer.</p>
-              </blockquote>
-              <div class="supporter__source">
-                <a href="https://ethereum-magicians.org/t/eip-8205-withdrawal-credentials-preregistration/28084/6" target="_blank" rel="noreferrer" aria-label="Read MixBytes’ comment on Ethereum Magicians">Ethereum Magicians <span aria-hidden="true">↗</span></a>
-                <time datetime="2026-09-15">15 Sep 2026</time>
+            </figure>
+          </li>
+        </ul>
+      </section>
+
+      <section id="supporters-research" class="supporters__group" aria-labelledby="supporters-research-heading">
+        <h3 id="supporters-research-heading" class="supporters__group-title"><a class="heading-link" href="#supporters-research" title="Link to this section">Researchers&nbsp;<span class="heading-link__icon" aria-hidden="true">#</span></a></h3>
+        <ul class="supporters__list" role="list">
+          <li id="supporter-l2beat">
+            <figure class="supporter">
+              <figcaption class="supporter__author">
+                <img class="supporter__avatar supporter__avatar--logo" src="assets/supporters/l2beat.png" alt="" width="180" height="180" loading="lazy" decoding="async">
+                <div>
+                  <p class="supporter__name"><a class="supporter__profile" href="https://l2beat.com/" target="_blank" rel="noreferrer" title="L2BEAT website">L2BEAT</a></p>
+                  <p class="supporter__role">Ethereum scaling research</p>
+                </div>
+              </figcaption>
+              <div class="supporter__body">
+                <blockquote class="supporter__quote" cite="https://forum.l2beat.com/t/l2beats-research-team-hegota-ranking/439">
+                  <span class="supporter__mark" aria-hidden="true">“</span>
+                  <p>Existing solutions to the problem are not good enough as they either introduce significant delays (as in Rocket Pool) or permissioned actors (as in Lido). Projects should not be forced to make this tradeoff.</p>
+                </blockquote>
+                <div class="supporter__source">
+                  <a href="https://forum.l2beat.com/t/l2beats-research-team-hegota-ranking/439" target="_blank" rel="noreferrer" aria-label="Read the L2BEAT research team’s Hegotá ranking">L2BEAT forum <span aria-hidden="true">↗</span></a>
+                  <time datetime="2026-09-09">9 Sep 2026</time>
+                </div>
               </div>
-            </div>
-          </figure>
-        </li>
-        <li id="supporter-fp-validated">
-          <figure class="supporter">
-            <figcaption class="supporter__author">
-              <img class="supporter__avatar supporter__avatar--logo" src="assets/supporters/fp-validated.png" alt="" width="96" height="96" loading="lazy" decoding="async">
-              <div>
-                <p class="supporter__name"><a class="supporter__profile" href="https://validated.4pillars.io/" target="_blank" rel="noreferrer" title="FP Validated website">FP Validated</a>&nbsp;<a class="heading-link supporter__permalink" href="#supporter-fp-validated" title="Link to this opinion" aria-label="Link to FP Validated’s opinion"><span class="heading-link__icon" aria-hidden="true">#</span></a></p>
-                <p class="supporter__role">Validator team<br>Four Pillars</p>
-              </div>
-            </figcaption>
-            <div class="supporter__body">
-              <blockquote class="supporter__quote" cite="https://research.lido.fi/t/eip-8205-towards-safe-delegated-staking-deposits/11357/2">
-                <span class="supporter__mark" aria-hidden="true">“</span>
-                <p>EIP-8205 seems to effectively shift deposit security from being the responsibility of individual protocols to the Ethereum protocol itself.</p>
-              </blockquote>
-              <div class="supporter__source">
-                <a href="https://research.lido.fi/t/eip-8205-towards-safe-delegated-staking-deposits/11357/2" target="_blank" rel="noreferrer" aria-label="Read FP Validated’s comment on EIP-8205">Lido governance forum <span aria-hidden="true">↗</span></a>
-                <time datetime="2026-03-30">30 Mar 2026</time>
-              </div>
-            </div>
-          </figure>
-        </li>
-      </ul>
+            </figure>
+          </li>
+        </ul>
+      </section>
 
       <section id="rankings" class="rankings" aria-labelledby="rankings-heading">
-        <h3 id="rankings-heading" class="rankings__title"><a class="heading-link" href="#rankings" title="Link to this section">Backing EIP-8205 for Hegotá&nbsp;<span class="heading-link__icon" aria-hidden="true">#</span></a></h3>
+        <h3 id="rankings-heading" class="rankings__title"><a class="heading-link" href="#rankings" title="Link to this section">EIP-8205 in Hegotá rankings&nbsp;<span class="heading-link__icon" aria-hidden="true">#</span></a></h3>
         <ul class="rankings__list" role="list">
           <li id="supporter-teku" class="ranking">
             <div class="ranking__main">
               <div class="ranking__identity">
                 <img class="ranking__logo" src="assets/supporters/teku.svg" alt="" width="80" height="83" loading="lazy" decoding="async">
                 <div>
-                  <h4 class="ranking__name"><a class="ranking__profile" href="https://docs.teku.consensys.io/" target="_blank" rel="noreferrer" title="Teku website and documentation">Teku</a>&nbsp;<a class="heading-link ranking__permalink" href="#supporter-teku" title="Link to this ranking" aria-label="Link to Teku’s ranking"><span class="heading-link__icon" aria-hidden="true">#</span></a></h4>
+                  <h4 class="ranking__name"><a class="ranking__profile" href="https://docs.teku.consensys.io/" target="_blank" rel="noreferrer" title="Teku website and documentation">Teku</a></h4>
                   <p class="ranking__role">Ethereum consensus client</p>
                 </div>
               </div>
@@ -1106,7 +1174,7 @@
               <div class="ranking__identity">
                 <img class="ranking__logo" src="assets/supporters/l2beat.png" alt="" width="180" height="180" loading="lazy" decoding="async">
                 <div>
-                  <h4 class="ranking__name"><a class="ranking__profile" href="https://l2beat.com/" target="_blank" rel="noreferrer" title="L2BEAT website">L2BEAT</a>&nbsp;<a class="heading-link ranking__permalink" href="#ranking-l2beat" title="Link to this ranking" aria-label="Link to L2BEAT’s ranking"><span class="heading-link__icon" aria-hidden="true">#</span></a></h4>
+                  <h4 class="ranking__name"><a class="ranking__profile" href="https://l2beat.com/" target="_blank" rel="noreferrer" title="L2BEAT website">L2BEAT</a></h4>
                   <p class="ranking__role">Research team</p>
                 </div>
               </div>
@@ -1115,6 +1183,22 @@
             <div class="ranking__source">
               <a href="https://forum.l2beat.com/t/l2beats-research-team-hegota-ranking/439" target="_blank" rel="noreferrer" aria-label="Read the L2BEAT research team’s EIP-8205 rating">Research team’s ranking <span aria-hidden="true">↗</span></a>
               <time datetime="2026-09-09">9 Sep 2026</time>
+            </div>
+          </li>
+          <li id="ranking-prysm" class="ranking">
+            <div class="ranking__main">
+              <div class="ranking__identity">
+                <img class="ranking__logo" src="assets/supporters/prysm.svg" alt="" width="153" height="173" loading="lazy" decoding="async">
+                <div>
+                  <h4 class="ranking__name"><a class="ranking__profile" href="https://prysm.offchainlabs.com/" target="_blank" rel="noreferrer" title="Prysm website and documentation">Prysm</a></h4>
+                  <p class="ranking__role">Ethereum consensus client</p>
+                </div>
+              </div>
+              <p class="ranking__score"><span class="ranking__grade">C</span><span class="ranking__tier">tier</span><span class="sr-only"> for EIP-8205</span></p>
+            </div>
+            <div class="ranking__source">
+              <a href="https://hackmd.io/@ttsao/prysm-view-hegota" target="_blank" rel="noreferrer" aria-label="Read Prysm’s EIP-8205 assessment">Prysm’s assessment <span aria-hidden="true">↗</span></a>
+              <time datetime="2026-09-15">15 Sep 2026</time>
             </div>
           </li>
         </ul>
@@ -1162,7 +1246,7 @@
 
   <footer class="site-footer">
     <p class="site-footer__brand">EIP-8205</p>
-    <p class="site-footer__meta">WITHDRAWAL CREDENTIALS PREREGISTRATION · LAST UPDATED <time datetime="2026-09-15">15&nbsp;SEP 2026</time></p>
+    <p class="site-footer__meta">WITHDRAWAL CREDENTIALS PREREGISTRATION · LAST UPDATED <time datetime="2026-09-16">16&nbsp;SEP 2026</time></p>
   </footer>
 
 </div>
